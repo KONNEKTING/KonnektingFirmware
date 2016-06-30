@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KonnektingDevice xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
+    <Device ManufacturerId="257" DeviceId="0" Revision="0">
+        <ManufacturerName>dreamy1</ManufacturerName>
+        <DeviceName>Kombisensor 1.0 (VOC, Temp, RH), Firmware by A. Christian / knx@root1.de</DeviceName>
+        <Parameters>
+            <Group name="Allgemein">
+                <Parameter Id="0">
+                    <Description>Geräteanlaufzeit [0..255sek]</Description>
+                    <Value Type="uint8" Default="00" Options="" Min="00" Max="FF"/>
+                </Parameter>
+            </Group>
+            <Group name="Raumtemperatur Sensor">
+                <Parameter Id="1">
+                    <Description>Raumtemperatur Sensor</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nicht aktiv|01=Aktiv"/>
+                </Parameter>
+                <Parameter Id="2">
+                    <Description>Temperatur zyklisch senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht zyklisch|01=1 min|02=2 min|03=3 min|05=5 min|0A=10 min|0F=15 min|14=20 min|1E=30 min|3C=60 min"/>
+                </Parameter>
+                <Parameter Id="3">
+                    <Description>Abgleichwert (Wert[-100..100] * 0,1 K)</Description>
+                    <Value Type="int8" Default="00" Options="" Min="9c" Max="64"/>
+                </Parameter>
+                <Parameter Id="4">
+                    <Description>Temperatur bei Änderung senden</Description>
+                    <Value Type="uint8" Default="02" Options="00=nicht senden|01=0,1 °C|02=0,2 °C|03=0,3 °C|04=0,4 °C|05=0,5 °C|06=0,6 °C|07=0,7 °C|08=0,8 °C|09=0,1 °C|0A=1 °C|0F=1,5 °C|14=2 °C|19=2,5 °C|1E=3,0 °C|23=3,5 °C|28=4 °C|2D=4,5 °C|32=5 °C"/>
+                </Parameter>
+                <Parameter Id="5">
+                    <Description>Oberer Meldewert</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nicht aktiv|14=20 °C|15=21 °C|16=22 °C|17=23 °C|18=24 °C|19=25 °C|1A=26 °C|1B=27 °C|1C=28 °C|1D=29 °C|1E=30 °C|1F=31 °C|20=32 °C|21=33 °C|22=34 °C|23=35 °C|24=36 °C|25=37 °C|26=38 °C|27=39 °C|28=40 °C"/>
+                </Parameter>
+                <Parameter Id="6">
+                    <Description>Unterer Meldewert</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nicht aktiv|14=20 °C|15=21 °C|16=22 °C|17=23 °C|18=24 °C|19=25 °C|1A=26 °C|1B=27 °C|1C=28 °C|1D=29 °C|1E=30 °C|1F=31 °C|20=32 °C|21=33 °C|22=34 °C|23=35 °C|24=36 °C|25=37 °C|26=38 °C|27=39 °C|28=40 °C"/>
+                </Parameter>
+            </Group>
+            <Group name="Luftfeuchtigkeit Sensor">
+                <Parameter Id="7">
+                    <Description>Luftfeuchtigkeit Sensor</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nicht aktiv|01=Aktiv"/>
+                </Parameter>
+                <Parameter Id="8">
+                    <Description>Luftfeuchtigkeit zyklisch senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht zyklisch|01=1 min|02=2 min|03=3 min|05=5 min|0A=10 min|0F=15 min|14=20 min|1E=30 min|3C=60 min"/>
+                </Parameter>
+                <Parameter Id="9">
+                    <Description>Abgleichwert [-50..50]% rF</Description>
+                    <Value Type="int8" Default="00" Options="" Min="CE" Max="32"/>
+                </Parameter>
+                <Parameter Id="10">
+                    <Description>Luftfeuchtigkeit bei Änderung senden</Description>
+                    <Value Type="uint8" Default="02" Options="00=nicht senden|01=1 %|02=2 %|03=3 %|04=4 %|05=5 %|06=6 %|07=7 %|08=8 %|09=9 %|0A=10 %|0F=15 %|14=20 %"/>
+                </Parameter>
+                <Parameter Id="11">
+                    <Description>Oberer Meldewert [1..100]% rF</Description>
+                    <Value Type="uint8" Default="46" Options="" Min="01" Max="FF"/>
+                </Parameter>
+                <Parameter Id="12">
+                    <Description>Unterer Meldewert[0..99]% rF</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="FE"/>
+                </Parameter>
+            </Group>
+            <Group name="VOC Sensor">
+                <Parameter Id="13">
+                    <Description>VOC Sensor</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nicht aktiv|01=Aktiv"/>
+                </Parameter>
+                <Parameter Id="14">
+                    <Description>----</Description>
+                    <Value Type="uint8" Default="00" Options="00=----"/>
+                </Parameter>
+                <Parameter Id="15">
+                    <Description>Wert zyklisch senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht zyklisch|01=1 min|02=2 min|03=3 min|05=5 min|0A=10 min|0F=15 min|14=20 min|1E=30 min|3C=60 min"/>
+                </Parameter>
+                <Parameter Id="16">
+                    <Description>Wert bei Änderung senden [CO2=450..2000ppm]</Description>
+                    <Value Type="uint16" Default="0096" Options="00=nicht senden|000A=10|0014=20|001E=30|0028=40|0032=50|004B=75|0064=100|0096=150|00C8=200|00FA=250|012C=300|015E=350|0190=400|01F4=500|0258=600|02BC=700|03E8=1000"/>
+                </Parameter>
+                <Parameter Id="17">
+                    <Description>Oberer Meldewert [450..2000]</Description>
+                    <Value Type="uint16" Default="02EE" Options="" Min="01C2" Max="07D0"/>
+                </Parameter>
+                <Parameter Id="18">
+                    <Description>Unterer Meldewert [450..2000]</Description>
+                    <Value Type="uint16" Default="01C2" Min="01C2" Max="07D0"/>
+                </Parameter>
+            </Group>
+            <Group name="LED Ampelanzeige">
+                <Parameter Id="19">
+                    <Description>LED Ampelanzeige</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nicht aktiv|01=Aktiv"/>
+                </Parameter>
+                <Parameter Id="20">
+                    <Description>-&gt; verwenden für</Description>
+                    <Value Type="uint8" Default="02" Options="00=Raumtemperatur|01=Luftfeuchtigkeit|02=VOC"/>
+                </Parameter>
+                <Parameter Id="21">
+                    <Description>VOC Schwellwert GRÜN</Description>
+                    <Value Type="uint8" Default="02" Options="00=Raumtemperatur|01=Luftfeuchtigkeit|02=VOC"/>
+                </Parameter>
+                <Parameter Id="22">
+                    <Description>VOC Schwellwert GRÜN/GELB</Description>
+                    <Value Type="uint8" Default="02" Options="00=Raumtemperatur|01=Luftfeuchtigkeit|02=VOC"/>
+                </Parameter>
+                <Parameter Id="23">
+                    <Description>VOC Schwellwert GELB</Description>
+                    <Value Type="uint8" Default="02" Options="00=Raumtemperatur|01=Luftfeuchtigkeit|02=VOC"/>
+                </Parameter>
+                <Parameter Id="24">
+                    <Description>VOC Schwellwert GELB/ROT</Description>
+                    <Value Type="uint8" Default="02" Options="00=Raumtemperatur|01=Luftfeuchtigkeit|02=VOC"/>
+                </Parameter>
+                <Parameter Id="25">
+                    <Description>VOC Schwellwert ROT</Description>
+                    <Value Type="uint8" Default="02" Options="00=Raumtemperatur|01=Luftfeuchtigkeit|02=VOC"/>
+                </Parameter>
+                <Parameter Id="26">
+                    <Description>Temperatur-Sollwert GRÜN in °C (=Wert * 0,1)</Description>
+                    <Value Type="int16" Default="00D7" Options="" Min="FED4" Max="012C"/>
+                </Parameter>
+                <Parameter Id="27">
+                    <Description>Temperatur-Abweichung GRÜN/GELB in Kelvin (=Wert * 0,1 °C)</Description>
+                    <Value Type="uint8" Default="05" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="28">
+                    <Description>Temperatur-Abweichung GELB in Kelvin (=Wert * 0,1 °C)</Description>
+                    <Value Type="uint8" Default="08" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="29">
+                    <Description>Temperatur-Abweichung GELB/ROT in Kelvin (=Wert * 0,1 °C)</Description>
+                    <Value Type="uint8" Default="0A" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="30">
+                    <Description>Temperatur-Abweichung ROT in Kelvin (=Wert * 0,1 °C)</Description>
+                    <Value Type="uint8" Default="0F" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="31">
+                    <Description>Luftfeuchte GRÜN in %rF</Description>
+                    <Value Type="uint8" Default="32" Options="" Min="00" Max="64"/>
+                </Parameter>
+                <Parameter Id="32">
+                    <Description>Feuchte-Abweichung GRÜN/GELB in %rF</Description>
+                    <Value Type="uint8" Default="05" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="33">
+                    <Description>Feuchte-Abweichung GELB in %rF</Description>
+                    <Value Type="uint8" Default="08" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="34">
+                    <Description>Feuchte-Abweichung GELB/ROT in %rF</Description>
+                    <Value Type="uint8" Default="0A" Options="" Min="00" Max="32"/>
+                </Parameter>
+                <Parameter Id="35">
+                    <Description>Feuchte-Abweichung ROT in %rF</Description>
+                    <Value Type="uint8" Default="0F" Options="" Min="00" Max="32"/>
+                </Parameter>
+            </Group>
+        </Parameters>
+        <CommObjects>
+            <CommObject Id="0">
+                <Name>Temperatur</Name>
+                <Function>Messwert</Function>
+                <DataPointType>9.001</DataPointType>
+            </CommObject>
+            <CommObject Id="1">
+                <Name>Temperatur</Name>
+                <Function>Unterer Meldewert erreicht</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="2">
+                <Name>Temperatur</Name>
+                <Function>Oberer Meldewert erreicht</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="3">
+                <Name>Relative Luftfeuchtigkeit</Name>
+                <Function>Messwert</Function>
+                <DataPointType>9.007</DataPointType>
+            </CommObject>
+            <CommObject Id="4">
+                <Name>Relative Luftfeuchtigkeit</Name>
+                <Function>Unterer Meldewert erreicht</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="5">
+                <Name>Relative Luftfeuchtigkeit</Name>
+                <Function>Oberer Meldewert erreicht</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="6">
+                <Name>VOC</Name>
+                <Function>Messwert</Function>
+                <DataPointType>9.008</DataPointType>
+            </CommObject>
+            <CommObject Id="7">
+                <Name>VOC</Name>
+                <Function>Unterer Meldewert erreicht</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="8">
+                <Name>VOC</Name>
+                <Function>Oberer Meldewert erreicht</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+        </CommObjects>
+    </Device>
+</KonnektingDevice>
