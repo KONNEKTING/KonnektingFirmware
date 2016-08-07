@@ -19,7 +19,7 @@ SoftwareSerial debugSerial(10, 11); // RX, TX
 
 // include KnxDevice library
 #include <KnxDevice.h>
-#include <OneWire.h>
+#include <OneWire.h> //https://github.com/PaulStoffregen/OneWire
 #include <DallasTemperature.h> //https://github.com/adafruit/MAX31850_OneWire
 
 OneWire oneWire(ONE_WIRE); 
