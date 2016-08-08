@@ -64,7 +64,23 @@ I4_3:	D18		A0
 
 Enable 1-Wire left  PullUp: OWLeftPullUp
 Enable 1-Wire right PullUp: OWRightPullUp
+OneWire:
+       _______USB__________
+    E1/                    \
+     1|                    |E4
+     2|                    |+3.3V
+     3|                    |OWRight
+ +3.3V|                    |GND
+OWLeft|                    |
+   GND|                    |KNX+
+     7|                    |KNX-
+     8|                    |
+     9|                    |
+    10|                    |
+      \____________________/
+    E2    1 2 3 4 5 6 7
 
+Binary inputs:
        _______USB__________
     E1/                    \
  BIN_I|                    |E4
@@ -91,8 +107,8 @@ Enable 1-Wire right PullUp: OWRightPullUp
 #define PROG_BUTTON_PIN 7
 #define KNX_SERIAL Serial1 
 
-#define BIN_A 9
-#define BIN_B 8
+#define BIN_A 8
+#define BIN_B 9
 #define BIN_C 22
 #define BIN_D 21
 #define BIN_E 6
