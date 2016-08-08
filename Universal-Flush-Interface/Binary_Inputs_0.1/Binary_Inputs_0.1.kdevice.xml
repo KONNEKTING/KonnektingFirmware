@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KonnektingDevice xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
+    <Device ManufacturerId="7070" DeviceId="30" Revision="0">
+        <ManufacturerName>KONNEKTING UUPS</ManufacturerName>
+        <DeviceName>Binäreingänge</DeviceName>
+        <Parameters>
+            <Group name="Allgemein">
+                <Parameter Id="0">
+                    <Description>Geräteanlaufzeit [0..60sek]</Description>
+                    <Value Type="uint8" Default="00" Options="" Min="00" Max="3C"/>
+                </Parameter>
+                <Parameter Id="1">
+                    <Description>Abfrageinterval [ms]</Description>
+                    <Value Type="uint32" Default="000000C8" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang A">
+                <Parameter Id="2">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="3">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="4">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang B">
+                <Parameter Id="5">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="6">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="7">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang C">
+                <Parameter Id="8">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="9">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="10">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang D">
+                <Parameter Id="11">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="12">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="13">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang E">
+                <Parameter Id="14">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="15">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="16">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang F">
+                <Parameter Id="17">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="18">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="19">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang G">
+                <Parameter Id="20">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="21">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="22">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang H">
+                <Parameter Id="23">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="24">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="25">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang I">
+                <Parameter Id="26">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="27">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="28">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+            <Group name="Eingang J">
+                <Parameter Id="29">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="30">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="31">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </Group>
+        </Parameters>
+        <CommObjects>
+            <CommObject Id="0">
+                <Name>Eingang A</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="1">
+                <Name>Eingang B</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="2">
+                <Name>Eingang C</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="3">
+                <Name>Eingang D</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="4">
+                <Name>Eingang E</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="5">
+                <Name>Eingang F</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="6">
+                <Name>Eingang G</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="7">
+                <Name>Eingang H</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="8">
+                <Name>Eingang I</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+            <CommObject Id="9">
+                <Name>Eingang J</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+            </CommObject>
+        </CommObjects>
+    </Device>
+</KonnektingDevice>
