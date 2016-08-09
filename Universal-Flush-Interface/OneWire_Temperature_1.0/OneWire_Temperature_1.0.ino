@@ -20,7 +20,7 @@ SoftwareSerial debugSerial(10, 11); // RX, TX
 // include KnxDevice library
 #include <KnxDevice.h>
 #include <OneWire.h> //https://github.com/PaulStoffregen/OneWire
-#include <DallasTemperature.h> //https://github.com/adafruit/MAX31850_OneWire
+#include <DallasTemperature.h> //https://github.com/milesburton/Arduino-Temperature-Control-Library
 
 OneWire oneWire(ONE_WIRE); 
 DallasTemperature sensors(&oneWire);/* Dallas Temperature Library */
