@@ -1,9 +1,7 @@
 /* Universal Flush Interface Rev1.x Headerfile
 Author: E.Burkowski / e.burkowski@konnekting.de, GPL Licensed
-
 E=External terminal block
 I=Internal terminal block
-
        _______USB__________
     E1/                    \
      1|  I1            I4  |E4
@@ -18,7 +16,6 @@ I=Internal terminal block
     10|                    |
       \____________________/
     E2    1 2 3 4 5 6 7
-
 E1: 
 E1_1:	D14		MISO
 E1_2:	D16		MOSI
@@ -27,44 +24,37 @@ E1_4:	VCC
 E1_5:	D4		OWLeft	(1-Wire Left)
 E1_6:	GND
 E1_7:	D6
-E1_8:	D21		A3
+E1_8:	D22		A4
 E1_9:	GND
-E1_10:	D22		A4
-
+E1_10:	D21		A3
 E2:
-E2_1:	D8		BIN1
+E2_1:	D9		BIN2
 E2_2:	GND		
-E2_3:	D9		BIN2
-
+E2_3:	D8		BIN1
 I3/E3:
 E3_1:	D3		SLC		(Interrupt)
 E3_2:	D2		SDA		(Interrupt)
 E3_3:	VCC
 E3_4:	GND
-
 E4:
 E4_1:	VCC
 E4_2:	D10		OWRight	(1-Wire right)
 E4_3:	GND
-
 I1:
 I1_1:	D15		SCK
 I1_2:	D16		MOSI
 I1_3:	D14		MISO
-
 I2:
 I2_1:	VCC
 I2_2:	D23		A5
 I2_3:	GND
-
 I4:
 I4_1:	D20		A2
 I4_2:	D19		A1
 I4_3:	D18		A0
-
 Enable 1-Wire left  PullUp: OWLeftPullUp
 Enable 1-Wire right PullUp: OWRightPullUp
-OneWire:
+OneWire
        _______USB__________
     E1/                    \
      1|                    |E4
@@ -78,9 +68,8 @@ OWLeft|                    |
      9|                    |
     10|                    |
       \____________________/
-    E2    1 2 3 4 5 6 7
-
-Binary inputs:
+      E2  1 2 3 4 5 6 7
+	  
        _______USB__________
     E1/                    \
  BIN_I|                    |E4
@@ -99,7 +88,6 @@ Binary inputs:
           N D N
           _   _ 
           B   A 
-
 */
 
 
@@ -109,8 +97,8 @@ Binary inputs:
 
 #define BIN_A 8
 #define BIN_B 9
-#define BIN_C 22
-#define BIN_D 21
+#define BIN_C 21
+#define BIN_D 22
 #define BIN_E 6
 #define BIN_F 4
 #define BIN_G 15
@@ -129,14 +117,17 @@ Binary inputs:
 #define E1_5 4
 #define E1_5A A6
 
-#define E1_7 21
-#define E1_7A A3
-#define E1_8 6
+#define E1_7 6
+#define E1_8 22
+#define E1_8A A4
 
-#define E2_1 8
-#define E2_1A A8
-#define E2_3 9
-#define E2_3A A9
+#define E1_10 21
+#define E1_10A A3
+
+#define E2_1 9
+#define E2_1A A9
+#define E2_3 8
+#define E2_3A A8
 
 #define E3_1 3
 #define E3_2 2
