@@ -27,14 +27,14 @@ E1_4:	VCC
 E1_5:	D4		OWLeft	(1-Wire Left)
 E1_6:	GND
 E1_7:	D6
-E1_8:	D21		A3
+E1_8:	D22		A4
 E1_9:	GND
-E1_10:	D22		A4
+E1_10:	D21		A3
 
 E2:
-E2_1:	D8		BIN1
+E2_1:	D9		BIN2
 E2_2:	GND		
-E2_3:	D9		BIN2
+E2_3:	D8		BIN1
 
 I3/E3:
 E3_1:	D3		SLC		(Interrupt)
@@ -109,8 +109,8 @@ OneWire
 
 #define BIN_A 8
 #define BIN_B 9
-#define BIN_C 22
-#define BIN_D 21
+#define BIN_C 21
+#define BIN_D 22
 #define BIN_E 6
 #define BIN_F 4
 #define BIN_G 15
@@ -129,14 +129,17 @@ OneWire
 #define E1_5 4
 #define E1_5A A6
 
-#define E1_7 21
-#define E1_7A A3
-#define E1_8 6
+#define E1_7 6
+#define E1_8 22
+#define E1_8A A4
 
-#define E2_1 8
-#define E2_1A A8
-#define E2_3 9
-#define E2_3A A9
+#define E1_10 21
+#define E1_10A A3
+
+#define E2_1 9
+#define E2_1A A9
+#define E2_3 8
+#define E2_3A A8
 
 #define E3_1 3
 #define E3_2 2
