@@ -3,68 +3,72 @@ void loop() {
     unsigned long currentTime = millis();
     
     // only do measurements and other sketch related stuff if not in programming mode
-    if (!Tools.getProgState()) {
+    if (Konnekting.isReadyForApplication()) {
         
         // Get temperature
         if ((currentTime - previousTimeTemp) >= intervalTempUser) {
-            
-            long start = micros();
+           
+            unsigned long start = millis();
             currentTemp = htu.readTemperature();
-            long end = micros();
-#ifdef DEBUG  
-            DEBUG.print("currentTemp: ");
-            DEBUG.println(currentTemp);
-            DEBUG.print("time: ");
-            DEBUG.println((end-start));
+            unsigned long end = millis();
+#ifdef KDEBUG              
+            char currTempChar[10];
+            dtostrf(currentTemp,6,2,currTempChar);
+            Debug.println(F("currentTemp: %s time: %d ms"), currTempChar, (end-start));
 #endif
-            if (currentTemp < 200) {
+            if (currentTemp < 900) {
                 switch (typeTemp) {
                     case 0:
-                        Knx.write(comObj_Temp, currentTemp);
+                        Knx.write(COMOBJ_tempValue, currentTemp);
                         break;
                     case 1:
                         if (abs(currentTemp * 100 - previousTemp * 100) >= diffTempUser * 100) {//"*100" => "float to int"
-                            Knx.write(comObj_Temp, currentTemp);
+                            Knx.write(COMOBJ_tempValue, currentTemp);
                             previousTemp = currentTemp;
                         }
                         break;
                     default:
                         break;
                 }
-                limitReached(currentTemp, limitTempMin, limitTempMax, comObj_TempMin, comObj_TempMax, valueTempMin, valueTempMax);
+                limitReached(currentTemp, limitTempMin, limitTempMax, COMOBJ_tempMin, COMOBJ_tempMax, valueTempMin, valueTempMax);
                 
+            }else{
+#ifdef KDEBUG              
+            Debug.println(F("Sensor error!"));
+#endif 
             }
             previousTimeTemp = currentTime;
         }
-        Knx.task();
         // Get humidity
         if ((currentTime - previousTimeHumd) >= intervalHumdUser) {
-            long start = micros();
+            unsigned long start = millis();
             currentHumd = htu.readHumidity();
-            long end = micros();
-            
-#ifdef DEBUG 
-            DEBUG.print("currentHumd: ");
-            DEBUG.println(currentHumd);
-            DEBUG.print("time: ");
-            DEBUG.println((end-start));
+            unsigned long end = millis();
+#ifdef KDEBUG              
+            char currRHChar[10];
+            dtostrf(currentHumd,6,2,currRHChar);
+            Debug.println(F("currentHumd: %s time: %d ms"), currRHChar, (end-start));
 #endif
-            if (currentHumd < 101) {
+            if (currentHumd < 900) {
                 
                 switch (typeHumd) {
                     case 0:
-                        Knx.write(comObj_RH, currentHumd);
+                        Knx.write(COMOBJ_rhValue, currentHumd);
                         break;
                     case 1:
                         if (abs(currentHumd * 100 - previousHumd * 100) >= diffHumdUser * 100) {
-                            Knx.write(comObj_RH, currentHumd);
+                            Knx.write(COMOBJ_rhValue, currentHumd);
                             previousHumd = currentHumd;
                         }
                     default:
                         break;
                 }
-                limitReached(currentHumd, limitHumdMin, limitHumdMax, comObj_RHMin, comObj_RHMax, valueHumdMin, valueHumdMax);
+                limitReached(currentHumd, limitHumdMin, limitHumdMax, COMOBJ_rhMin, COMOBJ_rhMax, valueHumdMin, valueHumdMax);
                 
+            }else{
+#ifdef KDEBUG              
+            Debug.println(F("Sensor error!"));
+#endif 
             }
             previousTimeHumd = currentTime;
         }
