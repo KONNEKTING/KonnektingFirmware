@@ -32,7 +32,7 @@ OWLeft|                    |
 #include "kdevice_iButton.h"
 #include "ufi_rev1.h"
 
-#define KDEBUG // comment this line to disable DEBUG mode
+//#define KDEBUG // comment this line to disable DEBUG mode
 #ifdef KDEBUG
 #include <DebugUtil.h>
 #define DEBUGSERIAL Serial
