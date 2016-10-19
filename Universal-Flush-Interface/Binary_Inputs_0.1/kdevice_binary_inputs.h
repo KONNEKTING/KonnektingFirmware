@@ -40,7 +40,7 @@
 #define PARAM_inputH_delay 25
 #define PARAM_inputI_active 26
 #define PARAM_inputI_inv 27
-#define PARAM_inputA_delay 28
+#define PARAM_inputI_delay 28
 #define PARAM_inputJ_active 29
 #define PARAM_inputJ_inv 30
 #define PARAM_inputJ_delay 31
