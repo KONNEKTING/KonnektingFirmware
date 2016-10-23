@@ -286,25 +286,25 @@
 			<ParameterDependency ParamId="6" TestParamId="4" Test="eq" TestValue="01"/>
 			<ParameterDependency ParamId="7" TestParamId="4" Test="eq" TestValue="01"/>
 			<ParameterDependency ParamId="10" TestParamId="9" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="13" TestParamId="12" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="16" TestParamId="15" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="19" TestParamId="18" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="22" TestParamId="21" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="26" TestParamId="24" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="29" TestParamId="27" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="32" TestParamId="30" Test="eq" TestValue="01"/>
-            <ParameterDependency ParamId="35" TestParamId="33" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="13" TestParamId="12" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="16" TestParamId="15" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="19" TestParamId="18" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="22" TestParamId="21" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="26" TestParamId="24" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="29" TestParamId="27" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="32" TestParamId="30" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="35" TestParamId="33" Test="eq" TestValue="01"/>
 			<ParameterDependency ParamId="38" TestParamId="36" Test="eq" TestValue="01"/>
-			<CommObjectDependency CommObjId="0" Test="eq" TestParamId="6" TestValue="01"/>
-			<CommObjectDependency CommObjId="1" Test="eq" TestParamId="9" TestValue="01"/>
-			<CommObjectDependency CommObjId="2" Test="eq" TestParamId="12" TestValue="01"/>
-			<CommObjectDependency CommObjId="3" Test="eq" TestParamId="15" TestValue="01"/>
-			<CommObjectDependency CommObjId="4" Test="eq" TestParamId="18" TestValue="01"/>
-			<CommObjectDependency CommObjId="5" Test="eq" TestParamId="21" TestValue="01"/>
-			<CommObjectDependency CommObjId="6" Test="eq" TestParamId="24" TestValue="01"/>
-			<CommObjectDependency CommObjId="7" Test="eq" TestParamId="27" TestValue="01"/>
-			<CommObjectDependency CommObjId="8" Test="eq" TestParamId="30" TestValue="01"/>
-			<CommObjectDependency CommObjId="9" Test="eq" TestParamId="33" TestValue="01"/>
+			<CommObjectDependency CommObjId="0" Test="eq" TestParamId="9" TestValue="01"/>
+			<CommObjectDependency CommObjId="1" Test="eq" TestParamId="12" TestValue="01"/>
+			<CommObjectDependency CommObjId="2" Test="eq" TestParamId="15" TestValue="01"/>
+			<CommObjectDependency CommObjId="3" Test="eq" TestParamId="18" TestValue="01"/>
+			<CommObjectDependency CommObjId="4" Test="eq" TestParamId="21" TestValue="01"/>
+			<CommObjectDependency CommObjId="5" Test="eq" TestParamId="24" TestValue="01"/>
+			<CommObjectDependency CommObjId="6" Test="eq" TestParamId="27" TestValue="01"/>
+			<CommObjectDependency CommObjId="7" Test="eq" TestParamId="30" TestValue="01"/>
+			<CommObjectDependency CommObjId="8" Test="eq" TestParamId="33" TestValue="01"/>
+			<CommObjectDependency CommObjId="9" Test="eq" TestParamId="36" TestValue="01"/>
 			<CommObjectDependency CommObjId="10" Test="eq" TestParamId="2" TestValue="01"/>
 			<CommObjectDependency CommObjId="11" Test="eq" TestParamId="3" TestValue="01"/>
 			<CommObjectDependency CommObjId="12" Test="ne" TestParamId="6" TestValue="FF"/>
