@@ -290,11 +290,11 @@
 			<ParameterDependency ParamId="16" TestParamId="15" Test="eq" TestValue="01"/>
 			<ParameterDependency ParamId="19" TestParamId="18" Test="eq" TestValue="01"/>
 			<ParameterDependency ParamId="22" TestParamId="21" Test="eq" TestValue="01"/>
-			<ParameterDependency ParamId="26" TestParamId="24" Test="eq" TestValue="01"/>
-			<ParameterDependency ParamId="29" TestParamId="27" Test="eq" TestValue="01"/>
-			<ParameterDependency ParamId="32" TestParamId="30" Test="eq" TestValue="01"/>
-			<ParameterDependency ParamId="35" TestParamId="33" Test="eq" TestValue="01"/>
-			<ParameterDependency ParamId="38" TestParamId="36" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="25" TestParamId="24" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="28" TestParamId="27" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="31" TestParamId="30" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="34" TestParamId="33" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="37" TestParamId="36" Test="eq" TestValue="01"/>
 			<CommObjectDependency CommObjId="0" Test="eq" TestParamId="9" TestValue="01"/>
 			<CommObjectDependency CommObjId="1" Test="eq" TestParamId="12" TestValue="01"/>
 			<CommObjectDependency CommObjId="2" Test="eq" TestParamId="15" TestValue="01"/>
