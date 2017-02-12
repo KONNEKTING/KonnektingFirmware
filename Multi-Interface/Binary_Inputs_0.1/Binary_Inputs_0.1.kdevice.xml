@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KonnektingDevice xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
+    <Device ManufacturerId="7070" DeviceId="130" Revision="1">
+        <ManufacturerName>KONNEKTING MI</ManufacturerName>
+        <DeviceName>Binäreingänge</DeviceName>
+        <Parameters>
+            <ParameterGroup Name="Allgemein" Id="0">
+                <Parameter Id="0" IdName="initialDelay">
+                    <Description>Geräteanlaufzeit [0..65535ms]</Description>
+                    <Value Type="uint16" Default="03E8" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="1" IdName="cyleDelay">
+                    <Description>Abfrageinterval [ms]</Description>
+                    <Value Type="uint32" Default="000000C8" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang A" Id="1">
+                <Parameter Id="2" IdName="inputA_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="3" IdName="inputA_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="4" IdName="inputA_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang B" Id="2">
+                <Parameter Id="5" IdName="inputB_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="6" IdName="inputB_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="7" IdName="inputB_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang C" Id="3">
+                <Parameter Id="8" IdName="inputC_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="9" IdName="inputC_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="10" IdName="inputC_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang D" Id="4">
+                <Parameter Id="11" IdName="inputD_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="12" IdName="inputD_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="13" IdName="inputD_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang E" Id="5">
+                <Parameter Id="14" IdName="inputE_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="15" IdName="inputE_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="16" IdName="inputE_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang F" Id="6">
+                <Parameter Id="17" IdName="inputF_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="18" IdName="inputF_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="19" IdName="inputF_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang G" Id="7">
+                <Parameter Id="20" IdName="inputG_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="21" IdName="inputG_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="22" IdName="inputG_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang H" Id="8">
+                <Parameter Id="23" IdName="inputH_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="24" IdName="inputH_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="25" IdName="inputH_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang I" Id="9">
+                <Parameter Id="26" IdName="inputI_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="27" IdName="inputI_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="28" IdName="inputA_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang J" Id="10">
+                <Parameter Id="29" IdName="inputJ_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="30" IdName="inputJ_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="31" IdName="inputJ_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang K" Id="11">
+                <Parameter Id="32" IdName="inputK_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="33" IdName="inputK_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="34" IdName="inputK_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Eingang L" Id="12">
+                <Parameter Id="35" IdName="inputL_active">
+                    <Description>Verwenden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="36" IdName="inputL_inv">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="37" IdName="inputL_delay">
+                    <Description>Sendeverzögerung [ms]</Description>
+                    <Value Type="uint32" Default="00000000" Options="" Min="00000000" Max="000FFFFF"/>
+                </Parameter>
+            </ParameterGroup>
+        </Parameters>
+        <CommObjects>
+            <CommObject Id="0" IdName="A">
+                <Name>Eingang A</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="1" IdName="B">
+                <Name>Eingang B</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="2" IdName="C">
+                <Name>Eingang C</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="3" IdName="D">
+                <Name>Eingang D</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="4" IdName="E">
+                <Name>Eingang E</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="5" IdName="F">
+                <Name>Eingang F</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="6" IdName="G">
+                <Name>Eingang G</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="7" IdName="H">
+                <Name>Eingang H</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="8" IdName="I">
+                <Name>Eingang I</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="9" IdName="J">
+                <Name>Eingang J</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="10" IdName="K">
+                <Name>Eingang K</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="11" IdName="L">
+                <Name>Eingang L</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+        </CommObjects>
+		<Dependencies>
+            <ParameterDependency ParamId="3" Test="eq" TestParamId="2" TestValue="01"/>
+			<ParameterDependency ParamId="4" Test="eq" TestParamId="2" TestValue="01"/>
+			<ParameterDependency ParamId="6" Test="eq" TestParamId="5" TestValue="01"/>
+			<ParameterDependency ParamId="7" Test="eq" TestParamId="5" TestValue="01"/>
+			<ParameterDependency ParamId="9" Test="eq" TestParamId="8" TestValue="01"/>
+			<ParameterDependency ParamId="10" Test="eq" TestParamId="8" TestValue="01"/>
+			<ParameterDependency ParamId="12" Test="eq" TestParamId="11" TestValue="01"/>
+			<ParameterDependency ParamId="13" Test="eq" TestParamId="11" TestValue="01"/>
+			<ParameterDependency ParamId="15" Test="eq" TestParamId="14" TestValue="01"/>
+			<ParameterDependency ParamId="16" Test="eq" TestParamId="14" TestValue="01"/>
+			<ParameterDependency ParamId="18" Test="eq" TestParamId="17" TestValue="01"/>
+			<ParameterDependency ParamId="19" Test="eq" TestParamId="17" TestValue="01"/>
+			<ParameterDependency ParamId="21" Test="eq" TestParamId="20" TestValue="01"/>
+			<ParameterDependency ParamId="22" Test="eq" TestParamId="20" TestValue="01"/>
+			<ParameterDependency ParamId="24" Test="eq" TestParamId="23" TestValue="01"/>
+			<ParameterDependency ParamId="25" Test="eq" TestParamId="23" TestValue="01"/>
+			<ParameterDependency ParamId="27" Test="eq" TestParamId="26" TestValue="01"/>
+			<ParameterDependency ParamId="28" Test="eq" TestParamId="26" TestValue="01"/>
+			<ParameterDependency ParamId="30" Test="eq" TestParamId="29" TestValue="01"/>
+			<ParameterDependency ParamId="31" Test="eq" TestParamId="29" TestValue="01"/>
+			<ParameterDependency ParamId="33" Test="eq" TestParamId="32" TestValue="01"/>
+			<ParameterDependency ParamId="34" Test="eq" TestParamId="32" TestValue="01"/>
+			<ParameterDependency ParamId="36" Test="eq" TestParamId="35" TestValue="01"/>
+			<ParameterDependency ParamId="37" Test="eq" TestParamId="35" TestValue="01"/>
+            <CommObjectDependency CommObjId="0" Test="eq" TestParamId="2" TestValue="01"/>
+			<CommObjectDependency CommObjId="1" Test="eq" TestParamId="5" TestValue="01"/>
+			<CommObjectDependency CommObjId="2" Test="eq" TestParamId="8" TestValue="01"/>
+			<CommObjectDependency CommObjId="3" Test="eq" TestParamId="11" TestValue="01"/>
+			<CommObjectDependency CommObjId="4" Test="eq" TestParamId="14" TestValue="01"/>
+			<CommObjectDependency CommObjId="5" Test="eq" TestParamId="17" TestValue="01"/>
+			<CommObjectDependency CommObjId="6" Test="eq" TestParamId="20" TestValue="01"/>
+			<CommObjectDependency CommObjId="7" Test="eq" TestParamId="23" TestValue="01"/>
+			<CommObjectDependency CommObjId="8" Test="eq" TestParamId="26" TestValue="01"/>
+			<CommObjectDependency CommObjId="9" Test="eq" TestParamId="29" TestValue="01"/>
+			<CommObjectDependency CommObjId="10" Test="eq" TestParamId="32" TestValue="01"/>
+			<CommObjectDependency CommObjId="11" Test="eq" TestParamId="35" TestValue="01"/>
+        </Dependencies>
+    </Device>
+</KonnektingDevice>

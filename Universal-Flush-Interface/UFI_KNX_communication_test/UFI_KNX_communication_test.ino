@@ -20,7 +20,8 @@ Connect UFI with microUSB to you PC and open Serial-Monitor
 // ### IO Configuration
 // ################################################
 #define PROG_LED_PIN 13
-#define PROG_BUTTON_PIN 7
+#define PROG_BUTTON_PIN 2
+#define PROG_TOGGLE_BUTTON 7
 
 // defaults to on-board LED for AVR Arduinos
 #define TEST_LED 13 //or change it to another pin
@@ -33,9 +34,10 @@ byte loAddr = 0xc7;
 //define hardcoded listen GA 7/7/7 for LED toggle
 byte hiGA1 = 0x3F;
 byte loGA1 = 0x07;
-//define hardcoded GA 7/7/8 for sending true/false with delay
+//define hardcoded GA 7/7/8 for sending button state
 byte hiGA2 = 0x3F;
 byte loGA2 = 0x08;
+
 
 
 // Define KONNEKTING Device related IDs
@@ -63,7 +65,7 @@ const byte KonnektingDevice::_numberOfParams = sizeof (_paramSizeList); // do no
 
 unsigned long blinkDelay = 2500;
 unsigned long lastmillis = millis(); 
-int laststate = false;
+int lastState = false;
 
 
 // ################################################
@@ -103,6 +105,7 @@ EEPROM.write(13, hiGA2); //hi GA2
 EEPROM.write(14, loGA2); //lo GA2
 EEPROM.write(15, 0x80);  //activate GA2
 
+    pinMode(PROG_TOGGLE_BUTTON,INPUT);
 
     // debug related stuff
 #ifdef KDEBUG
@@ -138,18 +141,18 @@ void loop() {
      */
     if (Konnekting.isReadyForApplication()) {
 
+
+            bool actualState = digitalRead(PROG_TOGGLE_BUTTON);
+            if (lastState != actualState){
+                Knx.write(1, actualState);
+                lastState = actualState;
+                Debug.println(F("Actual state: %d"), actualState);
+            }
+            
         if (currentmillis - lastmillis >= blinkDelay) {
-
-            Debug.println(F("Actual state: %d"), laststate);
-            Knx.write(1, laststate);
-            laststate = !laststate;
-            lastmillis = currentmillis;
-
             digitalWrite(TEST_LED, HIGH);
-            Debug.println(F("DONE"));
-
+            lastmillis = currentmillis;
         }
-
     }
 
 }
