@@ -95,6 +95,7 @@ bool lastState_unreg = true;
 bool present = false;
 bool one_absent = false;
 bool absent = false;
+bool lastAllAbsent = false;
 int absentValue = 255;
 int absentScene = 255;
 bool lastStateAbsent = false;

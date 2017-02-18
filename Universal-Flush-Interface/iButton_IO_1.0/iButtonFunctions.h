@@ -201,7 +201,7 @@ if (currTime - iButtonPrevTime >= iButtonCycleTime){
             if (tmp_allpresent != lastState_present){
                 if (tmp_allpresent){
 #ifdef KDEBUG 
-                    Debug.println("Send message: all iButtons are present");
+                    Debug.println(F("Send message: all iButtons are present"));
 #endif
                     if (present){
                         Knx.write(COMOBJ_allPresent,true);
@@ -209,7 +209,7 @@ if (currTime - iButtonPrevTime >= iButtonCycleTime){
                    
                 }else{
 #ifdef KDEBUG 
-                    Debug.println("Send message: at least one of iButtons is absent");
+                    Debug.println(F("Send message: at least one of iButtons is absent"));
 #endif
                     if (one_absent){
                         Knx.write(COMOBJ_oneAbsent,true);
@@ -217,18 +217,25 @@ if (currTime - iButtonPrevTime >= iButtonCycleTime){
                 }
                 lastState_present = tmp_allpresent;
             }
+
             if(tmp_allabsent && !firstAllAbsentSet){
-                    firstAllAbsent = millis();
-                    firstAllAbsentSet = true;
-            }else{
-                    firstAllAbsentSet = false; //atleast one is present
+                firstAllAbsent = millis();
+                firstAllAbsentSet = true;
+                lastAllAbsent = true;
             }
+            if(!tmp_allabsent && lastAllAbsent){
+                if(absentValue != 255){
+                    Knx.write(COMOBJ_allAbsent,!absentValue);
+                }
+                lastAllAbsent = false;
+            }
+
             if ((millis()-firstAllAbsent>=absentDelay[absentDelayNummer]*1000) && firstAllAbsentSet){
                 firstAllAbsentSet = false;
                 if (tmp_allabsent){
                       
 #ifdef KDEBUG
-                      Debug.println("Send message: all iButtons are absent");
+                      Debug.println(F("Send message: all iButtons are absent"));
 #endif
                 
 
