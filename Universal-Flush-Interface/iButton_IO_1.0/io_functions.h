@@ -9,26 +9,32 @@ void init_inputs(){
     }
 #ifdef KDEBUG  
     for (byte i= 0;i<INPUTS;i++){
-        Debug.println(F("Input: %d  active: %d  invert: %d  delay: %d ms"),i,activeInputs[i],invertOutput[i],outputDelayInputs[i]);
+        Debug.println(F("Input: %d  active: %d  invert: %d  delay: %d ms"),i,activeInputs[i],invertOutputInputs[i],outputDelayInputs[i]);
     }
+#endif
+}
+
+void setOutput(byte pin, bool value){
+    digitalWrite(pin,value); //inverted state
+#ifdef KDEBUG
+    Debug.println(F("New state on pin %d, state: %d"), pin, value);
 #endif
 }
 
 
 void init_outputs(){
     for (byte o = 0;o<OUTPUTS;o++){
-        pinMode(o,OUTPUT);
-        digitalWrite(o,LOW);
+        pinMode(pinNumberOutput[o],OUTPUT);
+        digitalWrite(pinNumberOutput[o],LOW);
         outputActive[o]  = (bool)Konnekting.getUINT8Param(o*OUT_PARAM_COUNT+OUT_FIRST_PARAM);  //input active?
         invertOutput[o] = (bool)Konnekting.getUINT8Param(o*OUT_PARAM_COUNT+OUT_FIRST_PARAM + 1);  //invert binary output 2: 0=normal|1=inverted
+        setOutput(pinNumberOutput[o],invertOutput[o]);
     }
-}
-
-void setOutput(byte pin, bool value){
-    digitalWrite(pin,value);
-#ifdef KDEBUG
-    Debug.println(F("Output %d , value: %d"), pin, value);
-#endif
+#ifdef KDEBUG  
+    for (byte o = 0;o<OUTPUTS;o++){
+        Debug.println(F("Output: %d  active: %d  invert: %d  pin: %d"),o,outputActive[o],invertOutput[o],pinNumberOutput[o]);
+    }
+#endif    
 }
 
 bool checkInputs(byte PIN){
@@ -58,7 +64,7 @@ void task_inputs(){
     for (byte i=0;i<INPUTS;i++){
         if ((currentTimeDelay - previousOutputDelayInputs[i]) >= outputDelayInputs[i]){
             if (currentStateInputs[i] != lastStateInputs[i]){
-                if (invertOutput[i]){
+                if (invertOutputInputs[i]){
                     knxSendBool(comObjToInputId[i],!currentStateInputs[i]); //send inverted state
                 }else{
                     knxSendBool(comObjToInputId[i], currentStateInputs[i]); //send original state
@@ -74,11 +80,12 @@ void task_outputs(){
     for (byte o = 0;o<OUTPUTS;o++){
         //find output pin
         if (currentStateOutput[o] != lastStateOutput[o]){
-          lastStateOutput[o] = currentStateOutput[o];
-          setOutput(pinNumberOutput[o],currentStateOutput[o]);
-#ifdef KDEBUG
-    Debug.println(F("New state on output %d, state: %d"), pinNumberOutput[o], currentStateOutput[o]);
-#endif
+            lastStateOutput[o] = currentStateOutput[o];
+                if (invertOutput[o]){
+                    setOutput(pinNumberOutput[o],!currentStateOutput[o]); //set inverted state
+                }else{
+                    setOutput(pinNumberOutput[o],currentStateOutput[o]);  //set original state
+                }
         }
     }
 }

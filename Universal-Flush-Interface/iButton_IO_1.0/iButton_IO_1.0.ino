@@ -21,11 +21,11 @@ Universal Flush Interface:
           | | \ D9
           | \GND
           \D8
-------------------------------------------------------------------------------------------------*/
-//Define OneWire connection. Please check ufi_rev1.h
-//#define ONE_WIRE OWLeft 
-//#define ONE_WIRE_PULLUP OWLeftPullUp
 
+Input:   D8,D9
+Outputs: D21(A3),D22(A4),D6,D4,D15,D16,D14
+OneWire: OWRight
+------------------------------------------------------------------------------------------------*/
 #define ONE_WIRE OWRight 
 #define ONE_WIRE_PULLUP OWRightPullUp
 
@@ -49,7 +49,7 @@ Universal Flush Interface:
 #include "kdevice_iButton_IO.h"
 #include "ufi_rev1.h"
 
-#define KDEBUG // comment this line to disable DEBUG mode
+//#define KDEBUG // comment this line to disable DEBUG mode
 #ifdef KDEBUG
 #include <DebugUtil.h>
 #define DEBUGSERIAL Serial
@@ -137,7 +137,7 @@ byte comObjToOutputId[]  = {COMOBJ_outputA,
                             COMOBJ_outputF,
                             COMOBJ_outputG};
 byte outputActive[]      = {0,0,0,0,0,0,0};
-byte invertOutput[]      = {0,0,0,0,0,0,0};
+bool invertOutput[]      = {0,0,0,0,0,0,0};
 bool lastStateOutput[]   = {0,0,0,0,0,0,0};
 bool currentStateOutput[]= {0,0,0,0,0,0,0};
 
@@ -154,9 +154,7 @@ unsigned long alarm1beginTime = 0;
 
 
 #include "io_functions.h"
-
 #include "setup.h"
-
 
 void knxEvents(byte comObj) {
     for (byte o = 0;o<OUTPUTS;o++){
@@ -166,8 +164,6 @@ void knxEvents(byte comObj) {
         }
     }
 }
-
-
 
 void loop(void) {
     Knx.task();
