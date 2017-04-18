@@ -13,10 +13,10 @@ Compatible with: KONNEKTING Device Library 1.0.0 beta 4
 // ################################################
 // ### DEBUG CONFIGURATION
 // ################################################
-#define KDEBUG // comment this line to disable DEBUG mode
+//#define KDEBUG // comment this line to disable DEBUG mode
 #ifdef KDEBUG
 #include <DebugUtil.h>
-#define DEBUGSERIAL Serial
+#define DEBUGSERIAL SerialUSB
 #endif
 
 #include "SparkFunHTU21D.h" //https://github.com/sparkfun/SparkFun_HTU21D_Breakout_Arduino_Library
