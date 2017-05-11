@@ -36,87 +36,87 @@
 
             <ParameterGroup Id="1" Name="Kanaleinstellung">
 			
-                <Parameter Id="4">
+                <Parameter Id="4" IdName="setting_channelA">
                     <Description>Kanal A</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen"/>
                 </Parameter>
-                <Parameter Id="5">
+                <Parameter Id="5" IdName="setting_channelB">
                     <Description>Kanal B</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen"/>
                 </Parameter>
-                <Parameter Id="6">
+                <Parameter Id="6" IdName="setting_channelC">
                     <Description>Kanal C</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal A"/>
                 </Parameter>
-                <Parameter Id="7">
+                <Parameter Id="7" IdName="setting_channelD">
                     <Description>Kanal D</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal B"/>
                 </Parameter>
-                <Parameter Id="8">
+                <Parameter Id="8" IdName="setting_channelE">
                     <Description>Kanal E</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal A"/>
                 </Parameter>
-                <Parameter Id="9">
+                <Parameter Id="9" IdName="setting_channelF">
                     <Description>Kanal F</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal B"/>
                 </Parameter>
-                <Parameter Id="10">
+                <Parameter Id="10" IdName="setting_channelG">
                     <Description>Kanal G</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal A"/>
                 </Parameter>
-                <Parameter Id="11">
+                <Parameter Id="11" IdName="setting_channelH">
                     <Description>Kanal H</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal B"/>
                 </Parameter>
             </ParameterGroup>
 			
             <ParameterGroup Id="2" Name="Kanal A" > <!-- CONDITION Kanal Aktiv -->
-                <Parameter Id="12">
+                <Parameter Id="12" IdName="channel_runTimeClose">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Min="01" Max="5A" Options=""/>
                 </Parameter>
-                <Parameter Id="13">
+                <Parameter Id="13" IdName="channel_runTimeOpen">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Min="01" Max="5A" Options=""/>
                 </Parameter>
-                <Parameter Id="14">
+                <Parameter Id="14" IdName="channel_runTimeRollover">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Min="" Max="" Options="02=2%|05=5%|0A=10%|0F=15%|14=20%"/>
                 </Parameter>
-                <Parameter Id="15"> <!-- CONDITION auf Rolladen-Typ -->
+                <Parameter Id="15" IdName="channel_shortTimeRun"> <!-- CONDITION auf Rolladen-Typ -->
                     <Description>Kurzzeitbetrieb</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>
-                <Parameter Id="16"> <!-- CONDITION auf Rolladen-Typ -->
+                <Parameter Id="16" IdName="channel_shortTimeRunTime"> <!-- CONDITION auf Rolladen-Typ -->
                     <Description>Fahrzeit für Kurzzeitbetrieb [sek: 1-20]</Description>
                     <Value Type="uint8" Default="05" Min="01" Max="14" Options=""/>
                 </Parameter>
-                <Parameter Id="17"> 
+                <Parameter Id="17" IdName="channel_lockAction"> 
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=keine Änderung|01=auf fahren|02=zu fahren"/>
                 </Parameter>
-                <Parameter Id="18"> 
+                <Parameter Id="18" IdName="channel_ventByComObj"> 
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>				
-                <Parameter Id="19"> 
+                <Parameter Id="19" IdName="channel_absPositionComObj"> 
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>	
-                <Parameter Id="20"> 
+                <Parameter Id="20" IdName="channel_referenceRunComObj"> 
                     <Description>KO für Referenzfahrt</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>
-                <Parameter Id="21"> 
+                <Parameter Id="21" IdName="channel_runStatusComObj"> 
                     <Description>KO für Verfahrstatus</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
-                <Parameter Id="22"> 
-                    <Description>Status für aktuelle Position</Description>
+                <Parameter Id="22" IdName="channel_absPosStatusComObj"> 
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
-                <Parameter Id="23"> 
-                    <Description>Status für akt. Richtung &#038;#038; Position auf/zu</Description>
+                <Parameter Id="23" IdName="channel_runStatusPositionComObj"> 
+                    <Description>KO für Status für akt. Richtung &#038;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>	
             </ParameterGroup>
@@ -163,11 +163,11 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="34"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="35"> 
-                    <Description>Status für akt. Richtung &#038;#038; Position auf/zu</Description>
+                    <Description>KO für Status für akt. Richtung &#038;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>	
             </ParameterGroup>
@@ -214,7 +214,7 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="46"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="47"> 
@@ -265,7 +265,7 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="58"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="59"> 
@@ -316,7 +316,7 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="70"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="71"> 
@@ -367,7 +367,7 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="82"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="83"> 
@@ -418,7 +418,7 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="94"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="95"> 
@@ -469,7 +469,7 @@
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)"/>
                 </Parameter>
                 <Parameter Id="106"> 
-                    <Description>Status für aktuelle Position</Description>
+                    <Description>KO für Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Min="" Max="" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>					
                 <Parameter Id="107"> 
@@ -529,14 +529,14 @@
             <CommObject Id="6">
                 <Name>Zentrale Funktion</Name>
                 <Function>Beschattung sperren/aktivieren</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>		
 			
             <CommObject Id="7">
                 <Name>Zentrale Funktion</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
 
@@ -580,7 +580,7 @@
             <CommObject Id="14">
                 <Name>Kanal A</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="15">
@@ -690,7 +690,7 @@
             <CommObject Id="32">
                 <Name>Kanal B</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="33">
@@ -800,7 +800,7 @@
             <CommObject Id="50">
                 <Name>Kanal C</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="51">
@@ -910,7 +910,7 @@
             <CommObject Id="68">
                 <Name>Kanal D</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="69">
@@ -1020,7 +1020,7 @@
             <CommObject Id="86">
                 <Name>Kanal E</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="87">
@@ -1130,7 +1130,7 @@
             <CommObject Id="104">
                 <Name>Kanal F</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="105">
@@ -1240,7 +1240,7 @@
             <CommObject Id="122">
                 <Name>Kanal G</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="123">
@@ -1350,7 +1350,7 @@
             <CommObject Id="140">
                 <Name>Kanal H</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>			
             <CommObject Id="141">
