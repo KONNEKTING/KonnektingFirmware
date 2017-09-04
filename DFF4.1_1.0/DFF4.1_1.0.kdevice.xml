@@ -724,7 +724,6 @@
             </CommObject>            
         </CommObjects>
         <Dependencies>
-            <ParameterDependency ParamId="1" TestParamId="3" Test="eq" TestValue="01"/>
             <ParameterDependency ParamId="15" TestParamId="4" Test="eq" TestValue="02"/>
             <ParameterDependency ParamId="16" TestParamId="4" Test="eq" TestValue="02"/>
             <ParameterDependency ParamId="27" TestParamId="5" Test="eq" TestValue="02"/>

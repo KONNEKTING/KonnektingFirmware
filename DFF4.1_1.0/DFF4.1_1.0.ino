@@ -137,6 +137,9 @@ void setup() {
     Konnekting.setMemoryWriteFunc(&writeMemory);
     Konnekting.setMemoryUpdateFunc(&updateMemory);
     Konnekting.setMemoryCommitFunc(&commitMemory);
+    
+    // M0dularis+ uses "Serial1" !!!
+    Konnekting.init(KNX_SERIAL, PROG_BTN, PROG_LED, MANUFACTURER_ID, DEVICE_ID, REVISION);
 
     /*
      *  Read general settings
@@ -251,9 +254,6 @@ void setup() {
     Debug.print(F("Initial delay %ims "), paramStartupDelay);
     delay(paramStartupDelay);
     Debug.println(F(" *done*"));
-
-    // M0dularis+ uses "Serial1" !!!
-    Konnekting.init(KNX_SERIAL, PROG_BTN, PROG_LED, MANUFACTURER_ID, DEVICE_ID, REVISION);
 
     // TODO get last state from eeprom
     // --> was window or shutter opened or closed before power down?
