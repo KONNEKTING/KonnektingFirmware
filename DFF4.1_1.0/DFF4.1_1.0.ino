@@ -8,13 +8,15 @@
 #include "Frontend8Btn8Led.h"
 #include "RotoChannel.h"
 #include <KonnektingDevice.h>
-#include "kdevice_DFF_8.1_-_ALPHA.h"
+#include "kdevice_DFF_4.1.h"
 #include "Memory.h"
 
 
 /* *****************************************************************************
  * Defines
  */
+
+#define KNX_SERIAL Serial1
 
 #define CHANNEL_PARAM_OFFSET 12
 
@@ -60,17 +62,15 @@ Frontend8Btn8Led frontend;
 #define CHANNELS_COUNT 4
 RotoChannel channels[CHANNELS_COUNT] = {
     //          relay group number (to calc relays, LED + button)
-    //          |  open time
-    //          |  |                 close time
-    //          |  |                 |                  set pin open
-    //          |  |                 |                  |    reset pin open
-    //          |  |                 |                  |    |    set pin close
-    //          |  |                 |                  |    |    |    reset pin close
-    //          |  |                 |                  |    |    |    |
-    RotoChannel(0, WINDOW_OPEN_TIME, WINDOW_CLOSE_TIME, OB1, OB0, OB3, OB2), // A+B Window
-    RotoChannel(1, SHUTTER_OPEN_TIME, SHUTTER_CLOSE_TIME, OB5, OB4, OB7, OB6), // C+D Shutter
-    RotoChannel(2, WINDOW_OPEN_TIME, WINDOW_CLOSE_TIME, OA0, OA1, OA2, OA3), // E+F Window
-    RotoChannel(3, SHUTTER_OPEN_TIME, SHUTTER_CLOSE_TIME, OA4, OA5, OA6, OA7) // G+H Shutter
+    //          |  set pin open
+    //          |  |    reset pin open
+    //          |  |    |    set pin close
+    //          |  |    |    |    reset pin close
+    //          |  |    |    |    |
+    RotoChannel(0, OB1, OB0, OB3, OB2), // A+B 
+    RotoChannel(1, OB5, OB4, OB7, OB6), // C+D 
+    RotoChannel(2, OA0, OA1, OA2, OA3), // E+F 
+    RotoChannel(3, OA4, OA5, OA6, OA7)  // G+H
 };
 
 
@@ -78,21 +78,18 @@ RotoChannel channels[CHANNELS_COUNT] = {
 int last = 0;
 bool state = false;
 
-/* *****************************************************************************
+/** 
  * Frontend Button Callback
  */
 void buttonEvent(int i) {
-    SerialUSB.print("--> buttonEvent: ");
-    SerialUSB.println(i);
+    Debug.println(F("--> buttonEvent: %i"),i);
 
     int group = i / 2; // ganzzahlige division, ohne aufrunden bei ",5" ...
     bool openButton = even(i); // true -> open-button, false -> close-button
 
     channels[group].doButton(openButton);
 
-    SerialUSB.print("--> buttonEvent: ");
-    SerialUSB.print(i);
-    SerialUSB.println(" *done*");
+    Debug.println(F("--> buttonEvent: %i done"), i);
 }
 
 /*
@@ -132,7 +129,8 @@ void setup() {
     Debug.setPrintStream(&SerialUSB);
 
     Debug.println(F("Setup..."));
-
+    
+    
 #ifdef EEPROM_EMULATION_SIZE
     bool eepromBitSwap = true;
     for (int i = 0; i < 1024; i++) {
@@ -153,7 +151,7 @@ void setup() {
         EEPROM.commit();
         Debug.println(" *DONE*");
     }
-#endif
+#endif    
 
     /*
      * Set memory functions
@@ -180,10 +178,10 @@ void setup() {
     /* 
      * Startup MCP port extender on relay board and frontend
      */
-    Debug.print("Setup MCPs");
-    SerialUSB.print(" ...relays");
+    Debug.print(F("Setup MCPs"));
+    Debug.print(F(" ...relays"));
     mcpRelay.begin(I2C_ADDR_RELAY);
-    SerialUSB.print(" ...frontend");
+    Debug.print(F(" ...frontend"));
     mcpFrontend.begin(I2C_ADDR_FRONTEND);
     frontend.init(mcpFrontend);
     // watch for interrupts (button events from frontend).
@@ -191,26 +189,26 @@ void setup() {
         pinMode(INT_PIN_FRONTEND, INPUT);
         attachInterrupt(INT_PIN_FRONTEND, frontendISR, RISING);
         frontend.setButtonCallbackFct(&buttonEvent);
-        SerialUSB.print(" ...interrupt+callback");
+        Debug.print(F(" ...interrupt+callback"));
     }
-    Debug.println(" *done*");
+    Debug.println(F(" *done*"));
 
     /* 
      * enable I2C level shifter Vcc and port extender on relay board by dedicated GPIO pin
      */
     pinMode(ENABLE_LEVELSHIFT, OUTPUT);
     digitalWrite(ENABLE_LEVELSHIFT, HIGH);
-    Debug.println("levelshift+enable %i", ENABLE_LEVELSHIFT);
+    Debug.println(F("levelshift+enable %i"), ENABLE_LEVELSHIFT);
 
     /* 
      * init relay channels
      */
     for (int i = 0; i < CHANNELS_COUNT; i++) {
 
-        Debug.println("Reading channel config for #%i", i);
+        Debug.println(F("Reading channel config for #%i"), i);
         uint8_t channelSetting = Konnekting.getUINT8Param(PARAM_setting_channelA + i);
 
-        Debug.println("Channel #%i has setting 0x%02x", i, channelSetting);
+        Debug.println(F("Channel #%i has setting 0x%02x"), i, channelSetting);
 
         switch (channelSetting) {
 
@@ -278,7 +276,7 @@ void setup() {
     Debug.println(F(" *done*"));
 
     // M0dularis+ uses "Serial1" !!!
-    Konnekting.init(Serial1, PROG_BTN, PROG_LED, MANUFACTURER_ID, DEVICE_ID, REVISION);
+    Konnekting.init(KNX_SERIAL, PROG_BTN, PROG_LED, MANUFACTURER_ID, DEVICE_ID, REVISION);
 
     // TODO get last state from eeprom
     // --> was window or shutter opened or closed before power down?

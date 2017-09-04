@@ -1,6 +1,8 @@
 // Include EEPROM-like API for FlashStorage
 // let's have 2k of emulated EEPROM
 #define EEPROM_EMULATION_SIZE 2048
+
+// see: https://github.com/cmaglie/FlashStorage >0.7.0
 #include <FlashAsEEPROM.h>
 
 /* *****************************************************************************

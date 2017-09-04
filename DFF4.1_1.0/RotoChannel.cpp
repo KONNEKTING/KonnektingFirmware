@@ -7,19 +7,17 @@
 
 #include "RotoChannel.h"
 #include "Constants.h"
+#include "DebugUtil.h"
 
-RotoChannel::RotoChannel(int group, int openTime, int closeTime, int setPinOpen, int resetPinOpen, int setPinClose, int resetPinClose) {
+RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPinClose, int resetPinClose) {
 
     _group = group;
 
-    _openTime = openTime;
-    _closeTime = closeTime;
-
-    _openStep = (100.0 / (openTime * SECOND)) / 100.0;
-    _closeStep = (100.0 / (closeTime * SECOND)) / 100.0;
-
     _setPinOpen = setPinOpen;
     _resetPinOpen = resetPinOpen;
+
+    _openStep = 0;
+    _closeStep = 0;
 
     _setPinClose = setPinClose;
     _resetPinClose = resetPinClose;
@@ -51,6 +49,10 @@ RotoChannel::~RotoChannel() {
 void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
+
+    _openStep = (100.0 / (_config.runTimeOpen * SECOND)) / 100.0;
+    _closeStep = (100.0 / (_config.runTimeClose * SECOND)) / 100.0;
+
 }
 
 ChannelConfig RotoChannel::getConfig() {
@@ -60,7 +62,7 @@ ChannelConfig RotoChannel::getConfig() {
 void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
 
     if (!_enabled) {
-        SerialUSB.println("no config, stopping init");
+        Debug.println(F("no config, stopping init"));
         return;
     }
 
@@ -83,32 +85,29 @@ void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
     _mcp.pinMode(_setPinClose, OUTPUT);
     _mcp.pinMode(_resetPinClose, OUTPUT);
 
-    SerialUSB.print("Init of group ");
-    SerialUSB.print(_group);
+    Debug.print(F("Init of group %i"), _group);
     switch (_startupAction) {
         case A_OPEN:
             _initDone = false;
-            SerialUSB.println(" to OPEN");
+            Debug.println(F(" to OPEN"));
             doOpen();
             break;
         case A_CLOSE:
             _initDone = false;
-            SerialUSB.println(" to CLOSE");
+            Debug.println(F(" to CLOSE"));
             doClose();
             break;
         case A_NONE:
         default:
             _initDone = true;
-            SerialUSB.println(" to NONE");
+            Debug.println(F(" to NONE"));
             _status = CS_UNDEFINED;
             _moveStatus = MS_STOP;
             break;
     }
 
-    SerialUSB.print("open Step=");
-    SerialUSB.println(_openStep);
-    SerialUSB.print("close Step=");
-    SerialUSB.println(_openStep);
+    Debug.println(F("open Step=%i"), _openStep);
+    Debug.println(F("close Step=%i"), _closeStep);
 }
 
 void RotoChannel::work() {
@@ -124,10 +123,10 @@ void RotoChannel::work() {
         unsigned long waitTime = 0;
         switch (_startupAction) {
             case A_OPEN:
-                waitTime = _openTime;
+                waitTime = _config.runTimeOpen;
                 break;
             case A_CLOSE:
-                waitTime = _closeTime;
+                waitTime = _config.runTimeClose;
                 break;
             case A_NONE:
                 waitTime = 0;
@@ -155,24 +154,17 @@ void RotoChannel::work() {
 
             // ... and finalize init
             _initDone = true;
-            SerialUSB.print("Init of group ");
-            SerialUSB.print(_group);
-            SerialUSB.print(" *done*");
-            SerialUSB.print(" Pos =  ");
-            SerialUSB.println(_position);
+            Debug.println(F("Init of group %i *done*. Pos=%i"), _group, _position);
 
         }
 
     } else if (_manualMoveRequest) {
 
-        SerialUSB.print("manualMoveRequest on group: ");
-        SerialUSB.println(_group);
+        Debug.println(F("manualMoveRequest on group: %i"), _group);
 
-        SerialUSB.print("current move status: ");
-        SerialUSB.println(_moveStatus);
+        Debug.println(F("current move status: %i"), _moveStatus);
 
-        SerialUSB.print("current status: ");
-        SerialUSB.println(_status);
+        Debug.println(F("current status: %i"), _status);
 
         if (_moveStatus != MS_STOP) {
             doStop(); // wenn wir noch fahren, anhalten
@@ -185,8 +177,7 @@ void RotoChannel::work() {
         _manualMoveRequest = false;
 
     } else {
-        //SerialUSB.print("work on channel ");
-        //SerialUSB.println(_channel);
+        //Debug.println(F("work on channel %i"), _channel);
     }
 
     if (_initDone) {
@@ -200,14 +191,10 @@ void RotoChannel::work() {
 }
 
 void RotoChannel::doButton(bool openButton) {
-    SerialUSB.print("doButton on group=");
-    SerialUSB.print(_group);
-    SerialUSB.print(" openButton=");
-    SerialUSB.println(openButton);
+    Debug.println(F("doButton on group=%i openButton=%i"), _group, openButton);
 
     _manualMoveRequest = true; // signal move request
     _manualMoveRequestOpenButton = openButton;
-
 }
 
 void RotoChannel::doOpen() {
@@ -217,8 +204,7 @@ void RotoChannel::doOpen() {
      * bus this happens not that often, so we won't miss a telegram
      */
 
-    SerialUSB.print("doOpen on group=");
-    SerialUSB.println(_group);
+    Debug.println(F("doOpen on group=%i"), _group);
 
     _mcp.digitalWrite(_setPinOpen, HIGH);
     delay(RELAY_SET_TIME);
@@ -234,6 +220,7 @@ void RotoChannel::doOpen() {
     _lastAction = A_OPEN;
 
     if (!_isStopping) {
+
         _startMoveMillis = millis();
     }
 
@@ -241,8 +228,7 @@ void RotoChannel::doOpen() {
 
 void RotoChannel::doClose() {
 
-    SerialUSB.print("doClose on group=");
-    SerialUSB.println(_group);
+    Debug.println(F("doClose on group=%i"), _group);
 
     _mcp.digitalWrite(_setPinClose, HIGH);
     delay(RELAY_SET_TIME);
@@ -258,6 +244,7 @@ void RotoChannel::doClose() {
     _lastAction = A_CLOSE;
 
     if (!_isStopping) {
+
         _startMoveMillis = millis();
     }
 
@@ -267,23 +254,22 @@ void RotoChannel::doClose() {
 void RotoChannel::doStop() {
 
     _isStopping = true;
-    SerialUSB.print("doStop on group ");
-    SerialUSB.print(_group);
-    SerialUSB.print(" with move status ");
+    Debug.print(F("doStop on group %i with move status "), _group);
 
     switch (_moveStatus) {
         case MS_CLOSING:
-            SerialUSB.println("CLOSING");
+            Debug.println(F("CLOSING"));
             doClose();
             _moveStatus = MS_STOP;
             break;
         case MS_OPENING:
-            SerialUSB.println("OPENING");
+            Debug.println(F("OPENING"));
             doOpen();
             _moveStatus = MS_STOP;
             break;
         default:
-            SerialUSB.println("STOP");
+            Debug.println(F("STOP"));
+
             break;
     }
     _isStopping = false;
@@ -300,7 +286,7 @@ void RotoChannel::updateLEDs() {
 
         if (millis() - _lastBlinkMillis > BLINK_DELAY) {
 
-            //      SerialUSB.print("BLINK ");
+            //      Debug.println(F("BLINK "));
 
             _lastBlinkState = !_lastBlinkState;
 
@@ -308,15 +294,15 @@ void RotoChannel::updateLEDs() {
             int led = _group * 2;
             switch (_moveStatus) {
                 case MS_CLOSING:
-                    //        SerialUSB.println("CLOSING");
+                    //        Debug.println(F("CLOSING"));
                     led += 1;
                     break;
                 case MS_OPENING:
-                    //        SerialUSB.println("OPENING");
+                    //        Debug.println(F("OPENING"));
                     led += 0;
                     break;
                 default:
-                    //        SerialUSB.println("NONE?");
+                    //        Debug.println(F("NONE?"));
                     break;
             }
             _frontend.setLED(led, _lastBlinkState);
@@ -328,24 +314,25 @@ void RotoChannel::updateLEDs() {
     // ensure LEDs are off after moving
     if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
         int led = _group * 2;
-        SerialUSB.print("STOP reached. Set LEDs to ");
+        Debug.print(F("STOP reached. Set LEDs to "));
 
         switch (_status) {
             case CS_OPENED:
                 _frontend.setLED(led + 0, true); // auf
                 _frontend.setLED(led + 1, false); // zu
-                SerialUSB.println("OPENED");
+                Debug.println(F("OPENED"));
                 break;
             case CS_CLOSED:
                 _frontend.setLED(led + 0, false); // auf
                 _frontend.setLED(led + 1, true); // zu
-                SerialUSB.println("CLOSED");
+                Debug.println(F("CLOSED"));
+
                 break;
             case CS_UNDEFINED:
             default:
                 _frontend.setLED(led + 0, false); // auf
                 _frontend.setLED(led + 1, false); // zu
-                SerialUSB.println("UNDEFINED");
+                Debug.println(F("UNDEFINED"));
         }
 
         _lastBlinkState = false;
@@ -377,23 +364,19 @@ void RotoChannel::updateStatus() {
         float delta = (float) duration * _openStep;
 
         _newPosition = _position + delta;
-        SerialUSB.print("duration: ");
-        SerialUSB.println(duration);
+        Debug.println(F("duration: %i"), duration);
 
-        SerialUSB.print("delta: ");
-        SerialUSB.println(delta);
+        Debug.println(F("delta: %i"), delta);
 
-        SerialUSB.print("new position: ");
-        SerialUSB.println(_newPosition);
+        Debug.println(F("new position: %i"), _newPosition);
 
         // limit to 1
         if (_newPosition > 1) {
             _newPosition = 1;
         }
 
-        unsigned long allowedTime = _position * _openTime;
-        SerialUSB.print("allowed time open: ");
-        SerialUSB.println(allowedTime);
+        unsigned long allowedTime = _position * _config.runTimeOpen;
+        Debug.println(F("allowed time open: %i"), allowedTime);
 
 
 
@@ -401,16 +384,13 @@ void RotoChannel::updateStatus() {
         //    if (duration > _openTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 1;
-            SerialUSB.print("Time limit for OPEN reached on group ");
-            SerialUSB.println(_group);
+            Debug.println(F("Time limit for OPEN reached on group %i"), _group);
         }
 
         if (_newPosition == 1) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
-            SerialUSB.print("Group ");
-            SerialUSB.print(_group);
-            SerialUSB.println(" is now OPENED");
+            Debug.println(F("Group %i  is now OPENED"), _group);
         } else {
             _status = CS_OPEN;
         }
@@ -424,38 +404,31 @@ void RotoChannel::updateStatus() {
         float delta = (float) duration * _closeStep;
 
         _newPosition = _position - delta;
-        SerialUSB.print("duration: ");
-        SerialUSB.println(duration);
+        Debug.println(F("duration: %i"), duration);
 
-        SerialUSB.print("delta: ");
-        SerialUSB.println(delta);
+        Debug.println(F("delta: %i"), delta);
 
-        SerialUSB.print("new position: ");
-        SerialUSB.println(_newPosition);
+        Debug.println(F("new position: %i"), _newPosition);
 
         // limit to 0
         if (_newPosition < 0) {
             _newPosition = 0;
         }
 
-        unsigned long allowedTime = (1.0 - _position) * _closeTime;
-        SerialUSB.print("allowed time close: ");
-        SerialUSB.println(allowedTime);
+        unsigned long allowedTime = (1.0 - _position) * _config.runTimeClose;
+        Debug.println(F("allowed time close: %i"), allowedTime);
 
         // if open move time exceeds "open time", force position to "completely open"
         //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 0;
-            SerialUSB.print("Time limit for CLOSE reached on group ");
-            SerialUSB.println(_group);
+            Debug.println(F("Time limit for CLOSE reached on group %i"), _group);
         }
 
         if (_position == 0) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
-            SerialUSB.print("Group ");
-            SerialUSB.print(_group);
-            SerialUSB.println(" is now CLOSED");
+            Debug.println(F("Group %i is now CLOSED"), _group);
         } else {
             _status = CS_OPEN;
         }
@@ -468,11 +441,9 @@ void RotoChannel::updateStatus() {
 
         _position = _newPosition;
 
-        SerialUSB.print("Group ");
-        SerialUSB.print(_group);
-        SerialUSB.print(" is finally on position ");
+        Debug.println(F("Group %i is finally on position "), _group);
 
-        SerialUSB.println(_position);
+        Debug.println(F("Position: %i"), _position);
     }
 
 

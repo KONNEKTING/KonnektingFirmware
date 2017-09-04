@@ -92,24 +92,82 @@ enum RotoAction {
 };
 
 typedef struct {
+    /**
+     * Settings: Channel setting: 
+     * 0 = unused
+     * 1 = roof-light
+     * 2 = shutter
+     * 3 = clone of ...
+     */
     uint8_t setting;
+    
+    /**
+     * Settings: Time in seconds the channel requires for full close
+     */
     uint8_t runTimeClose;
+    
+    /**
+     * Settings: Time in seconds the channel requires for full open
+     */
     uint8_t runTimeOpen;
+    
+    /**
+     * Settings: "Fahrzeitverlängerung" in %
+     * 2=2%, 5=5%, 10=10%, 15=15%, 20=20%
+     */
     uint8_t runTimeRollover;
+    
+    /**
+     * Settings: Kurzzeitbetrieb an/aus
+     * 0=false, 1=true
+     */
     uint8_t shortTimeRun;
+    
+    /**
+     * Settings: Fahrzeit für Kurzzeitbetrieb [s]
+     */
     uint8_t shortTimeRunTime;
+    
+    /**
+     * Settings: Verhalten bei Sperren: 0=keine Änderung, 1=auf fahren, 2=zu fahren
+     */
     uint8_t lockAction;
+    
+    /**
+     * Settings: Lüften per zentralem KO 0=false, 1=true
+     */
     uint8_t ventByComObj;
+    
+    /**
+     * Ansteuerung: KO für absolute Position 0=nicht aktiv|1=aktiv
+     */
     uint8_t absPositionComObj;
+    
+    /**
+     * Ansteuerung: KO für Referenzfahrt 0=nicht aktiv|1=aktiv
+     */
     uint8_t referenceRunComObj;
+    
+    /**
+     * Status: KO für Verfahrstatus 0=nicht aktiv|1=fährt (1 KO)|2=Auffahrt+Zufahrt (2 KOs)
+     */
     uint8_t runStatusComObj;
+    
+    /**
+     * Status: Status für aktuelle Position 0=nicht aktiv|1=aktiv
+     */
     uint8_t absPosStatusComObj;
+    
+    /**
+     * Status: Status für akt. Richtung & Position auf/zu 0=nicht aktiv|1=aktiv
+     */
     uint8_t runStatusPositionComObj;
+    
 } ChannelConfig;
 
 class RotoChannel {
 public:
-    RotoChannel(int group, int openTime, int closeTime, int setPinOpen, int resetPinOpen, int setPinClose, int resetPinClose);
+    RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPinClose, int resetPinClose);
     virtual ~RotoChannel();
     void work();
     /**
@@ -157,20 +215,12 @@ private:
      */
     int _resetPinClose;
 
-    /**
-     * Time in seconds the channel requires for full open
-     */
-    int _openTime;
-    float _openStep;
 
-    /**
-     * Time in secinds the channel requires for full close
-     */
-    int _closeTime;
 
     /**
      * 1ms of movement in percent
      */
+    float _openStep;
     float _closeStep;
 
     /**
@@ -224,6 +274,7 @@ private:
     float _newPosition;
 
     boolean _isStopping;
+    
 
     void updateLEDs();
     void updateStatus();
