@@ -1,12 +1,22 @@
-// comment following line to disable DEBUG mode
-#define DEBUG debugSerial
+/* **********************************
+ *  
+ *   ###### BETA 4 Firmware ######
+ * 
+ * **********************************/
+ 
+/// ################################################
+// ### DEBUG CONFIGURATION
+// ################################################
+#define KDEBUG // comment this line to disable DEBUG mode
+#ifdef KDEBUG
+#include <DebugUtil.h>
 
-// no need to comment, you can leave it as it is as long you do not change the "#define DEBUG debugSerial" line
-#ifdef DEBUG
+// All other, (ATmega328P f.i.) use software serial
 #include <SoftwareSerial.h>
-SoftwareSerial debugSerial(11, 10); // RX, TX
-#define CONSOLE(...)  DEBUG.print(__VA_ARGS__);
-#define CONSOLELN(...)  DEBUG.println(__VA_ARGS__);
+SoftwareSerial softserial(11, 10); // RX, TX
+#define DEBUGSERIAL softserial
+
+// end of debugging defs
 #endif
 
 // include KnxDevice library
@@ -41,10 +51,6 @@ SoftwareSerial debugSerial(11, 10); // RX, TX
 
 // Definition of the Communication Objects attached to the device
 KnxComObject KnxDevice::_comObjectsList[] = {
-    /* don't change this */ Tools.createProgComObject(),
-
-    // Currently, Sketch Index and Suite Index differ for ComObjects :-(
-
     /* Sketch-Index 1, Suite-Index 0 : */ KnxComObject(KNX_DPT_9_001, COM_OBJ_SENSOR), // Temperatur Messwert
     /* Sketch-Index 2, Suite-Index 1 : */ KnxComObject(KNX_DPT_1_001, COM_OBJ_SENSOR), // Temperatur unterer Meldewert
     /* Sketch-Index 3, Suite-Index 2 : */ KnxComObject(KNX_DPT_1_001, COM_OBJ_SENSOR), // Temperatur oberer Meldewert
@@ -54,16 +60,13 @@ KnxComObject KnxDevice::_comObjectsList[] = {
     /* Sketch-Index 7, Suite-Index 6 : */ KnxComObject(KNX_DPT_9_008, COM_OBJ_SENSOR), // VOC Messwert
     /* Sketch-Index 8, Suite-Index 7 : */ KnxComObject(KNX_DPT_9_008, COM_OBJ_SENSOR), // TVOC Messwert
     /* Sketch-Index 9, Suite-Index 8 : */ KnxComObject(KNX_DPT_1_001, COM_OBJ_SENSOR), // T/VOC unterer Meldewert
-    /* Sketch-Index 10, Suite-Index 9 : */ KnxComObject(KNX_DPT_1_001, COM_OBJ_SENSOR), // T/VOC oberer Meldewert
+    /* Sketch-Index 10, Suite-Index 9 : */ KnxComObject(KNX_DPT_1_001, COM_OBJ_SENSOR) // T/VOC oberer Meldewert
 
 };
 const byte KnxDevice::_numberOfComObjects = sizeof (_comObjectsList) / sizeof (KnxComObject); // do no change this code
 
 // Definition of parameter size
-byte KnxTools::_paramSizeList[] = {
-
-    // For params, the index in Sketch and Suite is equal
-
+byte KonnektingDevice::_paramSizeList[] = {
     /* Param Index 0 */ PARAM_UINT8,
     /* Param Index 1 */ PARAM_UINT8,
     /* Param Index 2 */ PARAM_UINT8,
@@ -101,7 +104,7 @@ byte KnxTools::_paramSizeList[] = {
     /* Param Index 34 */ PARAM_UINT8,
     /* Param Index 35 */ PARAM_UINT8,
 };
-const byte KnxTools::_numberOfParams = sizeof (_paramSizeList); // do no change this code
+const byte KonnektingDevice::_numberOfParams = sizeof (_paramSizeList); // do no change this code
 
 
 unsigned long previousMillisVOC = 0;
@@ -171,25 +174,31 @@ uint16_t vocTVOC;
 
 void setup() {
 
-    // if debug mode is enabled, setup serial port with 9600 baud    
-#ifdef DEBUG
-    DEBUG.begin(9600);
-    CONSOLELN(F("Setup ..."));
+    // debug related stuff
+#ifdef KDEBUG
+
+    // Start debug serial with 9600 bauds
+    DEBUGSERIAL.begin(9600);
+
+    // make debug serial port known to debug class
+    // Means: KONNEKTING will use the same serial port for console debugging
+    Debug.setPrintStream(&DEBUGSERIAL);    
+
 #endif
 
     // Initialize KNX enabled Arduino Board
-    Tools.init(KNX_SERIAL, PROG_BUTTON_PIN, PROG_LED_PIN, MANUFACTURER_ID, DEVICE_ID, REVISION);
+    Konnekting.init(KNX_SERIAL, PROG_BUTTON_PIN, PROG_LED_PIN, MANUFACTURER_ID, DEVICE_ID, REVISION);
 
-    CONSOLELN(F("KNX init done"));
+    DEBUGSERIAL.println(F("KNX init done"));
 
-    if (!Tools.isFactorySetting()) {
-        int startDelay = (int) Tools.getUINT8Param(0);
-        if (startDelay > 0) {
-            CONSOLE(F("delay for "));
-            CONSOLE(startDelay);
-            CONSOLELN(F("s"));
+    if (!Konnekting.isFactorySetting()) {
+        int startDelay = (int) Konnekting.getUINT8Param(0);
+        if (startDelay > 0 && startDelay < 255) {
+            DEBUGSERIAL.print(F("delay for "));
+            DEBUGSERIAL.print(startDelay);
+            DEBUGSERIAL.println(F("s"));
             delay(startDelay * 1000);
-            CONSOLELN(F("ready!"));
+            DEBUGSERIAL.println(F("ready!"));
         }
 
         previousMillisTemp = millis();
@@ -197,40 +206,40 @@ void setup() {
         previousMillisVOC = millis();
 
         // Read Temp Sensor Params
-        tempActive = Tools.getUINT8Param(1) == 1 ? true : false;
-        tempCycleMins = Tools.getUINT8Param(2);
-        tempOffset = Tools.getINT8Param(3);
+        tempActive = Konnekting.getUINT8Param(1) == 1 ? true : false;
+        tempCycleMins = Konnekting.getUINT8Param(2);
+        tempOffset = Konnekting.getINT8Param(3);
 
-        CONSOLE(F("tempOffset="));
-        CONSOLELN(tempOffset);
+        DEBUGSERIAL.print(F("tempOffset="));
+        DEBUGSERIAL.println(tempOffset);
 
-        tempSendOnChangeDegree = Tools.getUINT8Param(4);
+        tempSendOnChangeDegree = Konnekting.getUINT8Param(4);
 
-        CONSOLE(F("tempSendOnChangeDegree="));
-        CONSOLELN(tempSendOnChangeDegree);
+        DEBUGSERIAL.print(F("tempSendOnChangeDegree="));
+        DEBUGSERIAL.println(tempSendOnChangeDegree);
 
-        tempUpperAlarmValue = Tools.getUINT8Param(5);
-        tempLowerAlarmValue = Tools.getUINT8Param(6);
+        tempUpperAlarmValue = Konnekting.getUINT8Param(5);
+        tempLowerAlarmValue = Konnekting.getUINT8Param(6);
 
         // Read RH Sensor Params
-        rhActive = Tools.getUINT8Param(7) == 1 ? true : false;
-        rhCycleMins = Tools.getUINT8Param(8);
-        rhOffset = Tools.getINT8Param(9);
-        rhSendOnChangePercent = Tools.getUINT8Param(10);
-        rhUpperAlarmValue = Tools.getUINT8Param(11);
-        rhLowerAlarmValue = Tools.getUINT8Param(12);
+        rhActive = Konnekting.getUINT8Param(7) == 1 ? true : false;
+        rhCycleMins = Konnekting.getUINT8Param(8);
+        rhOffset = Konnekting.getINT8Param(9);
+        rhSendOnChangePercent = Konnekting.getUINT8Param(10);
+        rhUpperAlarmValue = Konnekting.getUINT8Param(11);
+        rhLowerAlarmValue = Konnekting.getUINT8Param(12);
 
         // Read VOC Sensor Params
-        vocActive = Tools.getUINT8Param(13) == 1 ? true : false;
-        vocSensorType = Tools.getUINT8Param(14);
-        vocCycleMins = Tools.getUINT8Param(15);
-        vocSendOnChangePPM = Tools.getUINT16Param(16);
-        vocUpperAlarmValue = Tools.getUINT16Param(17);
-        vocLowerAlarmValue = Tools.getUINT16Param(18);
+        vocActive = Konnekting.getUINT8Param(13) == 1 ? true : false;
+        vocSensorType = Konnekting.getUINT8Param(14);
+        vocCycleMins = Konnekting.getUINT8Param(15);
+        vocSendOnChangePPM = Konnekting.getUINT16Param(16);
+        vocUpperAlarmValue = Konnekting.getUINT16Param(17);
+        vocLowerAlarmValue = Konnekting.getUINT16Param(18);
 
     }
 
-    CONSOLELN(F("Startup delay done"));
+    DEBUGSERIAL.println(F("Startup delay done"));
 
     Wire.begin();
     htu21d.begin();
@@ -243,9 +252,9 @@ void setup() {
     digitalWrite(LED_Y, HIGH);
     digitalWrite(LED_R, HIGH);
 
-    CONSOLELN(F("I2C setup done."));
+    DEBUGSERIAL.println(F("I2C setup done."));
 
-    CONSOLELN(F("Ready!"));
+    DEBUGSERIAL.println(F("Ready!"));
 }
 
 void loop() {
@@ -255,7 +264,7 @@ void loop() {
     loopc++;
 
     // only do measurements and other sketch related stuff if not in programming mode
-    if (!Tools.getProgState()) {
+    if (Konnekting.isReadyForApplication()) {
 
         unsigned long currentMillis = millis();
 
@@ -278,20 +287,20 @@ void loop() {
                 if (currentMillis - previousMillisTemp >= (tempCycleMins * 60 * 1000)) {
 
                     previousMillisTemp = currentMillis;
-                    CONSOLE(F("Temperature by cycle:"));
-                    CONSOLELN(tempCycleMins, DEC);
+                    DEBUGSERIAL.print(F("Temperature by cycle:"));
+                    DEBUGSERIAL.println(tempCycleMins, DEC);
 
                     currentTemp = readTemp();
 
-                    CONSOLE(F("Temperature:"));
-                    CONSOLE(currentTemp, 1);
-                    CONSOLELN();
+                    DEBUGSERIAL.print(F("Temperature:"));
+                    DEBUGSERIAL.print(currentTemp, 1);
+                    DEBUGSERIAL.println();
 
                     Knx.write(0, currentTemp);
                 } else {
                     if (loopc % 10000 == 1) {
-//                        CONSOLE(F("Waiting Temp: "));
-//                        CONSOLELN((tempCycleMins * 60 * 1000)-(currentMillis - previousMillisTemp), DEC);
+                        DEBUGSERIAL.print(F("Waiting Temp: "));
+                        DEBUGSERIAL.println((tempCycleMins * 60 * 1000)-(currentMillis - previousMillisTemp), DEC);
                     }
                 }
 
@@ -326,29 +335,29 @@ void loop() {
 
                     float requiredDiff = (float) tempSendOnChangeDegree / 10;
 
-                    CONSOLE(F("Temp Diff: current="));
-                    CONSOLE(currentTemp, 1);
-                    CONSOLE(F(" last="));
-                    CONSOLE(lastTemp, 1);
-                    CONSOLE(F(" requDiff="));
-                    CONSOLE(requiredDiff, 1);
-                    CONSOLE(F(" diff="));
-                    CONSOLELN(diff, 1);
+                    DEBUGSERIAL.print(F("Temp Diff: current="));
+                    DEBUGSERIAL.print(currentTemp, 1);
+                    DEBUGSERIAL.print(F(" last="));
+                    DEBUGSERIAL.print(lastTemp, 1);
+                    DEBUGSERIAL.print(F(" requDiff="));
+                    DEBUGSERIAL.print(requiredDiff, 1);
+                    DEBUGSERIAL.print(F(" diff="));
+                    DEBUGSERIAL.println(diff, 1);
 
 
                     if (diff >= requiredDiff) {
-                        CONSOLE(F("Temp by Diff: "));
-                        CONSOLE(diff, 1);
-                        CONSOLELN();
-                        Knx.write(1, currentTemp);
+                        DEBUGSERIAL.print(F("Temp by Diff: "));
+                        DEBUGSERIAL.print(diff, 1);
+                        DEBUGSERIAL.println();
+                        Knx.write(0, currentTemp);
                     }
                 }
             }
             
             if (currentTemp != UNDEFINED_TEMP) {
                 
-                Knx.write(2, currentTemp<=tempLowerAlarmValue);
-                Knx.write(3, currentTemp>=tempUpperAlarmValue);
+                Knx.write(1, currentTemp<=tempLowerAlarmValue);
+                Knx.write(2, currentTemp>=tempUpperAlarmValue);
                 
                 lastTemp = currentTemp;
             }
@@ -378,20 +387,20 @@ void loop() {
                 if (currentMillis - previousMillisRH >= (rhCycleMins * 60 * 1000)) {
 
                     previousMillisRH = currentMillis;
-                    CONSOLE(F("RH by cycle:"));
-                    CONSOLELN(rhCycleMins, DEC);
+                    DEBUGSERIAL.print(F("RH by cycle:"));
+                    DEBUGSERIAL.println(rhCycleMins, DEC);
 
                     currentRH = readRH();
 
-                    CONSOLE(F("RH:"));
-                    CONSOLE(currentRH, 1);
-                    CONSOLELN();
+                    DEBUGSERIAL.print(F("RH:"));
+                    DEBUGSERIAL.print(currentRH, 1);
+                    DEBUGSERIAL.println();
 
-                    Knx.write(5, currentRH);
+                    Knx.write(3, currentRH);
                 } else {
                     if (loopc % 10000 == 1) {
-//                        CONSOLE(F("Waiting RH: "));
-//                        CONSOLELN((rhCycleMins * 60 * 1000)-(currentMillis - previousMillisRH), DEC);
+//                        DEBUGSERIAL.print(F("Waiting RH: "));
+//                        DEBUGSERIAL.println((rhCycleMins * 60 * 1000)-(currentMillis - previousMillisRH), DEC);
                     }
                 }
 
@@ -426,28 +435,28 @@ void loop() {
 
                     float requiredDiff = (float) tempSendOnChangeDegree;
 
-                    CONSOLE(F("RH Diff: current="));
-                    CONSOLE(currentRH, 1);
-                    CONSOLE(F(" last="));
-                    CONSOLE(lastRH, 1);
-                    CONSOLE(F(" requDiff="));
-                    CONSOLE(requiredDiff, 1);
-                    CONSOLE(F(" diff="));
-                    CONSOLELN(diff, 1);
+                    DEBUGSERIAL.print(F("RH Diff: current="));
+                    DEBUGSERIAL.print(currentRH, 1);
+                    DEBUGSERIAL.print(F(" last="));
+                    DEBUGSERIAL.print(lastRH, 1);
+                    DEBUGSERIAL.print(F(" requDiff="));
+                    DEBUGSERIAL.print(requiredDiff, 1);
+                    DEBUGSERIAL.print(F(" diff="));
+                    DEBUGSERIAL.println(diff, 1);
 
 
                     if (diff >= requiredDiff) {
-                        CONSOLE(F("RH by Diff: "));
-                        CONSOLE(diff, 1);
-                        CONSOLELN();
-                        Knx.write(5, currentRH);
+                        DEBUGSERIAL.print(F("RH by Diff: "));
+                        DEBUGSERIAL.print(diff, 1);
+                        DEBUGSERIAL.println();
+                        Knx.write(3, currentRH);
                     }
                 }
             }
             if (currentRH != UNDEFINED_RH) {
                 
-                Knx.write(5, currentRH<=rhLowerAlarmValue);
-                Knx.write(6, currentRH>=rhUpperAlarmValue);
+                Knx.write(4, currentRH<=rhLowerAlarmValue);
+                Knx.write(5, currentRH>=rhUpperAlarmValue);
                 
                 lastRH = currentRH;
             }
@@ -481,12 +490,12 @@ void loop() {
 
                     previousMillisVOC = currentMillis;
 
-                    CONSOLE(F("VOC by cycle: "));
+                    DEBUGSERIAL.print(F("VOC by cycle: "));
                     readVOC();
-                    CONSOLE(F("CO2="));
-                    CONSOLE(vocPredict);
-                    CONSOLE(F(" TVoC="));
-                    CONSOLELN(vocTVOC);
+                    DEBUGSERIAL.print(F("CO2="));
+                    DEBUGSERIAL.print(vocPredict);
+                    DEBUGSERIAL.print(F(" TVoC="));
+                    DEBUGSERIAL.println(vocTVOC);
                     checkVocStatus();
 
 
@@ -495,12 +504,12 @@ void loop() {
                         vocTVOC = 0;
                     }
 
-                    CONSOLELN(F("Sending CO2"));
-                    Knx.write(7, vocPredict);
+                    DEBUGSERIAL.println(F("Sending VOC CO2 equiv."));
+                    Knx.write(6, vocPredict);
                 } else {
                     if (loopc % 10000 == 1) {
-//                        CONSOLE(F("Waiting VOC: "));
-//                        CONSOLELN((vocCycleMins * 60 * 1000)-(currentMillis - previousMillisVOC), DEC);
+                        DEBUGSERIAL.print(F("Waiting VOC: "));
+                        DEBUGSERIAL.println((vocCycleMins * 60 * 1000)-(currentMillis - previousMillisVOC), DEC);
                     }
                 }
 
@@ -544,28 +553,28 @@ void loop() {
 
                     int requiredDiff = (int) vocSendOnChangePPM;
 
-                    CONSOLE(F("VOC Diff:"));
-                    CONSOLE(F(" current="));
-                    CONSOLE(currentVOC, DEC);
-                    CONSOLE(F(" last="));
-                    CONSOLE(lastVOC, DEC);
-                    CONSOLE(F(" requDiff="));
-                    CONSOLE(requiredDiff, DEC);
-                    CONSOLE(F(" diff="));
-                    CONSOLELN(diff, DEC);
+                    DEBUGSERIAL.print(F("VOC Diff:"));
+                    DEBUGSERIAL.print(F(" current="));
+                    DEBUGSERIAL.print(currentVOC, DEC);
+                    DEBUGSERIAL.print(F(" last="));
+                    DEBUGSERIAL.print(lastVOC, DEC);
+                    DEBUGSERIAL.print(F(" requDiff="));
+                    DEBUGSERIAL.print(requiredDiff, DEC);
+                    DEBUGSERIAL.print(F(" diff="));
+                    DEBUGSERIAL.println(diff, DEC);
 
 
                     if (diff >= requiredDiff) {
-                        CONSOLE(F("VOC by Diff: "));
-                        CONSOLELN(currentVOC, DEC);
-                        Knx.write(7, currentVOC);
+                        DEBUGSERIAL.print(F("VOC by Diff: "));
+                        DEBUGSERIAL.println(currentVOC, DEC);
+                        Knx.write(6, currentVOC);
                     }
                 }
             }
             if (currentVOC != UNDEFINED_VOC) {
                 
-                Knx.write(8, currentVOC<=vocLowerAlarmValue);
-                Knx.write(9, currentVOC>=vocUpperAlarmValue);
+                Knx.write(7, currentVOC<=vocLowerAlarmValue);
+                Knx.write(8, currentVOC>=vocUpperAlarmValue);
                 
                 lastVOC = currentVOC;
             }
@@ -577,6 +586,8 @@ void loop() {
          * ***************************/
 
 
+    } else {
+ 
     }
 }
 
@@ -597,15 +608,15 @@ void readVOC() {
 void checkVocStatus() {
 #ifdef DEBUG    
     if (vocState == 0x10) {
-        CONSOLELN(F("Warming up..."));
+        DEBUGSERIAL.println(F("Warming up..."));
     } else if (vocState == 0x00) {
-        CONSOLELN(F("Ready"));
+        DEBUGSERIAL.println(F("Ready"));
     } else if (vocState == 0x01) {
-        CONSOLELN(F("Busy"));
+        DEBUGSERIAL.println(F("Busy"));
     } else if (vocState == 0x80) {
-        CONSOLELN(F("Error"));
+        DEBUGSERIAL.println(F("Error"));
     } else
-        CONSOLELN(F("No Status, check module"));
+        DEBUGSERIAL.println(F("No Status, check module"));
 #endif
 }
 
@@ -616,8 +627,8 @@ void checkVocStatus() {
 float readTemp() {
     float temp = htu21d.readTemperature();
     float off = (float) tempOffset / 10;
-//    CONSOLE(F("Adding temp offset: "));
-//    CONSOLELN(off);
+//    DEBUGSERIAL.print(F("Adding temp offset: "));
+//    DEBUGSERIAL.println(off);
     temp += off;
     return temp;
 }
@@ -628,8 +639,8 @@ float readTemp() {
  */
 float readRH() {
     float humd = htu21d.readHumidity();
-//    CONSOLE(F("Adding RH offset: "));
-//    CONSOLELN(rhOffset);
+//    DEBUGSERIAL.print(F("Adding RH offset: "));
+//    DEBUGSERIAL.println(rhOffset);
     humd += rhOffset;
     return humd;
 }
