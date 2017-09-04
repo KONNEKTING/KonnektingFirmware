@@ -281,13 +281,13 @@
             <CommObject Id="6">
                 <Name>Zentrale Funktion</Name>
                 <Function>Beschattung sperren/aktivieren</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="7">
                 <Name>Zentrale Funktion</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="8">
@@ -329,7 +329,7 @@
             <CommObject Id="14">
                 <Name>Kanal A+B</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="15">
@@ -437,7 +437,7 @@
             <CommObject Id="32">
                 <Name>Kanal C+D</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="33">
@@ -545,7 +545,7 @@
             <CommObject Id="50">
                 <Name>Kanal E+F</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="51">
@@ -653,7 +653,7 @@
             <CommObject Id="68">
                 <Name>Kanal G+H</Name>
                 <Function>Lüften</Function>
-                <DataPointType>1.000</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="69">

@@ -130,29 +130,6 @@ void setup() {
 
     Debug.println(F("Setup..."));
     
-    
-#ifdef EEPROM_EMULATION_SIZE
-    bool eepromBitSwap = true;
-    for (int i = 0; i < 1024; i++) {
-        int b = EEPROM.read(i);
-        Debug.println(F("EEPROM/Flash at %i -> 0x%02x"), i, b);
-        if (b != 0x00) {
-            Debug.println(F("Bitswap NOT required!"));
-            eepromBitSwap = false;
-            break;
-        }
-    }
-    if (eepromBitSwap) {
-        for (int i = 0; i < 1024; i++) {
-            Debug.println(F("Swapping EEPROM/Flash at %i"), i);
-            EEPROM.write(i, 0xff);
-        }
-        Debug.print(F("Commit ..."));
-        EEPROM.commit();
-        Debug.println(" *DONE*");
-    }
-#endif    
-
     /*
      * Set memory functions
      */
@@ -206,7 +183,7 @@ void setup() {
     for (int i = 0; i < CHANNELS_COUNT; i++) {
 
         Debug.println(F("Reading channel config for #%i"), i);
-        uint8_t channelSetting = Konnekting.getUINT8Param(PARAM_setting_channelA + i);
+        uint8_t channelSetting = Konnekting.getUINT8Param(PARAM_setting_channel_ab + i);
 
         Debug.println(F("Channel #%i has setting 0x%02x"), i, channelSetting);
 
