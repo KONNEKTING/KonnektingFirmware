@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KonnektingDevice xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
+    <Device ManufacturerId="7070" DeviceId="120" Revision="1">
+        <ManufacturerName>KONNEKTING MI</ManufacturerName>
+        <DeviceName>iButton</DeviceName>
+        <Parameters>
+            <ParameterGroup Name="Allgemein" Id="0">
+                <Parameter Id="0" IdName="initialDelay">
+                    <Description>Geräteanlaufzeit [0..65535ms]</Description>
+                    <Value Type="uint16" Default="03E8" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="1" IdName="cycle">
+                    <Description>Zyklus [50..600000ms]</Description>
+                    <Value Type="uint32" Default="000001F4" Options="" Min="00000032" Max="000927C0"/>
+                </Parameter>
+                <Parameter Id="2" IdName="sendAllPresent">
+                    <Description>Status "alle anwesend" senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="3" IdName="sendOneAbsent">
+                    <Description>Status "mindestens einer abwesend" senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="4" IdName="sendAllAbsent">
+                    <Description>Status "alle abwesend" senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+				<Parameter Id="5" IdName="sendAllAbsentDelay">
+                    <Description>Verzögerung</Description>
+                    <Value Type="uint8" Default="07" Options="00=sofort senden|01=10s|02=30s|03=1min|04=2min|05=3min|06=4min|07=5min|08=10min|09=15min|10=20min|11=30min" Min="" Max=""/>
+                </Parameter>
+				<Parameter Id="6" IdName="sendAllAbsentValue">
+                    <Description>Wert für Status "alle abwesend"</Description>
+                    <Value Type="uint8" Default="FF" Options="00=0|01=1|FF=nicht senden" Min="" Max=""/>
+                </Parameter>
+				<Parameter Id="7" IdName="sendAllAbsentScene">
+                    <Description>Szennennummer für Status "alle abwesend"</Description>
+                    <Value Type="uint8" Default="FF" Options="FF=nicht senden|00=1|01=2|02=3|03=4|04=5|05=6|06=7|07=8|08=9|09=10|0A=11|0B=12|0C=13|0D=14|0E=15|0F=16|10=17|11=18|12=19|13=20|14=21|15=22|16=23|17=24|18=25|19=26|1A=27|1B=28|1C=29|1D=30|1E=31|1F=32|20=33|21=34|22=35|23=36|24=37|25=38|26=39|27=40|28=41|29=42|2A=43|2B=44|2C=45|2D=46|2E=47|2F=48|30=49|31=50|32=51|33=52|34=53|35=54|36=55|37=56|38=57|39=58|3A=59|3B=60|3C=61|3D=62|3E=63|3F=64" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="8" IdName="sendNotRegistered">
+                    <Description>Status "nicht registrierter iButton gefunden" senden</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 1" Id="1">
+                <Parameter Id="9" IdName="iB1isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="10" IdName="iB1invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="11" IdName="iB1id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 2" Id="2">
+                <Parameter Id="12" IdName="iB12sActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="13" IdName="iB2invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="14" IdName="iB2id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 3" Id="3">
+                <Parameter Id="15" IdName="iB3isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="16" IdName="iB3invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="17" IdName="iB3id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 4" Id="4">
+                <Parameter Id="18" IdName="iB4isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="19" IdName="iB4invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="20" IdName="iB4id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 5" Id="5">
+                <Parameter Id="21" IdName="iB5isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="22" IdName="iB5invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="23" IdName="iB5id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 6" Id="6">
+                <Parameter Id="24" IdName="iB6isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="25" IdName="iB6invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="26" IdName="iB6id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 7" Id="7">
+                <Parameter Id="27" IdName="iB7isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="28" IdName="iB7invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="29" IdName="iB7id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 8" Id="8">
+                <Parameter Id="30" IdName="iB8isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="31" IdName="iB8invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="32" IdName="iB8id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="iButton 9" Id="9">
+                <Parameter Id="33" IdName="iB9isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="34" IdName="iB9invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="35" IdName="iB9id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+			<ParameterGroup Name="iButton 10" Id="10">
+                <Parameter Id="36" IdName="iB10isActive">
+                    <Description>Berücksichtigen</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="37" IdName="iB10invOutput">
+                    <Description>Ausgang invertieren</Description>
+                    <Value Type="uint8" Default="00" Options="00=Nein|01=Ja" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="38" IdName="iB10id">
+                    <Description>iButton ID</Description>
+                    <Value Type="raw8" Default="0100AABBCCDDEEFF" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+        </Parameters>
+        <CommObjects>
+            <CommObject Id="0" IdName="ibutton1">
+                <Name>iButton 1</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="1" IdName="ibutton2">
+                <Name>iButton 2</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="2" IdName="ibutton3">
+                <Name>iButton 3</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="3" IdName="ibutton4">
+                <Name>iButton 4</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="4" IdName="ibutton5">
+                <Name>iButton 5</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="5" IdName="ibutton6">
+                <Name>iButton 6</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="6" IdName="ibutton7">
+                <Name>iButton 7</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="7" IdName="ibutton8">
+                <Name>iButton 8</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="8" IdName="ibutton9">
+                <Name>iButton 9</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="9" IdName="ibutton10">
+                <Name>iButton 10</Name>
+                <Function>Anwesenheit</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="10" IdName="allPresent">
+                <Name>Alle anwesend</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="11" IdName="oneAbsent">
+                <Name>Mindestens einer abwesend</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="12" IdName="allAbsent">
+                <Name>Alle abwesend</Name>
+                <Function>Wert</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+			<CommObject Id="13" IdName="allAbsentScene">
+                <Name>Alle abwesend Szene</Name>
+                <Function>Szene</Function>
+                <DataPointType>17.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="14" IdName="notRegistered">
+                <Name>Nicht registrierter iButton gefunden</Name>
+                <Function>Status</Function>
+                <DataPointType>1.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+			<CommObject Id="15" IdName="notRegisteredId">
+                <Name>Nicht registrierter iButton gefunden</Name>
+                <Function>Status</Function>
+                <DataPointType>16.001</DataPointType>
+				<Flags>52</Flags>
+            </CommObject>
+        </CommObjects>
+		<Dependencies>
+			<ParameterDependency ParamId="5" TestParamId="4" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="6" TestParamId="4" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="7" TestParamId="4" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="10" TestParamId="9" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="13" TestParamId="12" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="16" TestParamId="15" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="19" TestParamId="18" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="22" TestParamId="21" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="25" TestParamId="24" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="28" TestParamId="27" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="31" TestParamId="30" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="34" TestParamId="33" Test="eq" TestValue="01"/>
+			<ParameterDependency ParamId="37" TestParamId="36" Test="eq" TestValue="01"/>
+			<CommObjectDependency CommObjId="0" Test="eq" TestParamId="9" TestValue="01"/>
+			<CommObjectDependency CommObjId="1" Test="eq" TestParamId="12" TestValue="01"/>
+			<CommObjectDependency CommObjId="2" Test="eq" TestParamId="15" TestValue="01"/>
+			<CommObjectDependency CommObjId="3" Test="eq" TestParamId="18" TestValue="01"/>
+			<CommObjectDependency CommObjId="4" Test="eq" TestParamId="21" TestValue="01"/>
+			<CommObjectDependency CommObjId="5" Test="eq" TestParamId="24" TestValue="01"/>
+			<CommObjectDependency CommObjId="6" Test="eq" TestParamId="27" TestValue="01"/>
+			<CommObjectDependency CommObjId="7" Test="eq" TestParamId="30" TestValue="01"/>
+			<CommObjectDependency CommObjId="8" Test="eq" TestParamId="33" TestValue="01"/>
+			<CommObjectDependency CommObjId="9" Test="eq" TestParamId="36" TestValue="01"/>
+			<CommObjectDependency CommObjId="10" Test="eq" TestParamId="2" TestValue="01"/>
+			<CommObjectDependency CommObjId="11" Test="eq" TestParamId="3" TestValue="01"/>
+			<CommObjectDependency CommObjId="12" Test="ne" TestParamId="6" TestValue="FF"/>
+			<CommObjectDependency CommObjId="13" Test="ne" TestParamId="7" TestValue="FF"/>
+			<CommObjectDependency CommObjId="14" Test="eq" TestParamId="8" TestValue="01"/>
+			<CommObjectDependency CommObjId="15" Test="eq" TestParamId="8" TestValue="01"/>
+		</Dependencies>
+    </Device>
+</KonnektingDevice>

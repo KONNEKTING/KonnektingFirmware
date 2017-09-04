@@ -1,0 +1,1386 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KonnektingDevice xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
+    <Device ManufacturerId="7070" DeviceId="155" Revision="1">
+        <ManufacturerName>KONNEKTING MI</ManufacturerName>
+        <DeviceName>IR Transmitter</DeviceName>
+        <Parameters>
+            <ParameterGroup Name="General settings" Id="0">
+                <Parameter Id="0" IdName="initialDelay">
+                    <Description>Startup delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="03E8" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 1" Id="1">
+                <Parameter Id="1" IdName="irCodeName01">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="2" IdName="irCodeType01">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="3" IdName="irCodeData01">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="4" IdName="irCodeBits01">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="5" IdName="irCodeRept01">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 2" Id="2">
+                <Parameter Id="6" IdName="irCodeName02">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="7" IdName="irCodeType02">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="8" IdName="irCodeData02">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="9" IdName="irCodeBits02">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="10" IdName="irCodeRept02">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 3" Id="3">
+                <Parameter Id="11" IdName="irCodeName03">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="12" IdName="irCodeType03">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="13" IdName="irCodeData03">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="14" IdName="irCodeBits03">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="15" IdName="irCodeRept03">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 4" Id="4">
+                <Parameter Id="16" IdName="irCodeName04">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="17" IdName="irCodeType04">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="18" IdName="irCodeData04">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="19" IdName="irCodeBits04">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="20" IdName="irCodeRept04">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 5" Id="5">
+                <Parameter Id="21" IdName="irCodeName05">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="22" IdName="irCodeType05">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="23" IdName="irCodeData05">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="24" IdName="irCodeBits05">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="25" IdName="irCodeRept05">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 6" Id="6">
+                <Parameter Id="26" IdName="irCodeName06">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="27" IdName="irCodeType06">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="28" IdName="irCodeData06">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="29" IdName="irCodeBits06">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="30" IdName="irCodeRept06">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 7" Id="7">
+                <Parameter Id="31" IdName="irCodeName07">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="32" IdName="irCodeType07">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="33" IdName="irCodeData07">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="34" IdName="irCodeBits07">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="35" IdName="irCodeRept07">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 8" Id="8">
+                <Parameter Id="36" IdName="irCodeName08">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="37" IdName="irCodeType08">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="38" IdName="irCodeData08">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="39" IdName="irCodeBits08">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="40" IdName="irCodeRept08">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 9" Id="9">
+                <Parameter Id="41" IdName="irCodeName09">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="42" IdName="irCodeType09">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="43" IdName="irCodeData09">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="44" IdName="irCodeBits09">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="45" IdName="irCodeRept09">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 10" Id="10">
+                <Parameter Id="46" IdName="irCodeName10">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="47" IdName="irCodeType10">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="48" IdName="irCodeData10">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="49" IdName="irCodeBits10">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="50" IdName="irCodeRept10">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 11" Id="11">
+                <Parameter Id="51" IdName="irCodeName11">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="52" IdName="irCodeType11">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="53" IdName="irCodeData11">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="54" IdName="irCodeBits11">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="55" IdName="irCodeRept11">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 12" Id="12">
+                <Parameter Id="56" IdName="irCodeName12">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="57" IdName="irCodeType12">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="58" IdName="irCodeData12">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="59" IdName="irCodeBits12">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="60" IdName="irCodeRept12">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 13" Id="13">
+                <Parameter Id="61" IdName="irCodeName13">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="62" IdName="irCodeType13">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="63" IdName="irCodeData13">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="64" IdName="irCodeBits13">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="65" IdName="irCodeRept13">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 14" Id="14">
+                <Parameter Id="66" IdName="irCodeName14">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="67" IdName="irCodeType14">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="68" IdName="irCodeData14">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="69" IdName="irCodeBits14">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="70" IdName="irCodeRept14">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 15" Id="15">
+                <Parameter Id="71" IdName="irCodeName15">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="72" IdName="irCodeType15">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="73" IdName="irCodeData15">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="74" IdName="irCodeBits15">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="75" IdName="irCodeRept15">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 16" Id="16">
+                <Parameter Id="76" IdName="irCodeName16">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="77" IdName="irCodeType16">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="78" IdName="irCodeData16">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="79" IdName="irCodeBits16">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="80" IdName="irCodeRept16">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 17" Id="17">
+                <Parameter Id="81" IdName="irCodeName17">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="82" IdName="irCodeType17">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="83" IdName="irCodeData17">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="84" IdName="irCodeBits17">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="85" IdName="irCodeRept17">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 18" Id="18">
+                <Parameter Id="86" IdName="irCodeName18">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="87" IdName="irCodeType18">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="88" IdName="irCodeData18">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="89" IdName="irCodeBits18">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="90" IdName="irCodeRept18">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 19" Id="19">
+                <Parameter Id="91" IdName="irCodeName19">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="92" IdName="irCodeType19">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="93" IdName="irCodeData19">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="94" IdName="irCodeBits19">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="95" IdName="irCodeRept19">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 20" Id="20">
+                <Parameter Id="96" IdName="irCodeName20">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="97" IdName="irCodeType20">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="98" IdName="irCodeData20">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="99" IdName="irCodeBits20">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="100" IdName="irCodeRept20">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 21" Id="21">
+                <Parameter Id="101" IdName="irCodeName21">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="102" IdName="irCodeType21">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="103" IdName="irCodeData21">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="104" IdName="irCodeBits21">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="105" IdName="irCodeRept21">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 22" Id="22">
+                <Parameter Id="106" IdName="irCodeName22">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="107" IdName="irCodeType22">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="108" IdName="irCodeData22">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="109" IdName="irCodeBits22">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="110" IdName="irCodeRept22">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 23" Id="23">
+                <Parameter Id="111" IdName="irCodeName23">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="112" IdName="irCodeType23">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="113" IdName="irCodeData23">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="114" IdName="irCodeBits23">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="115" IdName="irCodeRept23">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 24" Id="24">
+                <Parameter Id="116" IdName="irCodeName24">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="117" IdName="irCodeType24">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="118" IdName="irCodeData24">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="119" IdName="irCodeBits24">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="120" IdName="irCodeRept24">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 25" Id="25">
+                <Parameter Id="121" IdName="irCodeName25">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="122" IdName="irCodeType25">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="123" IdName="irCodeData25">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="124" IdName="irCodeBits25">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="125" IdName="irCodeRept25">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 26" Id="26">
+                <Parameter Id="126" IdName="irCodeName26">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="127" IdName="irCodeType26">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="128" IdName="irCodeData26">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="129" IdName="irCodeBits26">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="130" IdName="irCodeRept26">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 27" Id="27">
+                <Parameter Id="131" IdName="irCodeName27">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="132" IdName="irCodeType27">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="133" IdName="irCodeData27">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="134" IdName="irCodeBits27">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="135" IdName="irCodeRept27">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 28" Id="28">
+                <Parameter Id="136" IdName="irCodeName28">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="137" IdName="irCodeType28">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="138" IdName="irCodeData28">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="139" IdName="irCodeBits28">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="140" IdName="irCodeRept28">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 29" Id="29">
+                <Parameter Id="141" IdName="irCodeName29">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="142" IdName="irCodeType29">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="143" IdName="irCodeData29">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="144" IdName="irCodeBits29">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="145" IdName="irCodeRept29">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 30" Id="30">
+                <Parameter Id="146" IdName="irCodeName30">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="147" IdName="irCodeType30">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="148" IdName="irCodeData30">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="149" IdName="irCodeBits30">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="150" IdName="irCodeRept30">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 31" Id="31">
+                <Parameter Id="151" IdName="irCodeName31">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="152" IdName="irCodeType31">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="153" IdName="irCodeData31">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="154" IdName="irCodeBits31">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="155" IdName="irCodeRept31">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 32" Id="32">
+                <Parameter Id="156" IdName="irCodeName32">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="157" IdName="irCodeType32">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="158" IdName="irCodeData32">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="159" IdName="irCodeBits32">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="160" IdName="irCodeRept32">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 33" Id="33">
+                <Parameter Id="161" IdName="irCodeName33">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="162" IdName="irCodeType33">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="163" IdName="irCodeData33">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="164" IdName="irCodeBits33">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="165" IdName="irCodeRept33">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 34" Id="34">
+                <Parameter Id="166" IdName="irCodeName34">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="167" IdName="irCodeType34">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="168" IdName="irCodeData34">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="169" IdName="irCodeBits34">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="170" IdName="irCodeRept34">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 35" Id="35">
+                <Parameter Id="171" IdName="irCodeName35">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="172" IdName="irCodeType35">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="173" IdName="irCodeData35">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="174" IdName="irCodeBits35">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="175" IdName="irCodeRept35">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 36" Id="36">
+                <Parameter Id="176" IdName="irCodeName36">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="177" IdName="irCodeType36">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="178" IdName="irCodeData36">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="179" IdName="irCodeBits36">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="180" IdName="irCodeRept36">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 37" Id="37">
+                <Parameter Id="181" IdName="irCodeName37">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="182" IdName="irCodeType37">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="183" IdName="irCodeData37">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="184" IdName="irCodeBits37">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="185" IdName="irCodeRept37">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 38" Id="38">
+                <Parameter Id="186" IdName="irCodeName38">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="187" IdName="irCodeType38">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="188" IdName="irCodeData38">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="189" IdName="irCodeBits38">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="190" IdName="irCodeRept38">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 39" Id="39">
+                <Parameter Id="191" IdName="irCodeName39">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="192" IdName="irCodeType39">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="193" IdName="irCodeData39">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="194" IdName="irCodeBits39">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="195" IdName="irCodeRept39">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="IR Code 40" Id="40">
+                <Parameter Id="196" IdName="irCodeName40">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20566F6C205570" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="197" IdName="irCodeType40">
+                    <Description>Type</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=RC5|02=RC6|03=NEC|04=SONY|06=JVC|07=SAMSUNG|09=AIWA|0A=LG|0F=DENON" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="198" IdName="irCodeData40">
+                    <Description>Code data (HEX)</Description>
+                    <Value Type="raw4" Default="FFFFFFFF" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="199" IdName="irCodeBits40">
+                    <Description>Bits (0..32)</Description>
+                    <Value Type="uint8" Default="20" Options="" Min="00" Max="20"/>
+                </Parameter>
+                <Parameter Id="200" IdName="irCodeRept40">
+                    <Description>Repeats</Description>
+                    <Value Type="uint8" Default="01" Options="01=1x|02=2x|03=3x" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Script 1" Id="41">
+                <Parameter Id="201" IdName="irScriptName__1">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20616C6C206F6E" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="202" IdName="irScriptCode1_1">
+                    <Description>IR Code 1</Description>
+                    <Value Type="uint8" Default="00" Options="00=Script inactive|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="203" IdName="irScriptDlay1_1">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="204" IdName="irScriptCode1_2">
+                    <Description>IR Code 2</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="205" IdName="irScriptDlay1_2">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="206" IdName="irScriptCode1_3">
+                    <Description>IR Code 3</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="207" IdName="irScriptDlay1_3">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="208" IdName="irScriptCode1_4">
+                    <Description>IR Code 4</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="209" IdName="irScriptDlay1_4">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="210" IdName="irScriptCode1_5">
+                    <Description>IR Code 5</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Script 2" Id="42">
+                <Parameter Id="211" IdName="irScriptName__2">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20616C6C206F6E" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="212" IdName="irScriptCode2_1">
+                    <Description>IR Code 1</Description>
+                    <Value Type="uint8" Default="00" Options="00=Script inactive|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="213" IdName="irScriptDlay2_1">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="214" IdName="irScriptCode2_2">
+                    <Description>IR Code 2</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="215" IdName="irScriptDlay2_2">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="216" IdName="irScriptCode2_3">
+                    <Description>IR Code 3</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="217" IdName="irScriptDlay2_3">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="218" IdName="irScriptCode2_4">
+                    <Description>IR Code 4</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="219" IdName="irScriptDlay2_4">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="220" IdName="irScriptCode2_5">
+                    <Description>IR Code 5</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Script 3" Id="43">
+                <Parameter Id="221" IdName="irScriptName__3">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20616C6C206F6E" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="222" IdName="irScriptCode3_1">
+                    <Description>IR Code 1</Description>
+                    <Value Type="uint8" Default="00" Options="00=Script inactive|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="223" IdName="irScriptDlay3_1">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="224" IdName="irScriptCode3_2">
+                    <Description>IR Code 2</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="225" IdName="irScriptDlay3_2">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="226" IdName="irScriptCode3_3">
+                    <Description>IR Code 3</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="227" IdName="irScriptDlay3_3">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="228" IdName="irScriptCode3_4">
+                    <Description>IR Code 4</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="229" IdName="irScriptDlay3_4">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="230" IdName="irScriptCode3_5">
+                    <Description>IR Code 5</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Script 4" Id="44">
+                <Parameter Id="231" IdName="irScriptName__4">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20616C6C206F6E" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="232" IdName="irScriptCode4_1">
+                    <Description>IR Code 1</Description>
+                    <Value Type="uint8" Default="00" Options="00=Script inactive|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="233" IdName="irScriptDlay4_1">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="234" IdName="irScriptCode4_2">
+                    <Description>IR Code 2</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="235" IdName="irScriptDlay4_2">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="236" IdName="irScriptCode4_3">
+                    <Description>IR Code 3</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="237" IdName="irScriptDlay4_3">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="238" IdName="irScriptCode4_4">
+                    <Description>IR Code 4</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="239" IdName="irScriptDlay4_4">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="240" IdName="irScriptCode4_5">
+                    <Description>IR Code 5</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+            <ParameterGroup Name="Script 5" Id="45">
+                <Parameter Id="241" IdName="irScriptName__5">
+                    <Description>Name (optional, max 11 character)</Description>
+                    <Value Type="string11" Default="652E672E20616C6C206F6E" Options="" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="242" IdName="irScriptCode5_1">
+                    <Description>IR Code 1</Description>
+                    <Value Type="uint8" Default="00" Options="00=Script inactive|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="243" IdName="irScriptDlay5_1">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="244" IdName="irScriptCode5_2">
+                    <Description>IR Code 2</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="245" IdName="irScriptDlay5_2">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="246" IdName="irScriptCode5_3">
+                    <Description>IR Code 3</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="247" IdName="irScriptDlay5_3">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="248" IdName="irScriptCode5_4">
+                    <Description>IR Code 4</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="249" IdName="irScriptDlay5_4">
+                    <Description>Delay [0..65535ms]</Description>
+                    <Value Type="uint16" Default="012C" Options="" Min="0000" Max="FFFF"/>
+                </Parameter>
+                <Parameter Id="250" IdName="irScriptCode5_5">
+                    <Description>IR Code 5</Description>
+                    <Value Type="uint8" Default="00" Options="00=Unused|01=IR Code 1|02=IR Code 2|03=IR Code 3|04=IR Code 4|05=IR Code 5|06=IR Code 6|07=IR Code 7|08=IR Code 8|09=IR Code 9|0A=IR Code 10|0B=IR Code 11|0C=IR Code 12|0D=IR Code 13|0E=IR Code 14|0F=IR Code 15|10=IR Code 16|11=IR Code 17|12=IR Code 18|13=IR Code 19|14=IR Code 20|15=IR Code 21|16=IR Code 22|17=IR Code 23|18=IR Code 24|19=IR Code 25|1A=IR Code 26|1B=IR Code 27|1C=IR Code 28|1D=IR Code 29|1E=IR Code 30|1F=IR Code 31|20=IR Code 32|21=IR Code 33|22=IR Code 34|23=IR Code 35|24=IR Code 36|25=IR Code 37|26=IR Code 38|27=IR Code 39|28=IR Code 40|29=IR Code 41|2A=IR Code 42|2B=IR Code 43|2C=IR Code 44|2D=IR Code 45|2E=IR Code 46|2F=IR Code 47|30=IR Code 48|31=IR Code 49|32=IR Code 50" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>
+        </Parameters>
+        <CommObjects>
+            <CommObject Id="0" IdName="sendIr">
+                <Name>IRCode</Name>
+                <Function>Number</Function>
+                <DataPointType>17.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+        </CommObjects>
+		<Dependencies>
+            <ParameterDependency ParamId="1" Test="ne" TestParamId="2" TestValue="00"/>
+			<ParameterDependency ParamId="3" Test="ne" TestParamId="2" TestValue="00"/>
+			<ParameterDependency ParamId="4" Test="ne" TestParamId="2" TestValue="00"/>
+			<ParameterDependency ParamId="5" Test="ne" TestParamId="2" TestValue="00"/>
+			<ParameterDependency ParamId="6" Test="ne" TestParamId="7" TestValue="00"/>
+			<ParameterDependency ParamId="8" Test="ne" TestParamId="7" TestValue="00"/>
+			<ParameterDependency ParamId="9" Test="ne" TestParamId="7" TestValue="00"/>
+			<ParameterDependency ParamId="10" Test="ne" TestParamId="7" TestValue="00"/>
+			<ParameterDependency ParamId="11" Test="ne" TestParamId="12" TestValue="00"/>
+			<ParameterDependency ParamId="13" Test="ne" TestParamId="12" TestValue="00"/>
+			<ParameterDependency ParamId="14" Test="ne" TestParamId="12" TestValue="00"/>
+			<ParameterDependency ParamId="15" Test="ne" TestParamId="12" TestValue="00"/>
+			<ParameterDependency ParamId="16" Test="ne" TestParamId="17" TestValue="00"/>
+			<ParameterDependency ParamId="18" Test="ne" TestParamId="17" TestValue="00"/>
+			<ParameterDependency ParamId="19" Test="ne" TestParamId="17" TestValue="00"/>
+			<ParameterDependency ParamId="20" Test="ne" TestParamId="17" TestValue="00"/>
+			<ParameterDependency ParamId="21" Test="ne" TestParamId="22" TestValue="00"/>
+			<ParameterDependency ParamId="23" Test="ne" TestParamId="22" TestValue="00"/>
+			<ParameterDependency ParamId="24" Test="ne" TestParamId="22" TestValue="00"/>
+			<ParameterDependency ParamId="25" Test="ne" TestParamId="22" TestValue="00"/>
+			<ParameterDependency ParamId="26" Test="ne" TestParamId="27" TestValue="00"/>
+			<ParameterDependency ParamId="28" Test="ne" TestParamId="27" TestValue="00"/>
+			<ParameterDependency ParamId="29" Test="ne" TestParamId="27" TestValue="00"/>
+			<ParameterDependency ParamId="30" Test="ne" TestParamId="27" TestValue="00"/>
+			<ParameterDependency ParamId="31" Test="ne" TestParamId="32" TestValue="00"/>
+			<ParameterDependency ParamId="33" Test="ne" TestParamId="32" TestValue="00"/>
+			<ParameterDependency ParamId="34" Test="ne" TestParamId="32" TestValue="00"/>
+			<ParameterDependency ParamId="35" Test="ne" TestParamId="32" TestValue="00"/>
+			<ParameterDependency ParamId="36" Test="ne" TestParamId="37" TestValue="00"/>
+			<ParameterDependency ParamId="38" Test="ne" TestParamId="37" TestValue="00"/>
+			<ParameterDependency ParamId="39" Test="ne" TestParamId="37" TestValue="00"/>
+			<ParameterDependency ParamId="40" Test="ne" TestParamId="37" TestValue="00"/>
+			<ParameterDependency ParamId="41" Test="ne" TestParamId="42" TestValue="00"/>
+			<ParameterDependency ParamId="43" Test="ne" TestParamId="42" TestValue="00"/>
+			<ParameterDependency ParamId="44" Test="ne" TestParamId="42" TestValue="00"/>
+			<ParameterDependency ParamId="45" Test="ne" TestParamId="42" TestValue="00"/>
+			<ParameterDependency ParamId="46" Test="ne" TestParamId="47" TestValue="00"/>
+			<ParameterDependency ParamId="48" Test="ne" TestParamId="47" TestValue="00"/>
+			<ParameterDependency ParamId="49" Test="ne" TestParamId="47" TestValue="00"/>
+			<ParameterDependency ParamId="50" Test="ne" TestParamId="47" TestValue="00"/>
+			<ParameterDependency ParamId="51" Test="ne" TestParamId="52" TestValue="00"/>
+			<ParameterDependency ParamId="53" Test="ne" TestParamId="52" TestValue="00"/>
+			<ParameterDependency ParamId="54" Test="ne" TestParamId="52" TestValue="00"/>
+			<ParameterDependency ParamId="55" Test="ne" TestParamId="52" TestValue="00"/>
+			<ParameterDependency ParamId="56" Test="ne" TestParamId="57" TestValue="00"/>
+			<ParameterDependency ParamId="58" Test="ne" TestParamId="57" TestValue="00"/>
+			<ParameterDependency ParamId="59" Test="ne" TestParamId="57" TestValue="00"/>
+			<ParameterDependency ParamId="60" Test="ne" TestParamId="57" TestValue="00"/>
+			<ParameterDependency ParamId="61" Test="ne" TestParamId="62" TestValue="00"/>
+			<ParameterDependency ParamId="63" Test="ne" TestParamId="62" TestValue="00"/>
+			<ParameterDependency ParamId="64" Test="ne" TestParamId="62" TestValue="00"/>
+			<ParameterDependency ParamId="65" Test="ne" TestParamId="62" TestValue="00"/>
+			<ParameterDependency ParamId="66" Test="ne" TestParamId="67" TestValue="00"/>
+			<ParameterDependency ParamId="68" Test="ne" TestParamId="67" TestValue="00"/>
+			<ParameterDependency ParamId="69" Test="ne" TestParamId="67" TestValue="00"/>
+			<ParameterDependency ParamId="70" Test="ne" TestParamId="67" TestValue="00"/>
+			<ParameterDependency ParamId="71" Test="ne" TestParamId="72" TestValue="00"/>
+			<ParameterDependency ParamId="73" Test="ne" TestParamId="72" TestValue="00"/>
+			<ParameterDependency ParamId="74" Test="ne" TestParamId="72" TestValue="00"/>
+			<ParameterDependency ParamId="75" Test="ne" TestParamId="72" TestValue="00"/>
+			<ParameterDependency ParamId="76" Test="ne" TestParamId="77" TestValue="00"/>
+			<ParameterDependency ParamId="78" Test="ne" TestParamId="77" TestValue="00"/>
+			<ParameterDependency ParamId="79" Test="ne" TestParamId="77" TestValue="00"/>
+			<ParameterDependency ParamId="80" Test="ne" TestParamId="77" TestValue="00"/>
+			<ParameterDependency ParamId="81" Test="ne" TestParamId="82" TestValue="00"/>
+			<ParameterDependency ParamId="83" Test="ne" TestParamId="82" TestValue="00"/>
+			<ParameterDependency ParamId="84" Test="ne" TestParamId="82" TestValue="00"/>
+			<ParameterDependency ParamId="85" Test="ne" TestParamId="82" TestValue="00"/>
+			<ParameterDependency ParamId="86" Test="ne" TestParamId="87" TestValue="00"/>
+			<ParameterDependency ParamId="88" Test="ne" TestParamId="87" TestValue="00"/>
+			<ParameterDependency ParamId="89" Test="ne" TestParamId="87" TestValue="00"/>
+			<ParameterDependency ParamId="90" Test="ne" TestParamId="87" TestValue="00"/>
+			<ParameterDependency ParamId="91" Test="ne" TestParamId="92" TestValue="00"/>
+			<ParameterDependency ParamId="93" Test="ne" TestParamId="92" TestValue="00"/>
+			<ParameterDependency ParamId="94" Test="ne" TestParamId="92" TestValue="00"/>
+			<ParameterDependency ParamId="95" Test="ne" TestParamId="92" TestValue="00"/>
+			<ParameterDependency ParamId="96" Test="ne" TestParamId="97" TestValue="00"/>
+			<ParameterDependency ParamId="98" Test="ne" TestParamId="97" TestValue="00"/>
+			<ParameterDependency ParamId="99" Test="ne" TestParamId="97" TestValue="00"/>
+			<ParameterDependency ParamId="100" Test="ne" TestParamId="97" TestValue="00"/>
+			<ParameterDependency ParamId="101" Test="ne" TestParamId="102" TestValue="00"/>
+			<ParameterDependency ParamId="103" Test="ne" TestParamId="102" TestValue="00"/>
+			<ParameterDependency ParamId="104" Test="ne" TestParamId="102" TestValue="00"/>
+			<ParameterDependency ParamId="105" Test="ne" TestParamId="102" TestValue="00"/>
+			<ParameterDependency ParamId="106" Test="ne" TestParamId="107" TestValue="00"/>
+			<ParameterDependency ParamId="108" Test="ne" TestParamId="107" TestValue="00"/>
+			<ParameterDependency ParamId="109" Test="ne" TestParamId="107" TestValue="00"/>
+			<ParameterDependency ParamId="110" Test="ne" TestParamId="107" TestValue="00"/>
+			<ParameterDependency ParamId="111" Test="ne" TestParamId="112" TestValue="00"/>
+			<ParameterDependency ParamId="113" Test="ne" TestParamId="112" TestValue="00"/>
+			<ParameterDependency ParamId="114" Test="ne" TestParamId="112" TestValue="00"/>
+			<ParameterDependency ParamId="115" Test="ne" TestParamId="112" TestValue="00"/>
+			<ParameterDependency ParamId="116" Test="ne" TestParamId="117" TestValue="00"/>
+			<ParameterDependency ParamId="118" Test="ne" TestParamId="117" TestValue="00"/>
+			<ParameterDependency ParamId="119" Test="ne" TestParamId="117" TestValue="00"/>
+			<ParameterDependency ParamId="120" Test="ne" TestParamId="117" TestValue="00"/>
+			<ParameterDependency ParamId="121" Test="ne" TestParamId="122" TestValue="00"/>
+			<ParameterDependency ParamId="123" Test="ne" TestParamId="122" TestValue="00"/>
+			<ParameterDependency ParamId="124" Test="ne" TestParamId="122" TestValue="00"/>
+			<ParameterDependency ParamId="125" Test="ne" TestParamId="122" TestValue="00"/>
+			<ParameterDependency ParamId="126" Test="ne" TestParamId="127" TestValue="00"/>
+			<ParameterDependency ParamId="128" Test="ne" TestParamId="127" TestValue="00"/>
+			<ParameterDependency ParamId="129" Test="ne" TestParamId="127" TestValue="00"/>
+			<ParameterDependency ParamId="130" Test="ne" TestParamId="127" TestValue="00"/>
+			<ParameterDependency ParamId="131" Test="ne" TestParamId="132" TestValue="00"/>
+			<ParameterDependency ParamId="133" Test="ne" TestParamId="132" TestValue="00"/>
+			<ParameterDependency ParamId="134" Test="ne" TestParamId="132" TestValue="00"/>
+			<ParameterDependency ParamId="135" Test="ne" TestParamId="132" TestValue="00"/>
+			<ParameterDependency ParamId="136" Test="ne" TestParamId="137" TestValue="00"/>
+			<ParameterDependency ParamId="138" Test="ne" TestParamId="137" TestValue="00"/>
+			<ParameterDependency ParamId="139" Test="ne" TestParamId="137" TestValue="00"/>
+			<ParameterDependency ParamId="140" Test="ne" TestParamId="137" TestValue="00"/>
+			<ParameterDependency ParamId="141" Test="ne" TestParamId="142" TestValue="00"/>
+			<ParameterDependency ParamId="143" Test="ne" TestParamId="142" TestValue="00"/>
+			<ParameterDependency ParamId="144" Test="ne" TestParamId="142" TestValue="00"/>
+			<ParameterDependency ParamId="145" Test="ne" TestParamId="142" TestValue="00"/>
+			<ParameterDependency ParamId="146" Test="ne" TestParamId="147" TestValue="00"/>
+			<ParameterDependency ParamId="148" Test="ne" TestParamId="147" TestValue="00"/>
+			<ParameterDependency ParamId="149" Test="ne" TestParamId="147" TestValue="00"/>
+			<ParameterDependency ParamId="150" Test="ne" TestParamId="147" TestValue="00"/>
+			<ParameterDependency ParamId="151" Test="ne" TestParamId="152" TestValue="00"/>
+			<ParameterDependency ParamId="153" Test="ne" TestParamId="152" TestValue="00"/>
+			<ParameterDependency ParamId="154" Test="ne" TestParamId="152" TestValue="00"/>
+			<ParameterDependency ParamId="155" Test="ne" TestParamId="152" TestValue="00"/>
+			<ParameterDependency ParamId="156" Test="ne" TestParamId="157" TestValue="00"/>
+			<ParameterDependency ParamId="158" Test="ne" TestParamId="157" TestValue="00"/>
+			<ParameterDependency ParamId="159" Test="ne" TestParamId="157" TestValue="00"/>
+			<ParameterDependency ParamId="160" Test="ne" TestParamId="157" TestValue="00"/>
+			<ParameterDependency ParamId="161" Test="ne" TestParamId="162" TestValue="00"/>
+			<ParameterDependency ParamId="163" Test="ne" TestParamId="162" TestValue="00"/>
+			<ParameterDependency ParamId="164" Test="ne" TestParamId="162" TestValue="00"/>
+			<ParameterDependency ParamId="165" Test="ne" TestParamId="162" TestValue="00"/>
+			<ParameterDependency ParamId="166" Test="ne" TestParamId="167" TestValue="00"/>
+			<ParameterDependency ParamId="168" Test="ne" TestParamId="167" TestValue="00"/>
+			<ParameterDependency ParamId="169" Test="ne" TestParamId="167" TestValue="00"/>
+			<ParameterDependency ParamId="170" Test="ne" TestParamId="167" TestValue="00"/>
+			<ParameterDependency ParamId="171" Test="ne" TestParamId="172" TestValue="00"/>
+			<ParameterDependency ParamId="173" Test="ne" TestParamId="172" TestValue="00"/>
+			<ParameterDependency ParamId="174" Test="ne" TestParamId="172" TestValue="00"/>
+			<ParameterDependency ParamId="175" Test="ne" TestParamId="172" TestValue="00"/>
+			<ParameterDependency ParamId="176" Test="ne" TestParamId="177" TestValue="00"/>
+			<ParameterDependency ParamId="178" Test="ne" TestParamId="177" TestValue="00"/>
+			<ParameterDependency ParamId="179" Test="ne" TestParamId="177" TestValue="00"/>
+			<ParameterDependency ParamId="180" Test="ne" TestParamId="177" TestValue="00"/>
+			<ParameterDependency ParamId="181" Test="ne" TestParamId="182" TestValue="00"/>
+			<ParameterDependency ParamId="183" Test="ne" TestParamId="182" TestValue="00"/>
+			<ParameterDependency ParamId="184" Test="ne" TestParamId="182" TestValue="00"/>
+			<ParameterDependency ParamId="185" Test="ne" TestParamId="182" TestValue="00"/>
+			<ParameterDependency ParamId="186" Test="ne" TestParamId="187" TestValue="00"/>
+			<ParameterDependency ParamId="188" Test="ne" TestParamId="187" TestValue="00"/>
+			<ParameterDependency ParamId="189" Test="ne" TestParamId="187" TestValue="00"/>
+			<ParameterDependency ParamId="190" Test="ne" TestParamId="187" TestValue="00"/>
+			<ParameterDependency ParamId="191" Test="ne" TestParamId="192" TestValue="00"/>
+			<ParameterDependency ParamId="193" Test="ne" TestParamId="192" TestValue="00"/>
+			<ParameterDependency ParamId="194" Test="ne" TestParamId="192" TestValue="00"/>
+			<ParameterDependency ParamId="195" Test="ne" TestParamId="192" TestValue="00"/>
+			<ParameterDependency ParamId="196" Test="ne" TestParamId="197" TestValue="00"/>
+			<ParameterDependency ParamId="198" Test="ne" TestParamId="197" TestValue="00"/>
+			<ParameterDependency ParamId="199" Test="ne" TestParamId="197" TestValue="00"/>
+			<ParameterDependency ParamId="200" Test="ne" TestParamId="197" TestValue="00"/>
+			
+			<ParameterDependency ParamId="209" Test="ne" TestParamId="208" TestValue="00"/>
+			<ParameterDependency ParamId="210" Test="ne" TestParamId="208" TestValue="00"/>
+			<ParameterDependency ParamId="207" Test="ne" TestParamId="206" TestValue="00"/>
+			<ParameterDependency ParamId="208" Test="ne" TestParamId="206" TestValue="00"/>
+			<ParameterDependency ParamId="209" Test="ne" TestParamId="206" TestValue="00"/>
+			<ParameterDependency ParamId="210" Test="ne" TestParamId="206" TestValue="00"/>
+			<ParameterDependency ParamId="205" Test="ne" TestParamId="204" TestValue="00"/>
+			<ParameterDependency ParamId="206" Test="ne" TestParamId="204" TestValue="00"/>
+			<ParameterDependency ParamId="207" Test="ne" TestParamId="204" TestValue="00"/>
+			<ParameterDependency ParamId="208" Test="ne" TestParamId="204" TestValue="00"/>
+			<ParameterDependency ParamId="209" Test="ne" TestParamId="204" TestValue="00"/>
+			<ParameterDependency ParamId="210" Test="ne" TestParamId="204" TestValue="00"/>
+			<ParameterDependency ParamId="201" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="203" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="204" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="205" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="206" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="207" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="208" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="209" Test="ne" TestParamId="202" TestValue="00"/>
+			<ParameterDependency ParamId="210" Test="ne" TestParamId="202" TestValue="00"/>
+			
+			<ParameterDependency ParamId="219" Test="ne" TestParamId="218" TestValue="00"/>
+			<ParameterDependency ParamId="220" Test="ne" TestParamId="218" TestValue="00"/>
+			<ParameterDependency ParamId="217" Test="ne" TestParamId="216" TestValue="00"/>
+			<ParameterDependency ParamId="218" Test="ne" TestParamId="216" TestValue="00"/>
+			<ParameterDependency ParamId="219" Test="ne" TestParamId="216" TestValue="00"/>
+			<ParameterDependency ParamId="220" Test="ne" TestParamId="216" TestValue="00"/>
+			<ParameterDependency ParamId="215" Test="ne" TestParamId="214" TestValue="00"/>
+			<ParameterDependency ParamId="216" Test="ne" TestParamId="214" TestValue="00"/>
+			<ParameterDependency ParamId="217" Test="ne" TestParamId="214" TestValue="00"/>
+			<ParameterDependency ParamId="218" Test="ne" TestParamId="214" TestValue="00"/>
+			<ParameterDependency ParamId="219" Test="ne" TestParamId="214" TestValue="00"/>
+			<ParameterDependency ParamId="220" Test="ne" TestParamId="214" TestValue="00"/>
+			<ParameterDependency ParamId="211" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="213" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="214" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="215" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="216" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="217" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="218" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="219" Test="ne" TestParamId="212" TestValue="00"/>
+			<ParameterDependency ParamId="220" Test="ne" TestParamId="212" TestValue="00"/>
+			
+			<ParameterDependency ParamId="229" Test="ne" TestParamId="228" TestValue="00"/>
+			<ParameterDependency ParamId="230" Test="ne" TestParamId="228" TestValue="00"/>
+			<ParameterDependency ParamId="227" Test="ne" TestParamId="226" TestValue="00"/>
+			<ParameterDependency ParamId="228" Test="ne" TestParamId="226" TestValue="00"/>
+			<ParameterDependency ParamId="229" Test="ne" TestParamId="226" TestValue="00"/>
+			<ParameterDependency ParamId="230" Test="ne" TestParamId="226" TestValue="00"/>
+			<ParameterDependency ParamId="225" Test="ne" TestParamId="224" TestValue="00"/>
+			<ParameterDependency ParamId="226" Test="ne" TestParamId="224" TestValue="00"/>
+			<ParameterDependency ParamId="227" Test="ne" TestParamId="224" TestValue="00"/>
+			<ParameterDependency ParamId="228" Test="ne" TestParamId="224" TestValue="00"/>
+			<ParameterDependency ParamId="229" Test="ne" TestParamId="224" TestValue="00"/>
+			<ParameterDependency ParamId="230" Test="ne" TestParamId="224" TestValue="00"/>
+			<ParameterDependency ParamId="221" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="223" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="224" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="225" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="226" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="227" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="228" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="229" Test="ne" TestParamId="222" TestValue="00"/>
+			<ParameterDependency ParamId="230" Test="ne" TestParamId="222" TestValue="00"/>
+			
+			<ParameterDependency ParamId="239" Test="ne" TestParamId="238" TestValue="00"/>
+			<ParameterDependency ParamId="240" Test="ne" TestParamId="238" TestValue="00"/>
+			<ParameterDependency ParamId="237" Test="ne" TestParamId="236" TestValue="00"/>
+			<ParameterDependency ParamId="238" Test="ne" TestParamId="236" TestValue="00"/>
+			<ParameterDependency ParamId="239" Test="ne" TestParamId="236" TestValue="00"/>
+			<ParameterDependency ParamId="240" Test="ne" TestParamId="236" TestValue="00"/>
+			<ParameterDependency ParamId="235" Test="ne" TestParamId="234" TestValue="00"/>
+			<ParameterDependency ParamId="236" Test="ne" TestParamId="234" TestValue="00"/>
+			<ParameterDependency ParamId="237" Test="ne" TestParamId="234" TestValue="00"/>
+			<ParameterDependency ParamId="238" Test="ne" TestParamId="234" TestValue="00"/>
+			<ParameterDependency ParamId="239" Test="ne" TestParamId="234" TestValue="00"/>
+			<ParameterDependency ParamId="240" Test="ne" TestParamId="234" TestValue="00"/>
+			<ParameterDependency ParamId="231" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="233" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="234" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="235" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="236" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="237" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="238" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="239" Test="ne" TestParamId="232" TestValue="00"/>
+			<ParameterDependency ParamId="240" Test="ne" TestParamId="232" TestValue="00"/>
+			
+			<ParameterDependency ParamId="249" Test="ne" TestParamId="248" TestValue="00"/>
+			<ParameterDependency ParamId="250" Test="ne" TestParamId="248" TestValue="00"/>
+			<ParameterDependency ParamId="247" Test="ne" TestParamId="246" TestValue="00"/>
+			<ParameterDependency ParamId="248" Test="ne" TestParamId="246" TestValue="00"/>
+			<ParameterDependency ParamId="249" Test="ne" TestParamId="246" TestValue="00"/>
+			<ParameterDependency ParamId="250" Test="ne" TestParamId="246" TestValue="00"/>
+			<ParameterDependency ParamId="245" Test="ne" TestParamId="244" TestValue="00"/>
+			<ParameterDependency ParamId="246" Test="ne" TestParamId="244" TestValue="00"/>
+			<ParameterDependency ParamId="247" Test="ne" TestParamId="244" TestValue="00"/>
+			<ParameterDependency ParamId="248" Test="ne" TestParamId="244" TestValue="00"/>
+			<ParameterDependency ParamId="249" Test="ne" TestParamId="244" TestValue="00"/>
+			<ParameterDependency ParamId="250" Test="ne" TestParamId="244" TestValue="00"/>
+			<ParameterDependency ParamId="241" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="243" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="244" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="245" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="246" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="247" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="248" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="249" Test="ne" TestParamId="242" TestValue="00"/>
+			<ParameterDependency ParamId="250" Test="ne" TestParamId="242" TestValue="00"/>
+			
+		</Dependencies>
+    </Device>
+</KonnektingDevice>
