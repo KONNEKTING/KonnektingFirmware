@@ -1,0 +1,5 @@
+// constands used in sketch
+#define OPTION_SETTINGS_UNUSED 0
+#define OPTION_SETTINGS_WINDOW 1
+#define OPTION_SETTINGS_SHUTTER 2
+#define OPTION_SETTINGS_SAMEAS 3
