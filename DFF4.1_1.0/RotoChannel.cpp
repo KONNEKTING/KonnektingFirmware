@@ -46,14 +46,6 @@ RotoChannel::~RotoChannel() {
     // TODO Auto-generated destructor stub
 }
 
-void RotoChannel::setConfig(ChannelConfig config) {
-    _config = config;
-    _enabled = true;
-
-    _openStep = (100.0 / (_config.runTimeOpen * SECOND)) / 100.0;
-    _closeStep = (100.0 / (_config.runTimeClose * SECOND)) / 100.0;
-
-}
 
 ChannelConfig RotoChannel::getConfig() {
     return _config;
@@ -106,8 +98,20 @@ void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
             break;
     }
 
-    Debug.println(F("open Step=%i"), _openStep);
-    Debug.println(F("close Step=%i"), _closeStep);
+}
+
+void RotoChannel::setConfig(ChannelConfig config) {
+    _config = config;
+    _enabled = true;
+    
+    Debug.println(F("_config.runTimeOpen=%i _config.runTimeClose=%i"),_config.runTimeOpen, _config.runTimeClose);
+
+    _openStep = (100.0 / (_config.runTimeOpen * SECOND)) / 100.0;
+    _closeStep = (100.0 / (_config.runTimeClose * SECOND)) / 100.0;
+    
+    Debug.println(F("open Step=%3.9f%%/ms"),_openStep);
+    Debug.println(F("close Step=%3.9f%%/ms"),_closeStep);
+
 }
 
 void RotoChannel::work() {
@@ -154,7 +158,7 @@ void RotoChannel::work() {
 
             // ... and finalize init
             _initDone = true;
-            Debug.println(F("Init of group %i *done*. Pos=%i"), _group, _position);
+            Debug.println(F("Init of group %i *done*. Pos=%3.9f"), _group, _position);
 
         }
 
@@ -364,33 +368,33 @@ void RotoChannel::updateStatus() {
         float delta = (float) duration * _openStep;
 
         _newPosition = _position + delta;
-        Debug.println(F("duration: %i"), duration);
+        Debug.println(F("O: duration: %i"), duration);
+        Debug.println(F("O: position: %3.9f"), _position);
+        Debug.println(F("O: delta: %3.9f"), delta);
 
-        Debug.println(F("delta: %i"), delta);
-
-        Debug.println(F("new position: %i"), _newPosition);
+        Debug.println(F("O: new position: %3.9f"), _newPosition);
 
         // limit to 1
-        if (_newPosition > 1) {
-            _newPosition = 1;
+        if (_newPosition > 1.0) {
+            _newPosition = 1.0;
         }
 
-        unsigned long allowedTime = _position * _config.runTimeOpen;
-        Debug.println(F("allowed time open: %i"), allowedTime);
+        unsigned long allowedTime = (1.0-_position) * (_config.runTimeOpen*SECOND);
+        Debug.println(F("O: allowed time open: %i"), allowedTime);
 
 
 
         // if open move time exceeds "open time", force position to "completely open"
         //    if (duration > _openTime * SECOND) {
         if (duration > allowedTime) {
-            _newPosition = 1;
-            Debug.println(F("Time limit for OPEN reached on group %i"), _group);
+            _newPosition = 1.0;
+            Debug.println(F("O: Time limit for OPEN reached on group %i"), _group);
         }
 
-        if (_newPosition == 1) {
+        if (_newPosition == 1.0) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
-            Debug.println(F("Group %i  is now OPENED"), _group);
+            Debug.println(F("O: Group %i  is now OPENED"), _group);
         } else {
             _status = CS_OPEN;
         }
@@ -404,31 +408,31 @@ void RotoChannel::updateStatus() {
         float delta = (float) duration * _closeStep;
 
         _newPosition = _position - delta;
-        Debug.println(F("duration: %i"), duration);
+        Debug.println(F("C: duration: %i"), duration);
+        Debug.println(F("C: position: %3.9f"), _position);
+        Debug.println(F("C: delta: %3.9f"), delta);
 
-        Debug.println(F("delta: %i"), delta);
-
-        Debug.println(F("new position: %i"), _newPosition);
+        Debug.println(F("C: new position: %3.9f"), _newPosition);
 
         // limit to 0
-        if (_newPosition < 0) {
-            _newPosition = 0;
+        if (_newPosition < 0.0) {
+            _newPosition = 0.0;
         }
 
-        unsigned long allowedTime = (1.0 - _position) * _config.runTimeClose;
-        Debug.println(F("allowed time close: %i"), allowedTime);
+        unsigned long allowedTime = (_position) * (_config.runTimeClose*SECOND);
+        Debug.println(F("C: allowed time close: %i"), allowedTime);
 
         // if open move time exceeds "open time", force position to "completely open"
         //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
-            _newPosition = 0;
-            Debug.println(F("Time limit for CLOSE reached on group %i"), _group);
+            _newPosition = 0.0;
+            Debug.println(F("C: Time limit for CLOSE reached on group %i"), _group);
         }
 
-        if (_position == 0) {
+        if (_newPosition == 0.0) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
-            Debug.println(F("Group %i is now CLOSED"), _group);
+            Debug.println(F("C: Group %i is now CLOSED"), _group);
         } else {
             _status = CS_OPEN;
         }
@@ -436,14 +440,14 @@ void RotoChannel::updateStatus() {
     }
 
 
-
+    // if we just stopped NOW ...
     if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
 
+        // apply position
         _position = _newPosition;
 
-        Debug.println(F("Group %i is finally on position "), _group);
+        Debug.println(F("Group %i is finally on position %3.9f"), _group, _position);
 
-        Debug.println(F("Position: %i"), _position);
     }
 
 

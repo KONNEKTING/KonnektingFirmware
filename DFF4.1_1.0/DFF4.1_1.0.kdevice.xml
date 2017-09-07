@@ -51,7 +51,7 @@
                 </Parameter>
                 <Parameter Id="10" IdName="channel_runTimeRollover">
                     <Description>Fahrzeitverlängerung</Description>
-                    <Value Type="uint8" Default="02" Options="02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
                 <Parameter Id="11" IdName="channel_shortTimeRun">
                     <Description>Kurzzeitbetrieb</Description>
@@ -101,7 +101,7 @@
                 </Parameter>
                 <Parameter Id="22">
                     <Description>Fahrzeitverlängerung</Description>
-                    <Value Type="uint8" Default="02" Options="02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
                 <Parameter Id="23">
                     <Description>Kurzzeitbetrieb</Description>
@@ -151,7 +151,7 @@
                 </Parameter>
                 <Parameter Id="34">
                     <Description>Fahrzeitverlängerung</Description>
-                    <Value Type="uint8" Default="02" Options="02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
                 <Parameter Id="35">
                     <Description>Kurzzeitbetrieb</Description>
@@ -201,7 +201,7 @@
                 </Parameter>
                 <Parameter Id="46">
                     <Description>Fahrzeitverlängerung</Description>
-                    <Value Type="uint8" Default="02" Options="02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
                 <Parameter Id="47">
                     <Description>Kurzzeitbetrieb</Description>
