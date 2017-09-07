@@ -33,6 +33,18 @@
  */
 #define SECOND 1000L
 
+
+
+/**
+ * The offset for comobj calculation.
+ * 
+ * f.i. group 0 has it's ComObj stating at index=8, then ComObjOffset is set to 8.
+ * Depending on the group and offset, the Channel can calculate it's ComObj indizes itself.
+ * So main-sketch just needs to forward all knxEvents to all channels and each channel filters out it's ComObj events.
+ */
+#define COM_OBJ_OFFSET 8
+#define COM_OBJ_PER_CHANNEL 17
+
 /**
  * Move status, like opening, closing, ..
  */
@@ -92,6 +104,7 @@ enum RotoAction {
 };
 
 typedef struct {
+    
     /**
      * Settings: Channel setting: 
      * 0 = unused
@@ -182,6 +195,8 @@ public:
     void doOpen();
     void doClose();
     void doStop();
+    
+    bool knxEvents(byte index);
 
 private:
     Adafruit_MCP23017 _mcp;
@@ -192,6 +207,7 @@ private:
      * enabled/disabled state of channel
      */
     bool _enabled;
+    
 
     int _group; // 0..3
 

@@ -8,6 +8,7 @@
 #include "RotoChannel.h"
 #include "Constants.h"
 #include "DebugUtil.h"
+#include "kdevice_DFF_4.1.h"
 
 RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPinClose, int resetPinClose) {
 
@@ -451,4 +452,31 @@ void RotoChannel::updateStatus() {
     }
 
 
+}
+
+bool RotoChannel::knxEvents(byte index) {
+    
+    int baseIndex = COM_OBJ_OFFSET + (_group * COM_OBJ_PER_CHANNEL);
+            
+    if (index<baseIndex || index>baseIndex+COM_OBJ_PER_CHANNEL) {
+        // nothing to do for this channel
+        return false;
+    }
+    
+    byte myIndex=index-baseIndex;
+    
+    switch(myIndex) {
+        case COMOBJ_abOpenClose-COM_OBJ_OFFSET:
+            // handle open close
+            break;
+        case COMOBJ_abShortStop-COM_OBJ_OFFSET:
+            // handle short-stop
+            break;
+        // ....
+        default:
+            Debug.println("ComObj %i(%i) is not yet implemented for channel with group %i", index, myIndex, _group);
+            // not implemented yet?!
+            return false;
+    }
+    return true;
 }

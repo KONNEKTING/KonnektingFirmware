@@ -59,6 +59,7 @@
 Adafruit_MCP23017 mcpRelay;
 Adafruit_MCP23017 mcpFrontend;
 Frontend8Btn8Led frontend;
+
 #define CHANNELS_COUNT 4
 RotoChannel channels[CHANNELS_COUNT] = {
     //          relay group number (to calc relays, LED + button)
@@ -303,7 +304,13 @@ void loop() {
 }
 
 // Callback function to handle com objects updates
-
 void knxEvents(byte index) {
-    // nothing to do for now
+    
+    for (int i = 0; i < CHANNELS_COUNT; i++) {
+        bool consumed = channels[i].knxEvents(index);
+        if (consumed) {
+            return;
+        }
+    }
+    
 };
