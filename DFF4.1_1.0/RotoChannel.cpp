@@ -422,7 +422,7 @@ void RotoChannel::updateStatus() {
         unsigned long allowedTime = (_position) * (_config.runTimeClose*SECOND);
         Debug.println(F("C: allowed time close: %i"), allowedTime);
 
-        // if open move time exceeds "open time", force position to "completely open"
+        // if open move time exceeds "open time", force position to "completely close"
         //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 0.0;
