@@ -290,10 +290,12 @@
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
+            
+            
             <CommObject Id="8" IdName="abOpenClose">
                 <Name>Kanal A+B</Name>
                 <Function>Auf/Zu</Function>
-                <DataPointType>1.007</DataPointType>
+                <DataPointType>1.009</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="9" IdName="abShortStop">
@@ -305,7 +307,7 @@
             <CommObject Id="10" IdName="abStop">
                 <Name>Kanal A+B</Name>
                 <Function>Stop</Function>
-                <DataPointType>1.007</DataPointType>
+                <DataPointType>1.010</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="11" IdName="abAbsPosition">
@@ -317,13 +319,13 @@
             <CommObject Id="12" IdName="abReference">
                 <Name>Kanal A+B</Name>
                 <Function>Referenzfahrt starten</Function>
-                <DataPointType>1.008</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="13" IdName="abFixPosition">
                 <Name>Kanal A+B</Name>
                 <Function>Position anfahren</Function>
-                <DataPointType>1.008</DataPointType>
+                <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="14" IdName="abVentilation">
@@ -344,12 +346,6 @@
                 <DataPointType>1.005</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-<!--            <CommObject Id="17" IdName="abFreezeAlarm">
-                <Name>Kanal A+B</Name>
-                <Function>Frostalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>-->
             <CommObject Id="17" IdName="abStatusCurrentDirection">
                 <Name>Kanal A+B</Name>
                 <Function>Status akt. Richtung</Function>
@@ -359,13 +355,13 @@
             <CommObject Id="18" IdName="abStatusMovement">
                 <Name>Kanal A+B</Name>
                 <Function>Verfahrstatus</Function>
-                <DataPointType>1.008</DataPointType>
+                <DataPointType>1.007</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="19" IdName="abStatusMovementOpen">
                 <Name>Kanal A+B</Name>
                 <Function>Verfahrstatus Auf</Function>
-                <DataPointType>1.008</DataPointType>
+                <DataPointType>1.009</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="20" IdName="abStatusMovementClose">
@@ -375,7 +371,7 @@
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="21" IdName="abStatusCurrentPos">
-                <Name>Kanal A1B</Name>
+                <Name>Kanal A+B</Name>
                 <Function>Status akt. Position</Function>
                 <DataPointType>5.001</DataPointType>
                 <Flags>42</Flags>
@@ -389,15 +385,16 @@
             <CommObject Id="23" IdName="abStatusOpenPos">
                 <Name>Kanal A+B</Name>
                 <Function>Status obere Position</Function>
-                <DataPointType>1.001</DataPointType>
+                <DataPointType>1.011</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             <CommObject Id="24" IdName="abStatusClosePos">
                 <Name>Kanal A+B</Name>
                 <Function>Status untere Position</Function>
-                <DataPointType>1.001</DataPointType>
+                <DataPointType>1.011</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
+            
             <CommObject Id="25">
                 <Name>Kanal C+D</Name>
                 <Function>Auf/Zu</Function>

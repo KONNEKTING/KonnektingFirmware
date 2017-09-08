@@ -33,6 +33,11 @@
  */
 #define SECOND 1000L
 
+/**
+ * 100% / 255(0xff) = 0,39% per 1(0x01)
+ */
+#define BYTE_PERCENT 0.392156863
+
 
 
 /**
@@ -42,8 +47,8 @@
  * Depending on the group and offset, the Channel can calculate it's ComObj indizes itself.
  * So main-sketch just needs to forward all knxEvents to all channels and each channel filters out it's ComObj events.
  */
-#define COM_OBJ_OFFSET 8
-#define COM_OBJ_PER_CHANNEL 17
+#define COMOBJ_OFFSET 8
+#define COMOBJ_PER_CHANNEL 17
 
 /**
  * Move status, like opening, closing, ..
@@ -289,7 +294,7 @@ private:
     float _position;
     float _newPosition;
 
-    boolean _isStopping;
+    bool _isStopping;
     
 
     void updateLEDs();

@@ -9,6 +9,7 @@
 #include "Constants.h"
 #include "DebugUtil.h"
 #include "kdevice_DFF_4.1.h"
+#include "KonnektingDevice.h"
 
 RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPinClose, int resetPinClose) {
 
@@ -46,7 +47,6 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
 RotoChannel::~RotoChannel() {
     // TODO Auto-generated destructor stub
 }
-
 
 ChannelConfig RotoChannel::getConfig() {
     return _config;
@@ -104,14 +104,14 @@ void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
 void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
-    
-    Debug.println(F("_config.runTimeOpen=%i _config.runTimeClose=%i"),_config.runTimeOpen, _config.runTimeClose);
+
+    Debug.println(F("_config.runTimeOpen=%i _config.runTimeClose=%i"), _config.runTimeOpen, _config.runTimeClose);
 
     _openStep = (100.0 / (_config.runTimeOpen * SECOND)) / 100.0;
     _closeStep = (100.0 / (_config.runTimeClose * SECOND)) / 100.0;
-    
-    Debug.println(F("open Step=%3.9f%%/ms"),_openStep);
-    Debug.println(F("close Step=%3.9f%%/ms"),_closeStep);
+
+    Debug.println(F("open Step=%3.9f%%/ms"), _openStep);
+    Debug.println(F("close Step=%3.9f%%/ms"), _closeStep);
 
 }
 
@@ -346,6 +346,8 @@ void RotoChannel::updateLEDs() {
 }
 
 void RotoChannel::updateStatus() {
+    
+//#define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -369,33 +371,39 @@ void RotoChannel::updateStatus() {
         float delta = (float) duration * _openStep;
 
         _newPosition = _position + delta;
+#ifdef DEBUG_UPDATE_STATUS
         Debug.println(F("O: duration: %i"), duration);
         Debug.println(F("O: position: %3.9f"), _position);
         Debug.println(F("O: delta: %3.9f"), delta);
-
         Debug.println(F("O: new position: %3.9f"), _newPosition);
+#endif        
 
         // limit to 1
         if (_newPosition > 1.0) {
             _newPosition = 1.0;
         }
 
-        unsigned long allowedTime = (1.0-_position) * (_config.runTimeOpen*SECOND);
+        unsigned long allowedTime = (1.0 - _position) * (_config.runTimeOpen * SECOND);
+#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("O: allowed time open: %i"), allowedTime);
-
+#endif
 
 
         // if open move time exceeds "open time", force position to "completely open"
         //    if (duration > _openTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 1.0;
+#ifdef DEBUG_UPDATE_STATUS
             Debug.println(F("O: Time limit for OPEN reached on group %i"), _group);
+#endif            
         }
 
         if (_newPosition == 1.0) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
+#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("O: Group %i  is now OPENED"), _group);
+#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -409,31 +417,38 @@ void RotoChannel::updateStatus() {
         float delta = (float) duration * _closeStep;
 
         _newPosition = _position - delta;
+#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: duration: %i"), duration);
         Debug.println(F("C: position: %3.9f"), _position);
         Debug.println(F("C: delta: %3.9f"), delta);
-
         Debug.println(F("C: new position: %3.9f"), _newPosition);
+#endif
 
         // limit to 0
         if (_newPosition < 0.0) {
             _newPosition = 0.0;
         }
 
-        unsigned long allowedTime = (_position) * (_config.runTimeClose*SECOND);
+        unsigned long allowedTime = (_position) * (_config.runTimeClose * SECOND);
+#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: allowed time close: %i"), allowedTime);
+#endif        
 
         // if open move time exceeds "open time", force position to "completely close"
         //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 0.0;
+#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Time limit for CLOSE reached on group %i"), _group);
+#endif            
         }
 
         if (_newPosition == 0.0) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
+#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Group %i is now CLOSED"), _group);
+#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -446,7 +461,6 @@ void RotoChannel::updateStatus() {
 
         // apply position
         _position = _newPosition;
-
         Debug.println(F("Group %i is finally on position %3.9f"), _group, _position);
 
     }
@@ -456,25 +470,109 @@ void RotoChannel::updateStatus() {
 
 bool RotoChannel::knxEvents(byte index) {
     
-    int baseIndex = COM_OBJ_OFFSET + (_group * COM_OBJ_PER_CHANNEL);
-            
-    if (index<baseIndex || index>baseIndex+COM_OBJ_PER_CHANNEL) {
-        // nothing to do for this channel
+    if (!_enabled) {
         return false;
     }
-    
-    byte myIndex=index-baseIndex;
-    
-    switch(myIndex) {
-        case COMOBJ_abOpenClose-COM_OBJ_OFFSET:
-            // handle open close
+
+    int baseIndex = COMOBJ_OFFSET + (_group * COMOBJ_PER_CHANNEL);
+
+    if (index < baseIndex || index > baseIndex + COMOBJ_PER_CHANNEL) {
+        // nothing to do for this channel
+        Debug.println(F("[%i] nothing to do: baseIndex=%i"),_group, baseIndex);
+        return false;
+    }
+
+    byte myIndex = index - baseIndex;
+    Debug.println(F("[%i] baseIndex=%i myIndex=%i"),_group, baseIndex, myIndex);
+
+    switch (myIndex) {
+        
+        // handle open close
+        case (COMOBJ_abOpenClose - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            if (value==DPT1_009_open) {
+                Debug.println(F("[%i] open"), _group);
+                doOpen();
+            } else {
+                Debug.println(F("[%i] close"), _group);
+                doClose();
+            }
             break;
-        case COMOBJ_abShortStop-COM_OBJ_OFFSET:
-            // handle short-stop
+        }
+            
+        case (COMOBJ_abShortStop - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            if (value==DPT1_007_decrease) {
+                Debug.println(F("[%i] short dec"), _group);
+            } else {
+                // increase
+                Debug.println(F("[%i] short inc"), _group);
+            }
             break;
-        // ....
+        }
+            
+        case (COMOBJ_abStop - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+                Debug.println(F("[%i] doStop: %i"), _group, value); 
+            if (value==DPT1_010_stop) {
+                doStop();
+            }
+            break;
+        }
+            
+        case (COMOBJ_abAbsPosition - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            float percentage = value * (BYTE_PERCENT);
+            Debug.println(F("[%i] absPos: %f"), _group, percentage);
+            break;
+        }
+            
+        case (COMOBJ_abReference - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            if (value==DPT1_001_on) {
+                Debug.println(F("[%i] reference: %i"), _group, value);
+            }
+            break;
+        }
+            
+        case (COMOBJ_abFixPosition - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            if (value==DPT1_001_on) {
+                Debug.println(F("[%i] doStop: %i"), _group, value);
+            }
+            break;
+        }
+            
+        case (COMOBJ_abVentilation - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            if (value==DPT1_001_on) {
+                Debug.println(F("[%i] ventilation: %i"), _group, value);
+            }
+            break;
+        }
+            
+        case (COMOBJ_abWindAlarm - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            Debug.println(F("[%i] windalarm: %i"), _group, value);
+            break;
+        }
+            
+        case (COMOBJ_abRainAlarm - COMOBJ_OFFSET): {
+            byte value = Knx.read(index);
+            Debug.println(F("[%i] rainalarm: %i"), _group, value);
+            break;
+        }
+            
+        case (COMOBJ_abStatusCurrentDirection - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusMovement - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusMovementOpen - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusMovementClose - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusLock - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusOpenPos - COMOBJ_OFFSET):
+        case (COMOBJ_abStatusClosePos - COMOBJ_OFFSET):
         default:
-            Debug.println("ComObj %i(%i) is not yet implemented for channel with group %i", index, myIndex, _group);
+            Debug.println(F("ComObj %i(%i) is not yet implemented for channel with group %i"), index, myIndex, _group);
             // not implemented yet?!
             return false;
     }
