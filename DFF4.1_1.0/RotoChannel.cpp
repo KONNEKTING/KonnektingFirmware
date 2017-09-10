@@ -193,11 +193,15 @@ void RotoChannel::work() {
 
     updateLEDs();
 
-    _lastMoveStatus = _moveStatus;
+    /*
+     * Send status updates, if required
+     */
 
     bool sendStatus = false;
     float currPos = 0;
     switch (_moveStatus) {
+        
+        // while moving, the current position is available in _newPosition only
         case MS_CLOSING:
         case MS_OPENING:
             currPos = _newPosition;
@@ -205,6 +209,7 @@ void RotoChannel::work() {
             break;
 
         case MS_STOP:
+            // once we stopped, the position is available in _position
             if (_lastMoveStatus != MS_STOP) {
                 currPos = _position;
                 sendStatus = true;
@@ -212,16 +217,17 @@ void RotoChannel::work() {
             break;
     }
 
-    if (_initDone &&
+    if (_initDone && // only send when init is done AND
             (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
             (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
             ) {
-        uint8_t val = currPos * 255;
+        uint8_t val = currPos * 255; // map 0..100% to 0..255 unsigned byte
         Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), val);
         Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, val);
         _lastStatusUpdate = millis();
     }
 
+    _lastMoveStatus = _moveStatus;
 }
 
 void RotoChannel::doButton(bool openButton) {
