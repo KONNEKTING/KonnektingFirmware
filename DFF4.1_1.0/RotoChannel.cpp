@@ -99,6 +99,8 @@ void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
             break;
     }
 
+    _baseIndex = COMOBJ_OFFSET + (_group * COMOBJ_PER_CHANNEL);
+
 }
 
 void RotoChannel::setConfig(ChannelConfig config) {
@@ -193,9 +195,37 @@ void RotoChannel::work() {
 
     _lastMoveStatus = _moveStatus;
 
+    bool sendStatus = false;
+    float currPos = 0;
+    switch (_moveStatus) {
+        case MS_CLOSING:
+        case MS_OPENING:
+            currPos = _newPosition;
+            sendStatus = true;
+            break;
+
+        case MS_STOP:
+            if (_lastMoveStatus != MS_STOP) {
+                currPos = _position;
+                sendStatus = true;
+            }
+            break;
+    }
+
+    if (_initDone &&
+            (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
+            (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
+            ) {
+        uint8_t val = currPos * 255;
+        Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), val);
+        Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, val);
+        _lastStatusUpdate = millis();
+    }
+
 }
 
 void RotoChannel::doButton(bool openButton) {
+
     Debug.println(F("doButton on group=%i openButton=%i"), _group, openButton);
 
     _manualMoveRequest = true; // signal move request
@@ -346,8 +376,8 @@ void RotoChannel::updateLEDs() {
 }
 
 void RotoChannel::updateStatus() {
-    
-//#define DEBUG_UPDATE_STATUS    
+
+    //#define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -460,6 +490,7 @@ void RotoChannel::updateStatus() {
     if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
 
         // apply position
+
         _position = _newPosition;
         Debug.println(F("Group %i is finally on position %3.9f"), _group, _position);
 
@@ -469,28 +500,27 @@ void RotoChannel::updateStatus() {
 }
 
 bool RotoChannel::knxEvents(byte index) {
-    
+
     if (!_enabled) {
         return false;
     }
 
-    int baseIndex = COMOBJ_OFFSET + (_group * COMOBJ_PER_CHANNEL);
-
-    if (index < baseIndex || index > baseIndex + COMOBJ_PER_CHANNEL) {
+    if (index < _baseIndex || index > _baseIndex + COMOBJ_PER_CHANNEL) {
         // nothing to do for this channel
-        Debug.println(F("[%i] nothing to do: baseIndex=%i"),_group, baseIndex);
+        Debug.println(F("[%i] nothing to do: baseIndex=%i"), _group, _baseIndex);
         return false;
     }
 
-    byte myIndex = index - baseIndex;
-    Debug.println(F("[%i] baseIndex=%i myIndex=%i"),_group, baseIndex, myIndex);
+    byte myIndex = index - _baseIndex;
+    Debug.println(F("[%i] baseIndex=%i myIndex=%i"), _group, _baseIndex, myIndex);
 
     switch (myIndex) {
-        
-        // handle open close
-        case (COMOBJ_abOpenClose - COMOBJ_OFFSET): {
+
+            // handle open close
+        case (COMOBJ_abOpenClose - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
-            if (value==DPT1_009_open) {
+            if (value == DPT1_009_open) {
                 Debug.println(F("[%i] open"), _group);
                 doOpen();
             } else {
@@ -499,10 +529,11 @@ bool RotoChannel::knxEvents(byte index) {
             }
             break;
         }
-            
-        case (COMOBJ_abShortStop - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abShortStop - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
-            if (value==DPT1_007_decrease) {
+            if (value == DPT1_007_decrease) {
                 Debug.println(F("[%i] short dec"), _group);
             } else {
                 // increase
@@ -510,59 +541,66 @@ bool RotoChannel::knxEvents(byte index) {
             }
             break;
         }
-            
-        case (COMOBJ_abStop - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abStop - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
-                Debug.println(F("[%i] doStop: %i"), _group, value); 
-            if (value==DPT1_010_stop) {
+            Debug.println(F("[%i] doStop: %i"), _group, value);
+            if (value == DPT1_010_stop) {
                 doStop();
             }
             break;
         }
-            
-        case (COMOBJ_abAbsPosition - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abAbsPosition - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
             float percentage = value * (BYTE_PERCENT);
             Debug.println(F("[%i] absPos: %f"), _group, percentage);
             break;
         }
-            
-        case (COMOBJ_abReference - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abReference - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
-            if (value==DPT1_001_on) {
+            if (value == DPT1_001_on) {
                 Debug.println(F("[%i] reference: %i"), _group, value);
             }
             break;
         }
-            
-        case (COMOBJ_abFixPosition - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abFixPosition - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
-            if (value==DPT1_001_on) {
+            if (value == DPT1_001_on) {
                 Debug.println(F("[%i] doStop: %i"), _group, value);
             }
             break;
         }
-            
-        case (COMOBJ_abVentilation - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abVentilation - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
-            if (value==DPT1_001_on) {
+            if (value == DPT1_001_on) {
                 Debug.println(F("[%i] ventilation: %i"), _group, value);
             }
             break;
         }
-            
-        case (COMOBJ_abWindAlarm - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abWindAlarm - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
             Debug.println(F("[%i] windalarm: %i"), _group, value);
             break;
         }
-            
-        case (COMOBJ_abRainAlarm - COMOBJ_OFFSET): {
+
+        case (COMOBJ_abRainAlarm - COMOBJ_OFFSET):
+        {
             byte value = Knx.read(index);
             Debug.println(F("[%i] rainalarm: %i"), _group, value);
             break;
         }
-            
+
         case (COMOBJ_abStatusCurrentDirection - COMOBJ_OFFSET):
         case (COMOBJ_abStatusMovement - COMOBJ_OFFSET):
         case (COMOBJ_abStatusMovementOpen - COMOBJ_OFFSET):

@@ -356,43 +356,43 @@
                 <Name>Kanal A+B</Name>
                 <Function>Verfahrstatus</Function>
                 <DataPointType>1.007</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             <CommObject Id="19" IdName="abStatusMovementOpen">
                 <Name>Kanal A+B</Name>
                 <Function>Verfahrstatus Auf</Function>
                 <DataPointType>1.009</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             <CommObject Id="20" IdName="abStatusMovementClose">
                 <Name>Kanal A+B</Name>
                 <Function>Verfahrstatus Zu</Function>
                 <DataPointType>1.008</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             <CommObject Id="21" IdName="abStatusCurrentPos">
                 <Name>Kanal A+B</Name>
                 <Function>Status akt. Position</Function>
                 <DataPointType>5.001</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             <CommObject Id="22" IdName="abStatusLock">
                 <Name>Kanal A+B</Name>
                 <Function>Status Sperre/Alarm</Function>
                 <DataPointType>1.011</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             <CommObject Id="23" IdName="abStatusOpenPos">
                 <Name>Kanal A+B</Name>
                 <Function>Status obere Position</Function>
                 <DataPointType>1.011</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             <CommObject Id="24" IdName="abStatusClosePos">
                 <Name>Kanal A+B</Name>
                 <Function>Status untere Position</Function>
                 <DataPointType>1.011</DataPointType>
-                <Flags>42</Flags>
+                <Flags>52</Flags>
             </CommObject>
             
             <CommObject Id="25">

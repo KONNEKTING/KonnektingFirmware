@@ -48,7 +48,7 @@
 #define PARAM_channel_absPosStatusComObj 18
 #define PARAM_channel_runStatusPositionComObj 19
 
-#ifdef KONNEKTING_h      
+#ifdef KONNEKTING_h        
 KnxComObject KnxDevice::_comObjectsList[] = {
     /* Index 0 - centralWindowOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
     /* Index 1 - centralWindowStop */ KnxComObject(KNX_DPT_1_001, 0x2a),
@@ -58,23 +58,23 @@ KnxComObject KnxDevice::_comObjectsList[] = {
     /* Index 5 - centralShutterAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
     /* Index 6 - centralShutterLock */ KnxComObject(KNX_DPT_1_001, 0x2a),
     /* Index 7 - centralVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 8 - abOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
+    /* Index 8 - abOpenClose */ KnxComObject(KNX_DPT_1_009, 0x2a),
     /* Index 9 - abShortStop */ KnxComObject(KNX_DPT_1_007, 0x2a),
-    /* Index 10 - abStop */ KnxComObject(KNX_DPT_1_007, 0x2a),
+    /* Index 10 - abStop */ KnxComObject(KNX_DPT_1_010, 0x2a),
     /* Index 11 - abAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
-    /* Index 12 - abReference */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 13 - abFixPosition */ KnxComObject(KNX_DPT_1_008, 0x2a),
+    /* Index 12 - abReference */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 13 - abFixPosition */ KnxComObject(KNX_DPT_1_001, 0x2a),
     /* Index 14 - abVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
     /* Index 15 - abWindAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
     /* Index 16 - abRainAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
     /* Index 17 - abStatusCurrentDirection */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 18 - abStatusMovement */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 19 - abStatusMovementOpen */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 20 - abStatusMovementClose */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 21 - abStatusCurrentPos */ KnxComObject(KNX_DPT_5_001, 0x2a),
-    /* Index 22 - abStatusLock */ KnxComObject(KNX_DPT_1_011, 0x2a),
-    /* Index 23 - abStatusOpenPos */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 24 - abStatusClosePos */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 18 - abStatusMovement */ KnxComObject(KNX_DPT_1_007, 0x34),
+    /* Index 19 - abStatusMovementOpen */ KnxComObject(KNX_DPT_1_009, 0x34),
+    /* Index 20 - abStatusMovementClose */ KnxComObject(KNX_DPT_1_008, 0x34),
+    /* Index 21 - abStatusCurrentPos */ KnxComObject(KNX_DPT_5_001, 0x34),
+    /* Index 22 - abStatusLock */ KnxComObject(KNX_DPT_1_011, 0x34),
+    /* Index 23 - abStatusOpenPos */ KnxComObject(KNX_DPT_1_011, 0x34),
+    /* Index 24 - abStatusClosePos */ KnxComObject(KNX_DPT_1_011, 0x34),
     /* Index 25 - null */ KnxComObject(KNX_DPT_1_007, 0x2a),
     /* Index 26 - null */ KnxComObject(KNX_DPT_1_007, 0x2a),
     /* Index 27 - null */ KnxComObject(KNX_DPT_1_007, 0x2a),

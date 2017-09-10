@@ -51,6 +51,11 @@
 #define COMOBJ_PER_CHANNEL 17
 
 /**
+ * time interval in which status updates are sent
+ */
+#define STATUS_UPDATE_INTERVAL 1000
+
+/**
  * Move status, like opening, closing, ..
  */
 enum RotoChannelMoveStatus {
@@ -213,9 +218,14 @@ private:
      */
     bool _enabled;
     
+    /**
+     * The comobj base index for this channel/group
+     */
+    byte _baseIndex;
+    
 
     int _group; // 0..3
-
+    
     /**
      * Pin which is connected to SET of the OPEN relay
      */
@@ -265,6 +275,8 @@ private:
      * last blink state
      */
     bool _lastBlinkState;
+
+    unsigned long _lastStatusUpdate;
 
     RotoAction _lastAction;
 
