@@ -41,7 +41,7 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
 
     _isStopping = false;
 
-    _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 }
 
 RotoChannel::~RotoChannel() {
@@ -107,7 +107,7 @@ void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
 
-    Debug.println(F("_config.runTimeOpen=%i _config.runTimeClose=%i"), _config.runTimeOpen, _config.runTimeClose);
+    Debug.println(F("_config.runTimeOpen=%i _config.runTimeClose=%i"), getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
 
     _openStep = (100.0 / (_config.runTimeOpen * SECOND)) / 100.0;
     _closeStep = (100.0 / (_config.runTimeClose * SECOND)) / 100.0;
@@ -124,6 +124,7 @@ void RotoChannel::work() {
         return;
     }
 
+    // Do init-stuff, if not already done
     if (!_initDone) {
 
         // check how long we have to wait for final end position
@@ -161,6 +162,9 @@ void RotoChannel::work() {
 
             // ... and finalize init
             _initDone = true;
+            
+            int led = _group * 2;
+            
             Debug.println(F("Init of group %i *done*. Pos=%3.9f"), _group, _position);
 
         }
@@ -187,21 +191,29 @@ void RotoChannel::work() {
         //Debug.println(F("work on channel %i"), _channel);
     }
 
+    // update LEDs in any case
+    workLEDs();
+    
     if (_initDone) {
-        updateStatus();
+        workPosition();
+        workStatus();
     }
 
-    updateLEDs();
 
-    /*
-     * Send status updates, if required
-     */
 
+    _lastMoveStatus = _moveStatus;
+}
+
+/**
+ * Send status updates, if required
+ */
+void RotoChannel::workStatus() {
     bool sendStatus = false;
     float currPos = 0;
+    
     switch (_moveStatus) {
         
-        // while moving, the current position is available in _newPosition only
+        // while moving, the current position is available in "_newPosition" only
         case MS_CLOSING:
         case MS_OPENING:
             currPos = _newPosition;
@@ -217,17 +229,18 @@ void RotoChannel::work() {
             break;
     }
 
+    uint8_t positionValueToSend = currPos * 255; // map 0..100% to 0..255 unsigned byte
     if (_initDone && // only send when init is done AND
+            _lastSentPosition!=positionValueToSend && // we need to have different value as last time
             (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
             (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
             ) {
-        uint8_t val = currPos * 255; // map 0..100% to 0..255 unsigned byte
-        Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), val);
-        Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, val);
+        Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
+        Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
+        // store last sent status. Ensures with if.clause that we don't send the same value twice (especially on stop)
+        _lastSentPosition = positionValueToSend; 
         _lastStatusUpdate = millis();
     }
-
-    _lastMoveStatus = _moveStatus;
 }
 
 void RotoChannel::doButton(bool openButton) {
@@ -320,7 +333,19 @@ void RotoChannel::doStop() {
 /**
  *
  */
-void RotoChannel::updateLEDs() {
+void RotoChannel::workLEDs() {
+    
+    // while not yet done with init, led all LEDs blink so signal init
+    if (!_initDone) {
+        _lastBlinkState = !_lastBlinkState;
+        if (millis() - _lastBlinkMillis > BLINK_DELAY) {
+            int led = _group * 2;
+            _frontend.setLED(led, !_lastBlinkState);
+            _frontend.setLED(led+1, _lastBlinkState);
+            _lastBlinkMillis = millis();
+        }
+        return;
+    }
 
     // Status Blinken
     if (_moveStatus != MS_STOP) {
@@ -381,7 +406,7 @@ void RotoChannel::updateLEDs() {
 
 }
 
-void RotoChannel::updateStatus() {
+void RotoChannel::workPosition() {
 
     //#define DEBUG_UPDATE_STATUS    
 
@@ -505,6 +530,10 @@ void RotoChannel::updateStatus() {
 
 }
 
+uint32_t RotoChannel::getTime(uint8_t time) {
+    return time * SECOND * (1.0f+ (_config.runTimeRollover/100));
+}
+
 bool RotoChannel::knxEvents(byte index) {
 
     if (!_enabled) {
@@ -532,18 +561,6 @@ bool RotoChannel::knxEvents(byte index) {
             } else {
                 Debug.println(F("[%i] close"), _group);
                 doClose();
-            }
-            break;
-        }
-
-        case (COMOBJ_abShortStop - COMOBJ_OFFSET):
-        {
-            byte value = Knx.read(index);
-            if (value == DPT1_007_decrease) {
-                Debug.println(F("[%i] short dec"), _group);
-            } else {
-                // increase
-                Debug.println(F("[%i] short inc"), _group);
             }
             break;
         }

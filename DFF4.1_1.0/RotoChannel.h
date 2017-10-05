@@ -29,6 +29,11 @@
 #define BLINK_DELAY 300L
 
 /**
+ * delay for blinking while init
+ */
+#define BLINK_INIT_DELAY 150L
+
+/**
  * One second in milliseconds -> 1000ms
  */
 #define SECOND 1000L
@@ -139,18 +144,7 @@ typedef struct {
      * 2=2%, 5=5%, 10=10%, 15=15%, 20=20%
      */
     uint8_t runTimeRollover;
-    
-    /**
-     * Settings: Kurzzeitbetrieb an/aus
-     * 0=false, 1=true
-     */
-    uint8_t shortTimeRun;
-    
-    /**
-     * Settings: Fahrzeit für Kurzzeitbetrieb [s]
-     */
-    uint8_t shortTimeRunTime;
-    
+       
     /**
      * Settings: Verhalten bei Sperren: 0=keine Änderung, 1=auf fahren, 2=zu fahren
      */
@@ -276,7 +270,6 @@ private:
      */
     bool _lastBlinkState;
 
-    unsigned long _lastStatusUpdate;
 
     RotoAction _lastAction;
 
@@ -305,12 +298,28 @@ private:
      */
     float _position;
     float _newPosition;
+    /** millis when last status was sent */
+    unsigned long _lastStatusUpdate;
+    /** 
+     * last status value that has been sent. 
+     * Used to ensure that we don't send a value twice, especially when we 
+     * reach stop, where the latest value is (caused by calculation 
+     * from % to byte) the same
+     */
+    byte _lastSentPosition;
 
     bool _isStopping;
     
-
-    void updateLEDs();
-    void updateStatus();
+    /**
+     * Open time in ms, including rollover
+     * @return 
+     */
+    uint32_t getTime(uint8_t time);
+    
+    
+    void workLEDs();
+    void workStatus();
+    void workPosition();
 
 };
 

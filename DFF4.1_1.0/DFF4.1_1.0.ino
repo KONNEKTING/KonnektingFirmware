@@ -205,10 +205,6 @@ void setup() {
                 Debug.println(F("runTimeOpen: %i"), config.runTimeOpen);
                 config.runTimeRollover = Konnekting.getUINT8Param(PARAM_channel_runTimeRollover + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeRollover: %i"), config.runTimeRollover);
-                config.shortTimeRun = Konnekting.getUINT8Param(PARAM_channel_shortTimeRun + (i * CHANNEL_PARAM_OFFSET));
-                Debug.println(F("shortTimeRun: %i"), config.shortTimeRun);
-                config.shortTimeRunTime = Konnekting.getUINT8Param(PARAM_channel_shortTimeRunTime + (i * CHANNEL_PARAM_OFFSET));
-                Debug.println(F("shortTimeRunTime: %i"), config.shortTimeRunTime);
                 config.lockAction = Konnekting.getUINT8Param(PARAM_channel_lockAction + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("lockAction: %i"), config.lockAction);
                 config.ventByComObj = Konnekting.getUINT8Param(PARAM_channel_ventByComObj + (i * CHANNEL_PARAM_OFFSET));
