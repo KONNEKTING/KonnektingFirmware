@@ -225,15 +225,24 @@ void setup() {
                 channels[i].init(mcpRelay, frontend);
                 break;
 
-                // "same as" duplicates/clones from Channel A+B
-            case OPTION_SETTINGS_SAMEAS:
+                // "same as" duplicates/clones from Channel A+B/C+D
+            case OPTION_SETTINGS_SAMEAS1:
                 if (i >= 2) {
                     ChannelConfig sameConfig;
                     sameConfig = channels[0].getConfig(); // same as channel A+B
                     channels[i].setConfig(sameConfig);
                     channels[i].init(mcpRelay, frontend);
                 } else {
-                    Debug.println(F("ERROR: SameConfig cannot be done with channel id<2 !!!"));
+                    Debug.println(F("ERROR: SameConfig1 cannot be done with channel id<2 !!!"));
+                }
+            case OPTION_SETTINGS_SAMEAS2:
+                if (i >= 2) {
+                    ChannelConfig sameConfig;
+                    sameConfig = channels[1].getConfig(); // same as channel A+B
+                    channels[i].setConfig(sameConfig);
+                    channels[i].init(mcpRelay, frontend);
+                } else {
+                    Debug.println(F("ERROR: SameConfig2 cannot be done with channel id<2 !!!"));
                 }
                 break;
 

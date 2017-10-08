@@ -53,7 +53,7 @@
  * So main-sketch just needs to forward all knxEvents to all channels and each channel filters out it's ComObj events.
  */
 #define COMOBJ_OFFSET 8
-#define COMOBJ_PER_CHANNEL 13
+#define COMOBJ_PER_CHANNEL 16
 
 /**
  * time interval in which status updates are sent
@@ -213,7 +213,7 @@ private:
     bool _enabled;
     
     /**
-     * The comobj base index for this channel/group
+     * The comobj base index for this channel/group, means: at this absolute comobj index do the comobj start for this channel
      */
     byte _baseIndex;
     

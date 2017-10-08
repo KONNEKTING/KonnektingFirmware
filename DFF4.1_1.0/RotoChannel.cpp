@@ -107,10 +107,10 @@ void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
 
-    Debug.println(F("_config.runTimeOpen=%i _config.runTimeClose=%i"), getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
+    Debug.println(F("_config.runTimeOpen=%i ms, _config.runTimeClose=%i ms"), getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
 
-    _openStep = (100.0 / (_config.runTimeOpen * SECOND)) / 100.0;
-    _closeStep = (100.0 / (_config.runTimeClose * SECOND)) / 100.0;
+    _openStep = (100.0 / (getTime(_config.runTimeOpen))) / 100.0;
+    _closeStep = (100.0 / (getTime(_config.runTimeClose))) / 100.0;
 
     Debug.println(F("open Step=%3.9f%%/ms"), _openStep);
     Debug.println(F("close Step=%3.9f%%/ms"), _closeStep);
@@ -131,10 +131,10 @@ void RotoChannel::work() {
         unsigned long waitTime = 0;
         switch (_startupAction) {
             case A_OPEN:
-                waitTime = _config.runTimeOpen;
+                waitTime = getTime(_config.runTimeOpen);
                 break;
             case A_CLOSE:
-                waitTime = _config.runTimeClose;
+                waitTime = getTime(_config.runTimeClose);
                 break;
             case A_NONE:
                 waitTime = 0;
@@ -254,7 +254,7 @@ void RotoChannel::doButton(bool openButton) {
 void RotoChannel::doOpen() {
 
     /*
-     * The delay in here will definitley block the loop(),
+     * TODO The delay in here will definitley block the loop(),
      * bus this happens not that often, so we won't miss a telegram
      */
 
@@ -444,7 +444,7 @@ void RotoChannel::workPosition() {
             _newPosition = 1.0;
         }
 
-        unsigned long allowedTime = (1.0 - _position) * (_config.runTimeOpen * SECOND);
+        unsigned long allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
 #ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("O: allowed time open: %i"), allowedTime);
 #endif
@@ -490,7 +490,7 @@ void RotoChannel::workPosition() {
             _newPosition = 0.0;
         }
 
-        unsigned long allowedTime = (_position) * (_config.runTimeClose * SECOND);
+        unsigned long allowedTime = (_position) * (getTime(_config.runTimeClose));
 #ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: allowed time close: %i"), allowedTime);
 #endif        
@@ -530,6 +530,11 @@ void RotoChannel::workPosition() {
 
 }
 
+/**
+ * Gets given time in milliseconds, incl. rollover time
+ * @param time time in sec
+ * @return time in ms incl. rollovertime
+ */
 uint32_t RotoChannel::getTime(uint8_t time) {
     return time * SECOND * (1.0f+ (_config.runTimeRollover/100));
 }
@@ -550,8 +555,31 @@ bool RotoChannel::knxEvents(byte index) {
     Debug.println(F("[%i] baseIndex=%i myIndex=%i"), _group, _baseIndex, myIndex);
 
     switch (myIndex) {
+        
+        // central lock 
+        // TODO cannot be used in this switch/case for myIndex --> separate switch/case for common comobjs??
+//        case (COMOBJ_centralShutterLock):
+//        {
+//            /*
+//             * TODO
+//             * - store lock state?
+//             * - block external action on lock!
+//             * --> introduce channel lock flag
+//             */
+//            switch (_config.lockAction) {
+//                case OPTION_LOCK_ACTION_NONE:
+//                    // nothing to do for us
+//                    break;
+//                case OPTION_LOCK_ACTION_OPEN:
+//                    doOpen();
+//                    break;
+//                case OPTION_LOCK_ACTION_CLOSE:
+//                    doClose();
+//                    break;
+//            }
+//        }
 
-            // handle open close
+        // handle open close
         case (COMOBJ_abOpenClose - COMOBJ_OFFSET):
         {
             byte value = Knx.read(index);
@@ -588,6 +616,16 @@ bool RotoChannel::knxEvents(byte index) {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] reference: %i"), _group, value);
+                
+                /*
+                 * TODO
+                 * - store current position
+                 * - block any external action
+                 * - close window/shutter
+                 * - restore position
+                 * - unblock any external action
+                 * --> block-flag required!
+                 */
             }
             break;
         }
@@ -597,6 +635,11 @@ bool RotoChannel::knxEvents(byte index) {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] doStop: %i"), _group, value);
+                
+                /*
+                 * TODO
+                 * - define exit-condition on doOpen/doClose based on targetted position
+                 */
             }
             break;
         }
@@ -606,6 +649,16 @@ bool RotoChannel::knxEvents(byte index) {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] ventilation: %i"), _group, value);
+                
+                /*
+                 * TODO
+                 * - only work in window-mode! ignore on shutter mode!
+                 * - store current time in channel-global variable
+                 * - store current position
+                 * - block external action
+                 * - open window fully
+                 * - check in work() for outdated time on global variable -> then close window/restore last position --> unblock external action
+                 */
             }
             break;
         }
@@ -614,6 +667,10 @@ bool RotoChannel::knxEvents(byte index) {
         {
             byte value = Knx.read(index);
             Debug.println(F("[%i] windalarm: %i"), _group, value);
+            /*
+             * TODO
+             * Introduce param that controls what to do? Like with lock?
+             */
             break;
         }
 
@@ -621,17 +678,24 @@ bool RotoChannel::knxEvents(byte index) {
         {
             byte value = Knx.read(index);
             Debug.println(F("[%i] rainalarm: %i"), _group, value);
+            /*
+             * TODO
+             * - Introduce param that controls what to do? Like with lock?
+             * - convert it to central comobj instead of channel comobj --> channel just decided via param how to react on wind/rain alarm
+             */
             break;
         }
 
-        case (COMOBJ_abStatusCurrentDirection - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusMovement - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusMovementOpen - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusMovementClose - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusLock - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusOpenPos - COMOBJ_OFFSET):
-        case (COMOBJ_abStatusClosePos - COMOBJ_OFFSET):
+        // status com obj are "outgoing" comobjs.
+//        case (COMOBJ_abStatusCurrentDirection - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusMovement - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusMovementOpen - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusMovementClose - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusLock - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusOpenPos - COMOBJ_OFFSET):
+//        case (COMOBJ_abStatusClosePos - COMOBJ_OFFSET):
+            
         default:
             Debug.println(F("ComObj %i(%i) is not yet implemented for channel with group %i"), index, myIndex, _group);
             // not implemented yet?!
