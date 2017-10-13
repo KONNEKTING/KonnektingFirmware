@@ -5,340 +5,340 @@
         <DeviceName>DFF 4.1</DeviceName>
         <Parameters>
             <!-- Allgemein -->
-            <ParameterGroup Name="Allgemein" Id="0">
-                <Parameter Id="1" IdName="startupDelay">
+            <ParameterGroup Name="Allgemein" Id="{Px}">
+                <Parameter Id="{Px}" IdName="startupDelay">
                     <Description>Anlaufzeit [sek: 0-60]</Description>
                     <Value Type="uint8" Default="02" Options="" Min="00" Max="3C"/>
                 </Parameter>
-                <Parameter Id="2" IdName="triggerTime">
+                <Parameter Id="{Px}" IdName="triggerTime">
                     <Description>Ansteuerzeit [ms: 100-255]</Description>
                     <Value Type="uint8" Default="AF" Options="" Min="64" Max="FF"/>
                 </Parameter>
-                <Parameter Id="3" IdName="manualControl">
+                <Parameter Id="{Px}" IdName="manualControl">
                     <Description>Handbedienung</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>
-                <Parameter Id="4" IdName="ventilationTime">
+                <Parameter Id="{Px}" IdName="ventilationTime">
                     <Description>Lüften Zeit [min: 1-60]</Description>
                     <Value Type="uint8" Default="05" Options="" Min="01" Max="3C"/>
                 </Parameter>
             </ParameterGroup>
             
             <!-- Kanaleinstellung --> 
-            <ParameterGroup Name="Kanaleinstellung" Id="0">
-                <Parameter Id="5" IdName="setting_channel_ab">
+            <ParameterGroup Name="Kanaleinstellung" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="setting_channel_ab">
                     <Description>Kanal 1 (A+B)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen"/>
                 </Parameter>
-                <Parameter Id="6" IdName="setting_channel_cd">
+                <Parameter Id="{Px}" IdName="setting_channel_cd">
                     <Description>Kanal 2 (C+D)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)"/>
                 </Parameter>
-                <Parameter Id="7" IdName="setting_channel_ef">
+                <Parameter Id="{Px}" IdName="setting_channel_ef">
                     <Description>Kanal 3 (E+F)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)|04=Einstellungen wie Kanal 2 (C+D)"/>
                 </Parameter>
-                <Parameter Id="8" IdName="setting_channel_gh">
+                <Parameter Id="{Px}" IdName="setting_channel_gh">
                     <Description>Kanal 4 (G+H)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)|04=Einstellungen wie Kanal 2 (C+D)"/>
                 </Parameter>
             </ParameterGroup>
             
-            <ParameterGroup Name="Kanal 1 (A+B)" Id="1">
-                <Parameter Id="9" IdName="channel_runTimeOpen">
+            <ParameterGroup Name="Kanal 1 (A+B)" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="channel_runTimeOpen">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="10" IdName="channel_runTimeClose">
+                <Parameter Id="{Px}" IdName="channel_runTimeClose">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="11" IdName="channel_runTimeRollover">
+                <Parameter Id="{Px}" IdName="channel_runTimeRollover">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="12" IdName="channel_lockAction">
+                <Parameter Id="{Px}" IdName="channel_lockAction">
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="13" IdName="channel_unlockAction">
+                <Parameter Id="{Px}" IdName="channel_unlockAction">
                     <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="14" IdName="channel_rainAlarm">
+                <Parameter Id="{Px}" IdName="channel_rainAlarm">
                     <Description>Regenalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="15" IdName="channel_rainAlarmObservationTime">
+                <Parameter Id="{Px}" IdName="channel_rainAlarmObservationTime">
                     <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="16" IdName="channel_rainAlarmAction">
+                <Parameter Id="{Px}" IdName="channel_rainAlarmAction">
                     <Description>Regenalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="17" IdName="channel_windAlarm">
+                <Parameter Id="{Px}" IdName="channel_windAlarm">
                     <Description>Windalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="18" IdName="channel_windAlarmObservationTime">
+                <Parameter Id="{Px}" IdName="channel_windAlarmObservationTime">
                     <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="19" IdName="channel_windAlarmAction">
+                <Parameter Id="{Px}" IdName="channel_windAlarmAction">
                     <Description>Windalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>            
-                <Parameter Id="20" IdName="channel_ventByComObj">
+                <Parameter Id="{Px}" IdName="channel_ventByComObj">
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="21" IdName="channel_absPositionComObj">
+                <Parameter Id="{Px}" IdName="channel_absPositionComObj">
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="22" IdName="channel_absPositionValue">
+                <Parameter Id="{Px}" IdName="channel_absPositionValue">
                     <Description>Wert für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="23" IdName="channel_referenceRunComObj">
+                <Parameter Id="{Px}" IdName="channel_referenceRunComObj">
                     <Description>KO für Referenzfahrt</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="24" IdName="channel_runStatusComObj">
+                <Parameter Id="{Px}" IdName="channel_runStatusComObj">
                     <Description>KO für Verfahrstatus</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="25" IdName="channel_absPosStatusComObj">
+                <Parameter Id="{Px}" IdName="channel_absPosStatusComObj">
                     <Description>Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="26" IdName="channel_runStatusPositionComObj">
+                <Parameter Id="{Px}" IdName="channel_runStatusPositionComObj">
                     <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
             </ParameterGroup>            
             
-            <ParameterGroup Name="Kanal 2 (C+D)" Id="2">
-                <Parameter Id="27">
+            <ParameterGroup Name="Kanal 2 (C+D)" Id="{Gx}">
+                <Parameter Id="{Px}">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="28">
+                <Parameter Id="{Px}">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="29">
+                <Parameter Id="{Px}">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="30">
+                <Parameter Id="{Px}">
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="31">
+                <Parameter Id="{Px}">
                     <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="32">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="33">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="34">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="35">
+                <Parameter Id="{Px}">
                     <Description>Windalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="36">
+                <Parameter Id="{Px}">
                     <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="37">
+                <Parameter Id="{Px}">
                     <Description>Windalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>            
-                <Parameter Id="38">
+                <Parameter Id="{Px}">
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="39">
+                <Parameter Id="{Px}">
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="40">
+                <Parameter Id="{Px}">
                     <Description>Wert für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="41">
+                <Parameter Id="{Px}">
                     <Description>KO für Referenzfahrt</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="42">
+                <Parameter Id="{Px}">
                     <Description>KO für Verfahrstatus</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="43">
+                <Parameter Id="{Px}">
                     <Description>Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="44">
+                <Parameter Id="{Px}">
                     <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
             </ParameterGroup>
             
-            <ParameterGroup Name="Kanal 3 (E+F)" Id="3">
-                <Parameter Id="45">
+            <ParameterGroup Name="Kanal 3 (E+F)" Id="{Gx}">
+                <Parameter Id="{Px}">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="46">
+                <Parameter Id="{Px}">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="47">
+                <Parameter Id="{Px}">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="48">
+                <Parameter Id="{Px}">
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="49">
+                <Parameter Id="{Px}">
                     <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="50">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="51">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="52">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="53">
+                <Parameter Id="{Px}">
                     <Description>Windalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="54">
+                <Parameter Id="{Px}">
                     <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="55">
+                <Parameter Id="{Px}">
                     <Description>Windalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>            
-                <Parameter Id="56">
+                <Parameter Id="{Px}">
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="57">
+                <Parameter Id="{Px}">
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="58">
+                <Parameter Id="{Px}">
                     <Description>Wert für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="59">
+                <Parameter Id="{Px}">
                     <Description>KO für Referenzfahrt</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="60">
+                <Parameter Id="{Px}">
                     <Description>KO für Verfahrstatus</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="61">
+                <Parameter Id="{Px}">
                     <Description>Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="62">
+                <Parameter Id="{Px}">
                     <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
             </ParameterGroup>
             
-            <ParameterGroup Name="Kanal 4 (G+H)" Id="4">
-                <Parameter Id="63">
+            <ParameterGroup Name="Kanal 4 (G+H)" Id="{Gx}">
+                <Parameter Id="{Px}">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="64">
+                <Parameter Id="{Px}">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="65">
+                <Parameter Id="{Px}">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="66">
+                <Parameter Id="{Px}">
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="67">
+                <Parameter Id="{Px}">
                     <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="68">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="69">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="70">
+                <Parameter Id="{Px}">
                     <Description>Regenalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="71">
+                <Parameter Id="{Px}">
                     <Description>Windalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="72">
+                <Parameter Id="{Px}">
                     <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="73">
+                <Parameter Id="{Px}">
                     <Description>Windalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>            
-                <Parameter Id="74">
+                <Parameter Id="{Px}">
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="75">
+                <Parameter Id="{Px}">
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="76">
+                <Parameter Id="{Px}">
                     <Description>Wert für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="77">
+                <Parameter Id="{Px}">
                     <Description>KO für Referenzfahrt</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="78">
+                <Parameter Id="{Px}">
                     <Description>KO für Verfahrstatus</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="79">
+                <Parameter Id="{Px}">
                     <Description>Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="80">
+                <Parameter Id="{Px}">
                     <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>

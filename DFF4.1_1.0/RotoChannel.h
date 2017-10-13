@@ -213,6 +213,12 @@ private:
     bool _enabled;
     
     /**
+     * Log flag
+     * if set, channel is locked
+     */
+    bool _locked;
+    
+    /**
      * The comobj base index for this channel/group, means: at this absolute comobj index do the comobj start for this channel
      */
     byte _baseIndex;

@@ -162,9 +162,9 @@ void RotoChannel::work() {
 
             // ... and finalize init
             _initDone = true;
-            
+
             int led = _group * 2;
-            
+
             Debug.println(F("Init of group %i *done*. Pos=%3.9f"), _group, _position);
 
         }
@@ -193,7 +193,7 @@ void RotoChannel::work() {
 
     // update LEDs in any case
     workLEDs();
-    
+
     if (_initDone) {
         workPosition();
         workStatus();
@@ -210,10 +210,10 @@ void RotoChannel::work() {
 void RotoChannel::workStatus() {
     bool sendStatus = false;
     float currPos = 0;
-    
+
     switch (_moveStatus) {
-        
-        // while moving, the current position is available in "_newPosition" only
+
+            // while moving, the current position is available in "_newPosition" only
         case MS_CLOSING:
         case MS_OPENING:
             currPos = _newPosition;
@@ -231,14 +231,14 @@ void RotoChannel::workStatus() {
 
     uint8_t positionValueToSend = currPos * 255; // map 0..100% to 0..255 unsigned byte
     if (_initDone && // only send when init is done AND
-            _lastSentPosition!=positionValueToSend && // we need to have different value as last time
+            _lastSentPosition != positionValueToSend && // we need to have different value as last time
             (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
             (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
             ) {
         Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
         Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
         // store last sent status. Ensures with if.clause that we don't send the same value twice (especially on stop)
-        _lastSentPosition = positionValueToSend; 
+        _lastSentPosition = positionValueToSend;
         _lastStatusUpdate = millis();
     }
 }
@@ -334,14 +334,14 @@ void RotoChannel::doStop() {
  *
  */
 void RotoChannel::workLEDs() {
-    
+
     // while not yet done with init, led all LEDs blink so signal init
     if (!_initDone) {
         _lastBlinkState = !_lastBlinkState;
         if (millis() - _lastBlinkMillis > BLINK_DELAY) {
             int led = _group * 2;
             _frontend.setLED(led, !_lastBlinkState);
-            _frontend.setLED(led+1, _lastBlinkState);
+            _frontend.setLED(led + 1, _lastBlinkState);
             _lastBlinkMillis = millis();
         }
         return;
@@ -536,7 +536,7 @@ void RotoChannel::workPosition() {
  * @return time in ms incl. rollovertime
  */
 uint32_t RotoChannel::getTime(uint8_t time) {
-    return time * SECOND * (1.0f+ (_config.runTimeRollover/100));
+    return time * SECOND * (1.0f + (_config.runTimeRollover / 100));
 }
 
 bool RotoChannel::knxEvents(byte index) {
@@ -545,41 +545,49 @@ bool RotoChannel::knxEvents(byte index) {
         return false;
     }
 
+    // common comobjects
+    switch (index) {
+        
+        case (COMOBJ_centralShutterLock): // central lock 
+        {
+            /*
+             * TODO
+             * - store lock state?
+             * - block external action on lock!
+             * --> introduce channel lock flag
+             */
+            byte value = Knx.read(index);
+            switch (_config.lockAction) {
+                case OPTION_LOCK_ACTION_NONE:
+                    // nothing to do for us
+                    break;
+                case OPTION_LOCK_ACTION_OPEN:
+                    doOpen();
+                    break;
+                case OPTION_LOCK_ACTION_CLOSE:
+                    doClose();
+                    break;
+            }
+        }
+
+    }
+
+    // check if index is relevant for this channel
     if (index < _baseIndex || index > _baseIndex + COMOBJ_PER_CHANNEL) {
         // nothing to do for this channel
         Debug.println(F("[%i] nothing to do: baseIndex=%i"), _group, _baseIndex);
         return false;
     }
 
-    byte myIndex = index - _baseIndex;
-    Debug.println(F("[%i] baseIndex=%i myIndex=%i"), _group, _baseIndex, myIndex);
+    // calculate help-index for this channel
+    byte chIndex = index - _baseIndex;
+    Debug.println(F("[%i] baseIndex=%i chIndex=%i"), _group, _baseIndex, chIndex);
 
-    switch (myIndex) {
-        
-        // central lock 
-        // TODO cannot be used in this switch/case for myIndex --> separate switch/case for common comobjs??
-//        case (COMOBJ_centralShutterLock):
-//        {
-//            /*
-//             * TODO
-//             * - store lock state?
-//             * - block external action on lock!
-//             * --> introduce channel lock flag
-//             */
-//            switch (_config.lockAction) {
-//                case OPTION_LOCK_ACTION_NONE:
-//                    // nothing to do for us
-//                    break;
-//                case OPTION_LOCK_ACTION_OPEN:
-//                    doOpen();
-//                    break;
-//                case OPTION_LOCK_ACTION_CLOSE:
-//                    doClose();
-//                    break;
-//            }
-//        }
+    // channel specific comobjects
+    switch (chIndex) {
 
-        // handle open close
+
+            // handle open close
         case (COMOBJ_abOpenClose - COMOBJ_OFFSET):
         {
             byte value = Knx.read(index);
@@ -616,7 +624,7 @@ bool RotoChannel::knxEvents(byte index) {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] reference: %i"), _group, value);
-                
+
                 /*
                  * TODO
                  * - store current position
@@ -635,7 +643,7 @@ bool RotoChannel::knxEvents(byte index) {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] doStop: %i"), _group, value);
-                
+
                 /*
                  * TODO
                  * - define exit-condition on doOpen/doClose based on targetted position
@@ -649,7 +657,7 @@ bool RotoChannel::knxEvents(byte index) {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] ventilation: %i"), _group, value);
-                
+
                 /*
                  * TODO
                  * - only work in window-mode! ignore on shutter mode!
@@ -686,18 +694,18 @@ bool RotoChannel::knxEvents(byte index) {
             break;
         }
 
-        // status com obj are "outgoing" comobjs.
-//        case (COMOBJ_abStatusCurrentDirection - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusMovement - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusMovementOpen - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusMovementClose - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusLock - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusOpenPos - COMOBJ_OFFSET):
-//        case (COMOBJ_abStatusClosePos - COMOBJ_OFFSET):
-            
+            // status com obj are "outgoing" comobjs.
+            //        case (COMOBJ_abStatusCurrentDirection - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusMovement - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusMovementOpen - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusMovementClose - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusLock - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusOpenPos - COMOBJ_OFFSET):
+            //        case (COMOBJ_abStatusClosePos - COMOBJ_OFFSET):
+
         default:
-            Debug.println(F("ComObj %i(%i) is not yet implemented for channel with group %i"), index, myIndex, _group);
+            Debug.println(F("ComObj %i(%i) is not yet implemented for channel with group %i"), index, chIndex, _group);
             // not implemented yet?!
             return false;
     }
