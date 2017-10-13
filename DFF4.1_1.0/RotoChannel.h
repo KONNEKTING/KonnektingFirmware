@@ -151,6 +151,41 @@ typedef struct {
     uint8_t lockAction;
     
     /**
+     * Settings: Verhalten bei Rückname der Sperre / Alarme, 00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren
+     */
+    uint8_t unlockAction;
+    
+    /**
+     * Settings: Regenalarm, 00=nicht aktiv|01=aktiv
+     */
+    uint8_t rainAlarm;
+    
+    /**
+     * Settings: Regenalarm: Überwachungszeit [0..120min, 0=aus], Default="1E" Min="00" Max="78"
+     */
+    uint8_t rainAlarmObservationTime;
+    
+    /**
+     * Settings: Regenalarm: Aktion, 00=keine Aktion|01=auf fahren|02=zu fahren
+     */
+    uint8_t rainAlarmAction;
+    
+    /**
+     * Settings: Windalarm, 00=nicht aktiv|01=aktiv
+     */
+    uint8_t windAlarm;
+    
+    /**
+     * Settings: Windalarm: Überwachungszeit [0..120min, 0=aus], Default="1E" Min="00" Max="78"
+     */
+    uint8_t windAlarmObservationTime;
+    
+    /**
+     * Settings: Windalarm: Aktion, 00=keine Aktion|01=auf fahren|02=zu fahren
+     */
+    uint8_t windAlarmAction;
+    
+    /**
      * Settings: Lüften per zentralem KO 0=false, 1=true
      */
     uint8_t ventByComObj;

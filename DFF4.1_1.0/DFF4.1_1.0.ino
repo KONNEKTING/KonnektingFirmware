@@ -205,8 +205,26 @@ void setup() {
                 Debug.println(F("runTimeOpen: %i"), config.runTimeOpen);
                 config.runTimeRollover = Konnekting.getUINT8Param(PARAM_channel_runTimeRollover + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeRollover: %i"), config.runTimeRollover);
+                
                 config.lockAction = Konnekting.getUINT8Param(PARAM_channel_lockAction + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("lockAction: %i"), config.lockAction);
+                config.unlockAction = Konnekting.getUINT8Param(PARAM_channel_unlockAction + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("unlockAction: %i"), config.unlockAction);
+                
+                config.rainAlarm = Konnekting.getUINT8Param(PARAM_channel_rainAlarm + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("rainAlarm: %i"), config.rainAlarm);
+                config.rainAlarmObservationTime = Konnekting.getUINT8Param(PARAM_channel_rainAlarmObservationTime + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("rainAlarmObservationTime: %i"), config.rainAlarmObservationTime);
+                config.rainAlarmAction = Konnekting.getUINT8Param(PARAM_channel_rainAlarmAction + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("rainAlarmAction: %i"), config.rainAlarmAction);
+                
+                config.windAlarm = Konnekting.getUINT8Param(PARAM_channel_windAlarm + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("windAlarm: %i"), config.windAlarm);
+                config.windAlarmObservationTime = Konnekting.getUINT8Param(PARAM_channel_windAlarmObservationTime + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("windAlarmObservationTime: %i"), config.windAlarmObservationTime);
+                config.windAlarmAction = Konnekting.getUINT8Param(PARAM_channel_windAlarmAction + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("windAlarmAction: %i"), config.windAlarmAction);
+                
                 config.ventByComObj = Konnekting.getUINT8Param(PARAM_channel_ventByComObj + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("ventByComObj: %i"), config.ventByComObj);
                 config.absPositionComObj = Konnekting.getUINT8Param(PARAM_channel_absPositionComObj + (i * CHANNEL_PARAM_OFFSET));
