@@ -43,6 +43,11 @@
  */
 #define BYTE_PERCENT 0.392156863
 
+/**
+ * Means: Value is not defined
+ */
+#define NOT_DEFINED -1
+
 
 
 /**
@@ -231,10 +236,29 @@ public:
     ChannelConfig getConfig();
 
     void doButton(bool openButton);
+    /**
+     * Open shutter or window fully (if not stopped)
+     */
     void doOpen();
+    /**
+     * Close shutter or window fully (if not stopped)
+     */
     void doClose();
+    /**
+     * Stop movement
+     */
     void doStop();
+    /**
+     * Move window/shutter to an absolute position
+     * @param targetPosition the new absolute position the window/shutter should move to
+     */
+    void doPosition(float targetPosition);
     
+    /**
+     * used by sketch to feed in com-obj events. If event is not used for this channel, method does nothing
+     * @param index absolute comobj index
+     * @return if event has been consumed or not
+     */
     bool knxEvents(byte index);
 
 private:
@@ -338,11 +362,24 @@ private:
      * 1.0 = window fully opened / shutter fully closed
      */
     float _position;
+    /**
+     * Calculated new position, base on start-position + current_move_delta.
+     * After move has been completed, _position is updated with _newPosition
+     */
     float _newPosition;
+    /**
+     * Absolute position the window/shutter has to reach. Used/set with doPosition().
+     */
+    float _targetPosition;
+    /**
+     * Last position, set when f.i. lock happens, to remember "previous position"
+     */
+    float _previousPosition;
+    
     /** millis when last status was sent */
     unsigned long _lastStatusUpdate;
     /** 
-     * last status value that has been sent. 
+     * last status value that has been sent to bus as status update. 
      * Used to ensure that we don't send a value twice, especially when we 
      * reach stop, where the latest value is (caused by calculation 
      * from % to byte) the same
@@ -357,9 +394,19 @@ private:
      */
     uint32_t getTime(uint8_t time);
     
-    
+    /**
+     * Updating the LEDs to show current status
+     */
     void workLEDs();
+    /**
+     * This functions handles status updated of the channel. 
+     * It is f.i. responsible for sending position updates to the bus.
+     */
     void workStatus();
+    /**
+     * The implementation is all about the position of window/shutter, so this method
+     * is handling the position while moving the window
+     */
     void workPosition();
 
 };

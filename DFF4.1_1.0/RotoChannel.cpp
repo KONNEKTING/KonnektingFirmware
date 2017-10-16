@@ -35,13 +35,15 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
     _lastBlinkState = false;
     _lastMoveStatus = MS_STOP;
 
-    _position = 0.0;
+    _position = 0.0f;
 
     _startMoveMillis = 0;
 
     _isStopping = false;
 
-    _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    _targetPosition = NOT_DEFINED;
+
+    _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 }
 
 RotoChannel::~RotoChannel() {
@@ -107,7 +109,7 @@ void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
 
-    Debug.println(F("_config.runTimeOpen=%i ms, _config.runTimeClose=%i ms"), getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
+    Debug.println(F("_config.runtimeRollover=%i s,_config.runTimeOpen=%i ms, _config.runTimeClose=%i ms"), _config.runTimeRollover, getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
 
     _openStep = (100.0 / (getTime(_config.runTimeOpen))) / 100.0;
     _closeStep = (100.0 / (getTime(_config.runTimeClose))) / 100.0;
@@ -249,6 +251,16 @@ void RotoChannel::doButton(bool openButton) {
 
     _manualMoveRequest = true; // signal move request
     _manualMoveRequestOpenButton = openButton;
+}
+
+void RotoChannel::doPosition(float targetPosition) {
+    _targetPosition = targetPosition;
+
+    if (_targetPosition < _position) {
+        doOpen();
+    } else {
+        doClose();
+    }
 }
 
 void RotoChannel::doOpen() {
@@ -408,7 +420,7 @@ void RotoChannel::workLEDs() {
 
 void RotoChannel::workPosition() {
 
-    //#define DEBUG_UPDATE_STATUS    
+    #define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -420,7 +432,9 @@ void RotoChannel::workPosition() {
      * - schließen gestoppt
      *
      * - öffnen timeout
+     * - öffnen, target position reached/exceeded
      * - schließen timeout
+     * - schließen, target position reached/exceeded
      *
      * - weder noch
      */
@@ -432,12 +446,12 @@ void RotoChannel::workPosition() {
         float delta = (float) duration * _openStep;
 
         _newPosition = _position + delta;
-#ifdef DEBUG_UPDATE_STATUS
+//#ifdef DEBUG_UPDATE_STATUS
         Debug.println(F("O: duration: %i"), duration);
         Debug.println(F("O: position: %3.9f"), _position);
         Debug.println(F("O: delta: %3.9f"), delta);
         Debug.println(F("O: new position: %3.9f"), _newPosition);
-#endif        
+//#endif        
 
         // limit to 1
         if (_newPosition > 1.0) {
@@ -445,26 +459,26 @@ void RotoChannel::workPosition() {
         }
 
         unsigned long allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
-#ifdef DEBUG_UPDATE_STATUS        
+//#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("O: allowed time open: %i"), allowedTime);
-#endif
+//#endif
 
 
         // if open move time exceeds "open time", force position to "completely open"
         //    if (duration > _openTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 1.0;
-#ifdef DEBUG_UPDATE_STATUS
+//#ifdef DEBUG_UPDATE_STATUS
             Debug.println(F("O: Time limit for OPEN reached on group %i"), _group);
-#endif            
+//#endif            
         }
 
-        if (_newPosition == 1.0) {
+        if (_newPosition == 1.0 || (_targetPosition!=NOT_DEFINED && _newPosition >= _targetPosition)) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
-#ifdef DEBUG_UPDATE_STATUS            
-            Debug.println(F("O: Group %i  is now OPENED"), _group);
-#endif            
+//#ifdef DEBUG_UPDATE_STATUS            
+            Debug.println(F("O: Group %i  is now OPENED or at abs. target pos"), _group);
+//#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -478,12 +492,12 @@ void RotoChannel::workPosition() {
         float delta = (float) duration * _closeStep;
 
         _newPosition = _position - delta;
-#ifdef DEBUG_UPDATE_STATUS        
+//#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: duration: %i"), duration);
         Debug.println(F("C: position: %3.9f"), _position);
         Debug.println(F("C: delta: %3.9f"), delta);
         Debug.println(F("C: new position: %3.9f"), _newPosition);
-#endif
+//#endif
 
         // limit to 0
         if (_newPosition < 0.0) {
@@ -491,25 +505,25 @@ void RotoChannel::workPosition() {
         }
 
         unsigned long allowedTime = (_position) * (getTime(_config.runTimeClose));
-#ifdef DEBUG_UPDATE_STATUS        
+//#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: allowed time close: %i"), allowedTime);
-#endif        
+//#endif        
 
         // if open move time exceeds "open time", force position to "completely close"
         //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 0.0;
-#ifdef DEBUG_UPDATE_STATUS            
+//#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Time limit for CLOSE reached on group %i"), _group);
-#endif            
+//#endif            
         }
 
-        if (_newPosition == 0.0) {
+        if (_newPosition == 0.0 || (_targetPosition!=NOT_DEFINED && _newPosition <= _targetPosition)) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
-#ifdef DEBUG_UPDATE_STATUS            
-            Debug.println(F("C: Group %i is now CLOSED"), _group);
-#endif            
+//#ifdef DEBUG_UPDATE_STATUS            
+            Debug.println(F("C: Group %i is now CLOSED or at abs. target pos"), _group);
+//#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -521,7 +535,6 @@ void RotoChannel::workPosition() {
     if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
 
         // apply position
-
         _position = _newPosition;
         Debug.println(F("Group %i is finally on position %3.9f"), _group, _position);
 
@@ -536,7 +549,7 @@ void RotoChannel::workPosition() {
  * @return time in ms incl. rollovertime
  */
 uint32_t RotoChannel::getTime(uint8_t time) {
-    return time * SECOND * (1.0f + (_config.runTimeRollover / 100));
+    return time * SECOND * (1.0f + (_config.runTimeRollover / 100.0f));
 }
 
 bool RotoChannel::knxEvents(byte index) {
@@ -547,7 +560,7 @@ bool RotoChannel::knxEvents(byte index) {
 
     // common comobjects
     switch (index) {
-        
+
         case (COMOBJ_centralShutterLock): // central lock 
         {
             /*
@@ -556,17 +569,39 @@ bool RotoChannel::knxEvents(byte index) {
              * - block external action on lock!
              * --> introduce channel lock flag
              */
-            byte value = Knx.read(index);
-            switch (_config.lockAction) {
-                case OPTION_LOCK_ACTION_NONE:
-                    // nothing to do for us
-                    break;
-                case OPTION_LOCK_ACTION_OPEN:
-                    doOpen();
-                    break;
-                case OPTION_LOCK_ACTION_CLOSE:
-                    doClose();
-                    break;
+            byte actionValue = Knx.read(index);
+            bool lock = (actionValue == DPT1_003_disable); // true if "locked", false if "unlocked"
+
+            if (lock) {
+                //locked
+                switch (_config.lockAction) {
+                    case OPTION_LOCK_ACTION_NONE:
+                        // nothing to do for us
+                        break;
+                    case OPTION_LOCK_ACTION_OPEN:
+                        doOpen();
+                        break;
+                    case OPTION_LOCK_ACTION_CLOSE:
+                        doClose();
+                        break;
+                }
+            } else {
+                //unlocked
+                switch (_config.unlockAction) {
+                    case OPTION_UNLOCK_ACTION_NONE:
+                        // nothing to do for us
+                        break;
+                    case OPTION_UNLOCK_ACTION_OPEN:
+                        doOpen();
+                        break;
+                    case OPTION_UNLOCK_ACTION_CLOSE:
+                        doClose();
+                        break;
+                    case OPTION_UNLOCK_ACTION_PREVIOUS_POS:
+                        //TODO call last position
+                        break;
+                }
+
             }
         }
 

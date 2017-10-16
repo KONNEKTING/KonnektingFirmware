@@ -12,7 +12,7 @@ while grep -q "\{Px\}" $2
 do
    echo "replace P $i"
    awk -vi=$i 'NR==1,/\{Px\}/{sub(/\{Px\}/, i)} 1' $2 > tmp
-   cp tmp $2
+   mv tmp $2
    # increment
    i=$((i+1))
 done   
@@ -23,7 +23,7 @@ while grep -q "\{Cx\}" $2
 do
    echo "replace C $i"
    awk -vi=$i 'NR==1,/\{Cx\}/{sub(/\{Cx\}/, i)} 1' $2 > tmp
-   cp tmp $2
+   mv tmp $2
    # increment
    i=$((i+1))
 done
@@ -34,7 +34,7 @@ while grep -q "\{Gx\}" $2
 do
    echo "replace PG $i"
    awk -vi=$i 'NR==1,/\{Gx\}/{sub(/\{Gx\}/, i)} 1' $2 > tmp
-   cp tmp $2
+   mv tmp $2
    # increment
    i=$((i+1))
 done

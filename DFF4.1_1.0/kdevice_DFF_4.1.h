@@ -61,7 +61,7 @@ KnxComObject KnxDevice::_comObjectsList[] = {
     /* Index 3 - centralShutterOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
     /* Index 4 - centralShutterStop */ KnxComObject(KNX_DPT_1_001, 0x2a),
     /* Index 5 - centralShutterAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
-    /* Index 6 - centralShutterLock */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 6 - centralShutterLock */ KnxComObject(KNX_DPT_1_003, 0x2a),
     /* Index 7 - centralVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
     /* Index 8 - abOpenClose */ KnxComObject(KNX_DPT_1_009, 0x2a),
     /* Index 9 - abStop */ KnxComObject(KNX_DPT_1_010, 0x2a),
