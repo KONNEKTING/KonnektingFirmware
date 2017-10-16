@@ -37,7 +37,7 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
 
     _position = 0.0f;
 
-    _startMoveMillis = 0;
+    _startMoveMillis = NOT_DEFINED;
 
     _isStopping = false;
 
@@ -126,9 +126,11 @@ void RotoChannel::work() {
         return;
     }
 
+    
     // Do init-stuff, if not already done
     if (!_initDone) {
 
+        
         // check how long we have to wait for final end position
         unsigned long waitTime = 0;
         switch (_startupAction) {
@@ -145,7 +147,7 @@ void RotoChannel::work() {
         }
 
         // if time is over
-        if (millis() - _startMoveMillis > waitTime * SECOND) {
+        if (_startMoveMillis != NOT_DEFINED && millis() - _startMoveMillis > waitTime) {
 
             // set final status
             switch (_startupAction) {
@@ -253,14 +255,35 @@ void RotoChannel::doButton(bool openButton) {
     _manualMoveRequestOpenButton = openButton;
 }
 
+/**
+ * 
+ * @param targetPosition
+ */
 void RotoChannel::doPosition(float targetPosition) {
     _targetPosition = targetPosition;
 
-    if (_targetPosition < _position) {
-        doOpen();
+    // window: 0% = closed, 100% = opened
+    // shutter: 0% = opened, 100% = closed
+    if (_targetPosition > _position) {
+        switch (_config.setting) {
+            case OPTION_SETTINGS_WINDOW:
+                doOpen();
+                break;
+            case OPTION_SETTINGS_SHUTTER:
+                doClose();    
+                break;
+        }
     } else {
-        doClose();
+        switch (_config.setting) {
+            case OPTION_SETTINGS_WINDOW:
+                doClose();    
+                break;
+            case OPTION_SETTINGS_SHUTTER:
+                doOpen();
+                break;
+        }
     }
+    
 }
 
 void RotoChannel::doOpen() {
@@ -285,8 +308,7 @@ void RotoChannel::doOpen() {
     _moveStatus = MS_OPENING;
     _lastAction = A_OPEN;
 
-    if (!_isStopping) {
-
+    if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
     }
 
@@ -309,10 +331,10 @@ void RotoChannel::doClose() {
     _moveStatus = MS_CLOSING;
     _lastAction = A_CLOSE;
 
-    if (!_isStopping) {
-
+    if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
     }
+
 
 
 }
@@ -320,17 +342,17 @@ void RotoChannel::doClose() {
 void RotoChannel::doStop() {
 
     _isStopping = true;
-    Debug.print(F("doStop on group %i with move status "), _group);
+    Debug.print(F("doStop on group %i with move status %i"), _group, _moveStatus);
 
     switch (_moveStatus) {
         case MS_CLOSING:
             Debug.println(F("CLOSING"));
-            doClose();
+            doClose(); // call close again to stop motor
             _moveStatus = MS_STOP;
             break;
         case MS_OPENING:
             Debug.println(F("OPENING"));
-            doOpen();
+            doOpen(); // call close again to stop motor
             _moveStatus = MS_STOP;
             break;
         default:
@@ -338,6 +360,7 @@ void RotoChannel::doStop() {
 
             break;
     }
+    _startMoveMillis = NOT_DEFINED;
     _isStopping = false;
 
 }
@@ -420,7 +443,7 @@ void RotoChannel::workLEDs() {
 
 void RotoChannel::workPosition() {
 
-    #define DEBUG_UPDATE_STATUS    
+#define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -446,12 +469,12 @@ void RotoChannel::workPosition() {
         float delta = (float) duration * _openStep;
 
         _newPosition = _position + delta;
-//#ifdef DEBUG_UPDATE_STATUS
+        //#ifdef DEBUG_UPDATE_STATUS
         Debug.println(F("O: duration: %i"), duration);
         Debug.println(F("O: position: %3.9f"), _position);
         Debug.println(F("O: delta: %3.9f"), delta);
         Debug.println(F("O: new position: %3.9f"), _newPosition);
-//#endif        
+        //#endif        
 
         // limit to 1
         if (_newPosition > 1.0) {
@@ -459,26 +482,26 @@ void RotoChannel::workPosition() {
         }
 
         unsigned long allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
-//#ifdef DEBUG_UPDATE_STATUS        
+        //#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("O: allowed time open: %i"), allowedTime);
-//#endif
+        //#endif
 
 
         // if open move time exceeds "open time", force position to "completely open"
         //    if (duration > _openTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 1.0;
-//#ifdef DEBUG_UPDATE_STATUS
+            //#ifdef DEBUG_UPDATE_STATUS
             Debug.println(F("O: Time limit for OPEN reached on group %i"), _group);
-//#endif            
+            //#endif            
         }
 
-        if (_newPosition == 1.0 || (_targetPosition!=NOT_DEFINED && _newPosition >= _targetPosition)) {
+        if (_newPosition == 1.0 || (_targetPosition != NOT_DEFINED && _newPosition >= _targetPosition)) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
-//#ifdef DEBUG_UPDATE_STATUS            
+            //#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("O: Group %i  is now OPENED or at abs. target pos"), _group);
-//#endif            
+            //#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -492,12 +515,12 @@ void RotoChannel::workPosition() {
         float delta = (float) duration * _closeStep;
 
         _newPosition = _position - delta;
-//#ifdef DEBUG_UPDATE_STATUS        
+        //#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: duration: %i"), duration);
         Debug.println(F("C: position: %3.9f"), _position);
         Debug.println(F("C: delta: %3.9f"), delta);
         Debug.println(F("C: new position: %3.9f"), _newPosition);
-//#endif
+        //#endif
 
         // limit to 0
         if (_newPosition < 0.0) {
@@ -505,25 +528,25 @@ void RotoChannel::workPosition() {
         }
 
         unsigned long allowedTime = (_position) * (getTime(_config.runTimeClose));
-//#ifdef DEBUG_UPDATE_STATUS        
+        //#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: allowed time close: %i"), allowedTime);
-//#endif        
+        //#endif        
 
         // if open move time exceeds "open time", force position to "completely close"
         //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
             _newPosition = 0.0;
-//#ifdef DEBUG_UPDATE_STATUS            
+            //#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Time limit for CLOSE reached on group %i"), _group);
-//#endif            
+            //#endif            
         }
 
-        if (_newPosition == 0.0 || (_targetPosition!=NOT_DEFINED && _newPosition <= _targetPosition)) {
+        if (_newPosition == 0.0 || (_targetPosition != NOT_DEFINED && _newPosition <= _targetPosition)) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
-//#ifdef DEBUG_UPDATE_STATUS            
+            //#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Group %i is now CLOSED or at abs. target pos"), _group);
-//#endif            
+            //#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -536,6 +559,7 @@ void RotoChannel::workPosition() {
 
         // apply position
         _position = _newPosition;
+        _startMoveMillis = NOT_DEFINED;
         Debug.println(F("Group %i is finally on position %3.9f"), _group, _position);
 
     }
@@ -649,8 +673,9 @@ bool RotoChannel::knxEvents(byte index) {
         case (COMOBJ_abAbsPosition - COMOBJ_OFFSET):
         {
             byte value = Knx.read(index);
-            float percentage = value * (BYTE_PERCENT);
-            Debug.println(F("[%i] absPos: %f"), _group, percentage);
+            float absPos = (value * (BYTE_PERCENT)) / 100.0f;
+            Debug.println(F("[%i] absPos: %f"), _group, absPos);
+            doPosition(absPos);
             break;
         }
 
