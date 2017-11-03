@@ -123,6 +123,25 @@ enum RotoAction {
     A_NONE
 };
 
+enum RotoShutterLock {
+    /**
+     * shutter is locked (lock action = done)
+     */
+    LCK_LOCKED,
+    /**
+     * shutter is doing lock-action
+     */
+    LCK_LOCKING,
+    /**
+     * shutter is unlocked (unlock action = done)
+     */
+    LCK_UNLOCKED,
+    /**
+     * shutter is doing unlock-action
+     */
+    LCK_UNLOCKING
+};
+
 typedef struct {
     
     /**
@@ -250,7 +269,7 @@ public:
     void doStop();
     /**
      * Move window/shutter to an absolute position
-     * @param targetPosition the new absolute position the window/shutter should move to
+     * @param targetPosition the new absolute position the window/shutter should move to [0-1.0]
      */
     void doPosition(float targetPosition);
     
@@ -272,10 +291,9 @@ private:
     bool _enabled;
     
     /**
-     * Log flag
-     * if set, channel is locked
+     * Lock enum
      */
-    bool _locked;
+    RotoShutterLock _shutterLock;
     
     /**
      * The comobj base index for this channel/group, means: at this absolute comobj index do the comobj start for this channel
@@ -357,7 +375,7 @@ private:
     volatile bool _manualMoveRequestOpenButton;
 
     /**
-     * Position if window or Shutter
+     * Position of window or Shutter
      * 0.0 = window closed / shutter open
      * 1.0 = window fully opened / shutter fully closed
      */
@@ -408,6 +426,30 @@ private:
      * is handling the position while moving the window
      */
     void workPosition();
+    
+    /**
+     * Returns true, if shutter is locked or doiong lock-action,
+     * false if unlocked, or doing unlock-action
+     * @return bool
+     */
+    bool isLocked();
+    
+    /**
+     * returns true, if channel is in move state
+     * @return bool
+     */
+    bool isMoving();
+    
+    /**
+     * Keeps position in 0..1 range. If bigger, limit to 1, if smaller, limit to 0
+     */
+    float limitPos(float pos);
+    
+    /**
+     * Check for window setup
+     * @return true, if channel/group is window, false if it's shutter
+     */
+    bool isWindow();
 
 };
 

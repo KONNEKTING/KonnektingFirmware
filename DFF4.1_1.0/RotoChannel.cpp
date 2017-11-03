@@ -44,6 +44,7 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
     _targetPosition = NOT_DEFINED;
 
     _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    _shutterLock = LCK_UNLOCKED;
 }
 
 RotoChannel::~RotoChannel() {
@@ -80,7 +81,7 @@ void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
     _mcp.pinMode(_setPinClose, OUTPUT);
     _mcp.pinMode(_resetPinClose, OUTPUT);
 
-    Debug.print(F("Init of group %i"), _group);
+    Debug.print(F("[%i] Init "), _group);
     switch (_startupAction) {
         case A_OPEN:
             _initDone = false;
@@ -126,11 +127,11 @@ void RotoChannel::work() {
         return;
     }
 
-    
+
     // Do init-stuff, if not already done
     if (!_initDone) {
 
-        
+
         // check how long we have to wait for final end position
         unsigned long waitTime = 0;
         switch (_startupAction) {
@@ -212,6 +213,11 @@ void RotoChannel::work() {
  * Send status updates, if required
  */
 void RotoChannel::workStatus() {
+    // if locked, just don't send any updates, we're locked!
+    if (_shutterLock == LCK_LOCKED) {
+        return;
+    }
+
     bool sendStatus = false;
     float currPos = 0;
 
@@ -233,12 +239,21 @@ void RotoChannel::workStatus() {
             break;
     }
 
+
+//    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
+//        currPos = 1.0f - currPos; // invert the position as shutter has different 100%-meaning than window
+//        //Debug.println(F("pos inverted due to shutter to: %f"), currPos);
+//    }
+
     uint8_t positionValueToSend = currPos * 255; // map 0..100% to 0..255 unsigned byte
     if (_initDone && // only send when init is done AND
             _lastSentPosition != positionValueToSend && // we need to have different value as last time
             (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
             (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
             ) {
+        if (_config.setting == OPTION_SETTINGS_SHUTTER) {
+            Debug.println(F("pos inverted due to shutter to: %f"), currPos);
+        }
         Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
         Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
         // store last sent status. Ensures with if.clause that we don't send the same value twice (especially on stop)
@@ -260,30 +275,39 @@ void RotoChannel::doButton(bool openButton) {
  * @param targetPosition
  */
 void RotoChannel::doPosition(float targetPosition) {
-    _targetPosition = targetPosition;
 
+    Debug.println(F("[%i] doPosition(%f) currPos=%f setting=%i"), _group, targetPosition, _position, _config.setting);
+
+//    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
+//        targetPosition = 1.0f - targetPosition; // invert the position as shutter has different 100%-meaning than window
+//        Debug.println(F("pos inverted due to shutter to: %f"), targetPosition);
+//    }
+
+
+    _targetPosition = targetPosition;
     // window: 0% = closed, 100% = opened
     // shutter: 0% = opened, 100% = closed
+    // --> different meaning is handled by workStatus() and doPosition(), that's it.)
     if (_targetPosition > _position) {
-        switch (_config.setting) {
-            case OPTION_SETTINGS_WINDOW:
-                doOpen();
-                break;
-            case OPTION_SETTINGS_SHUTTER:
-                doClose();    
-                break;
-        }
+        //        switch (_config.setting) {
+        //            case OPTION_SETTINGS_WINDOW:
+        doOpen();
+        //                break;
+        //            case OPTION_SETTINGS_SHUTTER:
+        //                doClose();
+        //                break;
+        //        }
     } else {
-        switch (_config.setting) {
-            case OPTION_SETTINGS_WINDOW:
-                doClose();    
-                break;
-            case OPTION_SETTINGS_SHUTTER:
-                doOpen();
-                break;
-        }
+        //        switch (_config.setting) {
+        //            case OPTION_SETTINGS_WINDOW:
+        doClose();
+        //                break;
+        //            case OPTION_SETTINGS_SHUTTER:
+        //                doOpen();
+        //                break;
+        //    }
     }
-    
+
 }
 
 void RotoChannel::doOpen() {
@@ -293,17 +317,24 @@ void RotoChannel::doOpen() {
      * bus this happens not that often, so we won't miss a telegram
      */
 
-    Debug.println(F("doOpen on group=%i"), _group);
+    Debug.println(F("[%i] doOpen() locked=%i"), _group, _shutterLock);
+    if (isMoving()) {
+        Debug.println(F("[%i] Stop moving first ..."), _group);
+        doStop();
+        Debug.println(F("[%i] Stop moving first ...*done*"), _group);
+    }
+    // it's okay to trigger relais in unlocked, locking and unlocking
+    if (_shutterLock != LCK_LOCKED) {
+        _mcp.digitalWrite(_setPinOpen, HIGH);
+        delay(RELAY_SET_TIME);
+        _mcp.digitalWrite(_setPinOpen, LOW);
 
-    _mcp.digitalWrite(_setPinOpen, HIGH);
-    delay(RELAY_SET_TIME);
-    _mcp.digitalWrite(_setPinOpen, LOW);
+        delay(ROTO_TRIGGER_DURATION);
 
-    delay(ROTO_TRIGGER_DURATION);
-
-    _mcp.digitalWrite(_resetPinOpen, HIGH);
-    delay(RELAY_SET_TIME);
-    _mcp.digitalWrite(_resetPinOpen, LOW);
+        _mcp.digitalWrite(_resetPinOpen, HIGH);
+        delay(RELAY_SET_TIME);
+        _mcp.digitalWrite(_resetPinOpen, LOW);
+    }
 
     _moveStatus = MS_OPENING;
     _lastAction = A_OPEN;
@@ -316,17 +347,24 @@ void RotoChannel::doOpen() {
 
 void RotoChannel::doClose() {
 
-    Debug.println(F("doClose on group=%i"), _group);
+    Debug.println(F("[%i] doClose() locked=%i"), _group, _shutterLock);
+    if (isMoving()) {
+        Debug.println(F("[%i] Stop moving first ..."), _group);
+        doStop();
+        Debug.println(F("[%i] Stop moving first ...*done*"), _group);
+    }
+    // it's okay to trigger relais in unlocked, locking and unlocking
+    if (_shutterLock != LCK_LOCKED) {
+        _mcp.digitalWrite(_setPinClose, HIGH);
+        delay(RELAY_SET_TIME);
+        _mcp.digitalWrite(_setPinClose, LOW);
 
-    _mcp.digitalWrite(_setPinClose, HIGH);
-    delay(RELAY_SET_TIME);
-    _mcp.digitalWrite(_setPinClose, LOW);
+        delay(ROTO_TRIGGER_DURATION);
 
-    delay(ROTO_TRIGGER_DURATION);
-
-    _mcp.digitalWrite(_resetPinClose, HIGH);
-    delay(RELAY_SET_TIME);
-    _mcp.digitalWrite(_resetPinClose, LOW);
+        _mcp.digitalWrite(_resetPinClose, HIGH);
+        delay(RELAY_SET_TIME);
+        _mcp.digitalWrite(_resetPinClose, LOW);
+    }
 
     _moveStatus = MS_CLOSING;
     _lastAction = A_CLOSE;
@@ -342,16 +380,16 @@ void RotoChannel::doClose() {
 void RotoChannel::doStop() {
 
     _isStopping = true;
-    Debug.print(F("doStop on group %i with move status %i"), _group, _moveStatus);
+    Debug.print(F("[%i] doStop() moveStatus=%i ->"), _group, _moveStatus);
 
     switch (_moveStatus) {
         case MS_CLOSING:
-            Debug.println(F("CLOSING"));
+            Debug.println(F("CLOSING to STOP"));
             doClose(); // call close again to stop motor
             _moveStatus = MS_STOP;
             break;
         case MS_OPENING:
-            Debug.println(F("OPENING"));
+            Debug.println(F("OPENING to STOP"));
             doOpen(); // call close again to stop motor
             _moveStatus = MS_STOP;
             break;
@@ -370,7 +408,7 @@ void RotoChannel::doStop() {
  */
 void RotoChannel::workLEDs() {
 
-    // while not yet done with init, led all LEDs blink so signal init
+    // while not yet done with init, led all LEDs blink to signal init
     if (!_initDone) {
         _lastBlinkState = !_lastBlinkState;
         if (millis() - _lastBlinkMillis > BLINK_DELAY) {
@@ -443,7 +481,7 @@ void RotoChannel::workLEDs() {
 
 void RotoChannel::workPosition() {
 
-#define DEBUG_UPDATE_STATUS    
+    #define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -462,91 +500,137 @@ void RotoChannel::workPosition() {
      * - weder noch
      */
 
-    // Fall: Öffne ODER öffnen gestoppt
+
+
+    /* ********************************************
+     * Fall: Öffne ODER öffnen gestoppt
+     * ********************************************/
+
     if ((_lastMoveStatus == MS_OPENING && _moveStatus == MS_OPENING) || (_lastMoveStatus == MS_OPENING && _moveStatus == MS_STOP)) {
 
         unsigned long duration = millis() - _startMoveMillis;
         float delta = (float) duration * _openStep;
 
-        _newPosition = _position + delta;
-        //#ifdef DEBUG_UPDATE_STATUS
+        if (isWindow()) {
+            _newPosition = _position + delta;
+        } else {
+            _newPosition = _position - delta;
+        }
+        
+#ifdef DEBUG_UPDATE_STATUS
         Debug.println(F("O: duration: %i"), duration);
         Debug.println(F("O: position: %3.9f"), _position);
         Debug.println(F("O: delta: %3.9f"), delta);
         Debug.println(F("O: new position: %3.9f"), _newPosition);
-        //#endif        
+#endif        
 
-        // limit to 1
-        if (_newPosition > 1.0) {
-            _newPosition = 1.0;
+        // keep pos in range
+        _newPosition = limitPos(_newPosition);
+
+        unsigned long allowedTime = 0.0;
+        if (isWindow()){
+            allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
+        } else {
+            allowedTime = (_position) * (getTime(_config.runTimeClose));
         }
 
-        unsigned long allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
-        //#ifdef DEBUG_UPDATE_STATUS        
+#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("O: allowed time open: %i"), allowedTime);
-        //#endif
-
+#endif
 
         // if open move time exceeds "open time", force position to "completely open"
-        //    if (duration > _openTime * SECOND) {
         if (duration > allowedTime) {
-            _newPosition = 1.0;
-            //#ifdef DEBUG_UPDATE_STATUS
+            if (isWindow()) {
+                _newPosition = 1.0;
+            } else {
+                _newPosition = 0.0;
+            }
+#ifdef DEBUG_UPDATE_STATUS
             Debug.println(F("O: Time limit for OPEN reached on group %i"), _group);
-            //#endif            
+#endif            
         }
-
-        if (_newPosition == 1.0 || (_targetPosition != NOT_DEFINED && _newPosition >= _targetPosition)) {
+        
+        // opened condition
+        bool openedCondition = false;
+        if (isWindow()) {
+            openedCondition = _newPosition == 1.0 || (_targetPosition != NOT_DEFINED && _newPosition >= _targetPosition);
+        } else {
+            openedCondition = _newPosition == 0.0 || (_targetPosition != NOT_DEFINED && _newPosition <= _targetPosition);
+        }
+        if (openedCondition) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
-            //#ifdef DEBUG_UPDATE_STATUS            
+#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("O: Group %i  is now OPENED or at abs. target pos"), _group);
-            //#endif            
+#endif            
         } else {
             _status = CS_OPEN;
         }
 
     } else
-        // Fall: Schließe ODER schließen gestoppt
+
+
+        /* ********************************************
+         * Fall: Schließe ODER schließen gestoppt
+         * ********************************************/
+
         if ((_lastMoveStatus == MS_CLOSING && _moveStatus == MS_CLOSING) || (_lastMoveStatus == MS_CLOSING && _moveStatus == MS_STOP)) {
 
 
         unsigned long duration = millis() - _startMoveMillis;
         float delta = (float) duration * _closeStep;
 
-        _newPosition = _position - delta;
-        //#ifdef DEBUG_UPDATE_STATUS        
+        
+        if (isWindow()) {
+            _newPosition = _position - delta;
+        } else {
+            _newPosition = _position + delta;
+        }        
+#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: duration: %i"), duration);
         Debug.println(F("C: position: %3.9f"), _position);
         Debug.println(F("C: delta: %3.9f"), delta);
         Debug.println(F("C: new position: %3.9f"), _newPosition);
-        //#endif
+#endif
 
-        // limit to 0
-        if (_newPosition < 0.0) {
-            _newPosition = 0.0;
+        // keep pos in range
+        _newPosition = limitPos(_newPosition);
+
+        unsigned long allowedTime = 0.0;
+        if (isWindow()){
+            allowedTime = (_position) * (getTime(_config.runTimeClose));
+        } else {
+            allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
         }
-
-        unsigned long allowedTime = (_position) * (getTime(_config.runTimeClose));
-        //#ifdef DEBUG_UPDATE_STATUS        
+#ifdef DEBUG_UPDATE_STATUS        
         Debug.println(F("C: allowed time close: %i"), allowedTime);
-        //#endif        
+#endif        
 
         // if open move time exceeds "open time", force position to "completely close"
-        //if (duration > _closeTime * SECOND) {
         if (duration > allowedTime) {
-            _newPosition = 0.0;
-            //#ifdef DEBUG_UPDATE_STATUS            
+            if (isWindow()) {
+                _newPosition = 0.0;
+            } else {
+                _newPosition = 1.0;
+            }
+#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Time limit for CLOSE reached on group %i"), _group);
-            //#endif            
+#endif            
         }
 
-        if (_newPosition == 0.0 || (_targetPosition != NOT_DEFINED && _newPosition <= _targetPosition)) {
+        // closed condition
+        bool closedCondition = false;
+        if (isWindow()) {
+            closedCondition = _newPosition == 0.0 || (_targetPosition != NOT_DEFINED && _newPosition <= _targetPosition);
+        } else {
+            closedCondition = _newPosition == 1.0 || (_targetPosition != NOT_DEFINED && _newPosition >= _targetPosition);
+        }
+        if (closedCondition) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
-            //#ifdef DEBUG_UPDATE_STATUS            
+#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("C: Group %i is now CLOSED or at abs. target pos"), _group);
-            //#endif            
+#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -560,11 +644,70 @@ void RotoChannel::workPosition() {
         // apply position
         _position = _newPosition;
         _startMoveMillis = NOT_DEFINED;
-        Debug.println(F("Group %i is finally on position %3.9f"), _group, _position);
+
+        // if required, set end of locking/unlocking as channel movement has stopped 
+        switch (_shutterLock) {
+            case LCK_LOCKING:
+                _shutterLock = LCK_LOCKED;
+                break;
+            case LCK_UNLOCKING:
+                _shutterLock = LCK_UNLOCKED;
+        }
+
+        Debug.println(F("[%i] Finally on position %3.9f [locked=%i]"), _group, _position, isLocked());
 
     }
 
 
+}
+
+/**
+ * Returns true, if shutter is locked or doiong lock-action,
+ * false if unlocked, or doing unlock-action
+ * @return bool
+ */
+bool RotoChannel::isLocked() {
+    switch (_shutterLock) {
+        case LCK_LOCKED:
+        case LCK_LOCKING:
+            return true;
+        case LCK_UNLOCKED:
+        case LCK_UNLOCKING:
+        default:
+            return false;
+    }
+}
+
+/**
+ * returns true, if channel is in move state
+ * @return bool
+ */
+bool RotoChannel::isMoving() {
+    switch (_moveStatus) {
+        case MS_CLOSING:
+        case MS_OPENING:
+            return true;
+        case MS_STOP:
+        default:
+            return false;
+    }
+}
+
+float RotoChannel::limitPos(float pos) {
+    if (pos > 1.0f) {
+        pos = 1.0f;
+    } else if (pos < 0.0f) {
+        pos = 0.0f;
+    }
+    return pos;
+}
+
+/**
+ * Check for window setup
+ * @return true, if channel/group is window, false if it's shutter
+ */
+bool RotoChannel::isWindow(){
+    return _config.setting==OPTION_SETTINGS_WINDOW;
 }
 
 /**
@@ -585,48 +728,68 @@ bool RotoChannel::knxEvents(byte index) {
     // common comobjects
     switch (index) {
 
-        case (COMOBJ_centralShutterLock): // central lock 
+        case (COMOBJ_centralShutterLock):
         {
-            /*
-             * TODO
-             * - store lock state?
-             * - block external action on lock!
-             * --> introduce channel lock flag
-             */
-            byte actionValue = Knx.read(index);
-            bool lock = (actionValue == DPT1_003_disable); // true if "locked", false if "unlocked"
+            // lock can be applied to shutter only! No lock for window!
+            if (_config.setting == OPTION_SETTINGS_SHUTTER) {
 
-            if (lock) {
-                //locked
-                switch (_config.lockAction) {
-                    case OPTION_LOCK_ACTION_NONE:
-                        // nothing to do for us
-                        break;
-                    case OPTION_LOCK_ACTION_OPEN:
-                        doOpen();
-                        break;
-                    case OPTION_LOCK_ACTION_CLOSE:
-                        doClose();
-                        break;
-                }
-            } else {
-                //unlocked
-                switch (_config.unlockAction) {
-                    case OPTION_UNLOCK_ACTION_NONE:
-                        // nothing to do for us
-                        break;
-                    case OPTION_UNLOCK_ACTION_OPEN:
-                        doOpen();
-                        break;
-                    case OPTION_UNLOCK_ACTION_CLOSE:
-                        doClose();
-                        break;
-                    case OPTION_UNLOCK_ACTION_PREVIOUS_POS:
-                        //TODO call last position
-                        break;
-                }
+                /*
+                 * - store lock state
+                 * - block external action on lock! (in doOpen/doClose)
+                 */
+                byte actionValue = Knx.read(index);
+                if (actionValue == DPT1_003_disable) { // true if "locked", false if "unlocked"
+                    _shutterLock = LCK_LOCKED;
+                } else {
+                    _shutterLock = LCK_UNLOCKED;
+                };
 
+                Debug.println(F("[%i] shutter locked: %i"), _group, isLocked());
+                if (isLocked()) {
+                    //locked
+                    _previousPosition = _position;
+                    switch (_config.lockAction) {
+                        case OPTION_LOCK_ACTION_NONE:
+                            // nothing to do for us
+                            Debug.println(F("[%i] locked: none"), _group);
+                            break;
+                        case OPTION_LOCK_ACTION_OPEN:
+                            Debug.println(F("[%i] locked: open"), _group);
+                            _shutterLock = LCK_LOCKING;
+                            doOpen();
+                            break;
+                        case OPTION_LOCK_ACTION_CLOSE:
+                            Debug.println(F("[%i] locked: close"), _group);
+                            _shutterLock = LCK_LOCKING;
+                            doClose();
+                            break;
+                    }
+                } else {
+                    //unlocked
+                    _shutterLock = LCK_UNLOCKING;
+                    switch (_config.unlockAction) {
+                        case OPTION_UNLOCK_ACTION_NONE:
+                            // set the position we reached during lock
+                            Debug.println(F("[%i] unlocked: none"), _group);
+                            doPosition(_position);
+                            break;
+                        case OPTION_UNLOCK_ACTION_OPEN:
+                            Debug.println(F("[%i] unlocked: open"), _group);
+                            doOpen();
+                            break;
+                        case OPTION_UNLOCK_ACTION_CLOSE:
+                            Debug.println(F("[%i] unlocked: close"), _group);
+                            doClose();
+                            break;
+                        case OPTION_UNLOCK_ACTION_PREVIOUS_POS:
+                            Debug.println(F("[%i] unlocked: restore prev position: %i"), _group, _previousPosition);
+                            doPosition(_previousPosition);
+                            break;
+                    }
+
+                }
             }
+            return false;
         }
 
     }
@@ -645,7 +808,6 @@ bool RotoChannel::knxEvents(byte index) {
     // channel specific comobjects
     switch (chIndex) {
 
-
             // handle open close
         case (COMOBJ_abOpenClose - COMOBJ_OFFSET):
         {
@@ -657,7 +819,7 @@ bool RotoChannel::knxEvents(byte index) {
                 Debug.println(F("[%i] close"), _group);
                 doClose();
             }
-            break;
+            return true;
         }
 
         case (COMOBJ_abStop - COMOBJ_OFFSET):
@@ -667,7 +829,7 @@ bool RotoChannel::knxEvents(byte index) {
             if (value == DPT1_010_stop) {
                 doStop();
             }
-            break;
+            return true;
         }
 
         case (COMOBJ_abAbsPosition - COMOBJ_OFFSET):
@@ -676,7 +838,7 @@ bool RotoChannel::knxEvents(byte index) {
             float absPos = (value * (BYTE_PERCENT)) / 100.0f;
             Debug.println(F("[%i] absPos: %f"), _group, absPos);
             doPosition(absPos);
-            break;
+            return true;
         }
 
         case (COMOBJ_abReference - COMOBJ_OFFSET):
@@ -694,22 +856,25 @@ bool RotoChannel::knxEvents(byte index) {
                  * - unblock any external action
                  * --> block-flag required!
                  */
+                // --> Use separate/new enum to follow reference drive steps
             }
-            break;
+            return true;
         }
 
         case (COMOBJ_abFixPosition - COMOBJ_OFFSET):
         {
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
-                Debug.println(F("[%i] doStop: %i"), _group, value);
+                Debug.println(F("[%i] fix position: %i"), _group, value);
 
                 /*
                  * TODO
-                 * - define exit-condition on doOpen/doClose based on targetted position
+                 * - get predefined position from settings
+                 * - call doPosition()
                  */
+                doPosition(0.5f); // for now, we use 50%
             }
-            break;
+            return true;
         }
 
         case (COMOBJ_abVentilation - COMOBJ_OFFSET):
@@ -728,7 +893,7 @@ bool RotoChannel::knxEvents(byte index) {
                  * - check in work() for outdated time on global variable -> then close window/restore last position --> unblock external action
                  */
             }
-            break;
+            return true;
         }
 
         case (COMOBJ_abWindAlarm - COMOBJ_OFFSET):
@@ -739,7 +904,7 @@ bool RotoChannel::knxEvents(byte index) {
              * TODO
              * Introduce param that controls what to do? Like with lock?
              */
-            break;
+            return true;
         }
 
         case (COMOBJ_abRainAlarm - COMOBJ_OFFSET):
@@ -751,7 +916,7 @@ bool RotoChannel::knxEvents(byte index) {
              * - Introduce param that controls what to do? Like with lock?
              * - convert it to central comobj instead of channel comobj --> channel just decided via param how to react on wind/rain alarm
              */
-            break;
+            return true;
         }
 
             // status com obj are "outgoing" comobjs.
@@ -769,5 +934,5 @@ bool RotoChannel::knxEvents(byte index) {
             // not implemented yet?!
             return false;
     }
-    return true;
+
 }
