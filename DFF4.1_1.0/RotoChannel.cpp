@@ -196,15 +196,14 @@ void RotoChannel::work() {
         //Debug.println(F("work on channel %i"), _channel);
     }
 
-    // update LEDs in any case
-    workLEDs();
 
     if (_initDone) {
         workPosition();
         workStatus();
     }
 
-
+    // update LEDs in any case, needs to be done at last
+    workLEDs();
 
     _lastMoveStatus = _moveStatus;
 }
@@ -240,10 +239,10 @@ void RotoChannel::workStatus() {
     }
 
 
-//    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
-//        currPos = 1.0f - currPos; // invert the position as shutter has different 100%-meaning than window
-//        //Debug.println(F("pos inverted due to shutter to: %f"), currPos);
-//    }
+    //    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
+    //        currPos = 1.0f - currPos; // invert the position as shutter has different 100%-meaning than window
+    //        //Debug.println(F("pos inverted due to shutter to: %f"), currPos);
+    //    }
 
     uint8_t positionValueToSend = currPos * 255; // map 0..100% to 0..255 unsigned byte
     if (_initDone && // only send when init is done AND
@@ -251,9 +250,9 @@ void RotoChannel::workStatus() {
             (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
             (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
             ) {
-        if (_config.setting == OPTION_SETTINGS_SHUTTER) {
-            Debug.println(F("pos inverted due to shutter to: %f"), currPos);
-        }
+        //        if (_config.setting == OPTION_SETTINGS_SHUTTER) {
+        //            Debug.println(F("pos inverted due to shutter to: %f"), currPos);
+        //        }
         Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
         Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
         // store last sent status. Ensures with if.clause that we don't send the same value twice (especially on stop)
@@ -278,10 +277,10 @@ void RotoChannel::doPosition(float targetPosition) {
 
     Debug.println(F("[%i] doPosition(%f) currPos=%f setting=%i"), _group, targetPosition, _position, _config.setting);
 
-//    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
-//        targetPosition = 1.0f - targetPosition; // invert the position as shutter has different 100%-meaning than window
-//        Debug.println(F("pos inverted due to shutter to: %f"), targetPosition);
-//    }
+    //    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
+    //        targetPosition = 1.0f - targetPosition; // invert the position as shutter has different 100%-meaning than window
+    //        Debug.println(F("pos inverted due to shutter to: %f"), targetPosition);
+    //    }
 
 
     _targetPosition = targetPosition;
@@ -318,7 +317,7 @@ void RotoChannel::doOpen() {
      */
 
     Debug.println(F("[%i] doOpen() locked=%i"), _group, _shutterLock);
-    if (isMoving()) {
+    if (isMoving() && !_isStopping) {
         Debug.println(F("[%i] Stop moving first ..."), _group);
         doStop();
         Debug.println(F("[%i] Stop moving first ...*done*"), _group);
@@ -334,10 +333,13 @@ void RotoChannel::doOpen() {
         _mcp.digitalWrite(_resetPinOpen, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_resetPinOpen, LOW);
+
+        // we're no longer "closed", so turn off that status LED
+        _frontend.setLED(getLed(LED_CLOSE), false);
     }
 
     _moveStatus = MS_OPENING;
-    _lastAction = A_OPEN;
+//    _lastAction = A_OPEN;
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
@@ -348,7 +350,7 @@ void RotoChannel::doOpen() {
 void RotoChannel::doClose() {
 
     Debug.println(F("[%i] doClose() locked=%i"), _group, _shutterLock);
-    if (isMoving()) {
+    if (isMoving() && !_isStopping) {
         Debug.println(F("[%i] Stop moving first ..."), _group);
         doStop();
         Debug.println(F("[%i] Stop moving first ...*done*"), _group);
@@ -364,10 +366,13 @@ void RotoChannel::doClose() {
         _mcp.digitalWrite(_resetPinClose, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_resetPinClose, LOW);
+
+        // we're no longer "opened", so turn off that status LED
+        _frontend.setLED(getLed(LED_OPEN), false);
     }
 
     _moveStatus = MS_CLOSING;
-    _lastAction = A_CLOSE;
+//    _lastAction = A_CLOSE;
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
@@ -391,14 +396,13 @@ void RotoChannel::doStop() {
         case MS_OPENING:
             Debug.println(F("OPENING to STOP"));
             doOpen(); // call close again to stop motor
-            _moveStatus = MS_STOP;
             break;
         default:
             Debug.println(F("STOP"));
-
             break;
     }
-    _startMoveMillis = NOT_DEFINED;
+    _moveStatus = MS_STOP;
+    //_startMoveMillis = NOT_DEFINED;
     _isStopping = false;
 
 }
@@ -410,12 +414,11 @@ void RotoChannel::workLEDs() {
 
     // while not yet done with init, led all LEDs blink to signal init
     if (!_initDone) {
-        _lastBlinkState = !_lastBlinkState;
-        if (millis() - _lastBlinkMillis > BLINK_DELAY) {
-            int led = _group * 2;
-            _frontend.setLED(led, !_lastBlinkState);
-            _frontend.setLED(led + 1, _lastBlinkState);
+        if (millis() - _lastBlinkMillis > BLINK_INIT_DELAY) {
+            _frontend.setLED(getLed(LED_CLOSE), !_lastBlinkState);
+            _frontend.setLED(getLed(LED_OPEN), _lastBlinkState);
             _lastBlinkMillis = millis();
+            _lastBlinkState = !_lastBlinkState;
         }
         return;
     }
@@ -429,22 +432,17 @@ void RotoChannel::workLEDs() {
 
             _lastBlinkState = !_lastBlinkState;
 
-            // get correct LED for blinking
-            int led = _group * 2;
+            // set blink status on correct LED
             switch (_moveStatus) {
                 case MS_CLOSING:
-                    //        Debug.println(F("CLOSING"));
-                    led += 1;
+                    _frontend.setLED(getLed(LED_CLOSE), _lastBlinkState);
                     break;
                 case MS_OPENING:
-                    //        Debug.println(F("OPENING"));
-                    led += 0;
+                    _frontend.setLED(getLed(LED_OPEN), _lastBlinkState);
                     break;
                 default:
-                    //        Debug.println(F("NONE?"));
                     break;
             }
-            _frontend.setLED(led, _lastBlinkState);
             _lastBlinkMillis = millis();
         }
 
@@ -452,25 +450,24 @@ void RotoChannel::workLEDs() {
 
     // ensure LEDs are off after moving
     if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
-        int led = _group * 2;
-        Debug.print(F("STOP reached. Set LEDs to "));
+        Debug.print(F("workLEDs: STOP reached. Set LEDs to "));
 
         switch (_status) {
             case CS_OPENED:
-                _frontend.setLED(led + 0, true); // auf
-                _frontend.setLED(led + 1, false); // zu
+                _frontend.setLED(getLed(LED_OPEN), true); // auf
+                _frontend.setLED(getLed(LED_CLOSE), false); // zu
                 Debug.println(F("OPENED"));
                 break;
             case CS_CLOSED:
-                _frontend.setLED(led + 0, false); // auf
-                _frontend.setLED(led + 1, true); // zu
+                _frontend.setLED(getLed(LED_OPEN), false); // auf
+                _frontend.setLED(getLed(LED_CLOSE), true); // zu
                 Debug.println(F("CLOSED"));
 
                 break;
             case CS_UNDEFINED:
             default:
-                _frontend.setLED(led + 0, false); // auf
-                _frontend.setLED(led + 1, false); // zu
+                _frontend.setLED(getLed(LED_OPEN), false); // weder
+                _frontend.setLED(getLed(LED_CLOSE), false); // noch
                 Debug.println(F("UNDEFINED"));
         }
 
@@ -481,7 +478,7 @@ void RotoChannel::workLEDs() {
 
 void RotoChannel::workPosition() {
 
-    #define DEBUG_UPDATE_STATUS    
+#define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -516,26 +513,26 @@ void RotoChannel::workPosition() {
         } else {
             _newPosition = _position - delta;
         }
-        
+
 #ifdef DEBUG_UPDATE_STATUS
-        Debug.println(F("O: duration: %i"), duration);
-        Debug.println(F("O: position: %3.9f"), _position);
-        Debug.println(F("O: delta: %3.9f"), delta);
-        Debug.println(F("O: new position: %3.9f"), _newPosition);
+        Debug.println(F("[%i] O: duration: %i"), _group, duration);
+        Debug.println(F("[%i] O: position: %3.9f"), _group, _position);
+        Debug.println(F("[%i] O: delta: %3.9f"), _group, delta);
+        Debug.println(F("[%i] O: new position: %3.9f"), _group, _newPosition);
 #endif        
 
         // keep pos in range
         _newPosition = limitPos(_newPosition);
 
         unsigned long allowedTime = 0.0;
-        if (isWindow()){
+        if (isWindow()) {
             allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
         } else {
             allowedTime = (_position) * (getTime(_config.runTimeClose));
         }
 
 #ifdef DEBUG_UPDATE_STATUS        
-        Debug.println(F("O: allowed time open: %i"), allowedTime);
+        Debug.println(F("[%i] O: allowed time open: %i"), _group, allowedTime);
 #endif
 
         // if open move time exceeds "open time", force position to "completely open"
@@ -546,10 +543,10 @@ void RotoChannel::workPosition() {
                 _newPosition = 0.0;
             }
 #ifdef DEBUG_UPDATE_STATUS
-            Debug.println(F("O: Time limit for OPEN reached on group %i"), _group);
+            Debug.println(F("[%i] O: Time limit for OPEN reached"), _group);
 #endif            
         }
-        
+
         // opened condition
         bool openedCondition = false;
         if (isWindow()) {
@@ -561,7 +558,7 @@ void RotoChannel::workPosition() {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
 #ifdef DEBUG_UPDATE_STATUS            
-            Debug.println(F("O: Group %i  is now OPENED or at abs. target pos"), _group);
+            Debug.println(F("[%i] Is now OPENED or at abs. target pos"), _group);
 #endif            
         } else {
             _status = CS_OPEN;
@@ -580,30 +577,30 @@ void RotoChannel::workPosition() {
         unsigned long duration = millis() - _startMoveMillis;
         float delta = (float) duration * _closeStep;
 
-        
+
         if (isWindow()) {
             _newPosition = _position - delta;
         } else {
             _newPosition = _position + delta;
-        }        
+        }
 #ifdef DEBUG_UPDATE_STATUS        
-        Debug.println(F("C: duration: %i"), duration);
-        Debug.println(F("C: position: %3.9f"), _position);
-        Debug.println(F("C: delta: %3.9f"), delta);
-        Debug.println(F("C: new position: %3.9f"), _newPosition);
+        Debug.println(F("[%i] C: duration: %i"), _group, duration);
+        Debug.println(F("[%i] C: position: %3.9f"), _group, _position);
+        Debug.println(F("[%i] C: delta: %3.9f"), _group, delta);
+        Debug.println(F("[%i] C: new position: %3.9f"), _group, _newPosition);
 #endif
 
         // keep pos in range
         _newPosition = limitPos(_newPosition);
 
         unsigned long allowedTime = 0.0;
-        if (isWindow()){
+        if (isWindow()) {
             allowedTime = (_position) * (getTime(_config.runTimeClose));
         } else {
             allowedTime = (1.0 - _position) * getTime(_config.runTimeOpen);
         }
 #ifdef DEBUG_UPDATE_STATUS        
-        Debug.println(F("C: allowed time close: %i"), allowedTime);
+        Debug.println(F("[%i] C: allowed time close: %i"), _group, allowedTime);
 #endif        
 
         // if open move time exceeds "open time", force position to "completely close"
@@ -614,7 +611,7 @@ void RotoChannel::workPosition() {
                 _newPosition = 1.0;
             }
 #ifdef DEBUG_UPDATE_STATUS            
-            Debug.println(F("C: Time limit for CLOSE reached on group %i"), _group);
+            Debug.println(F("[%i] C: Time limit for CLOSE reached"), _group);
 #endif            
         }
 
@@ -629,7 +626,7 @@ void RotoChannel::workPosition() {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
 #ifdef DEBUG_UPDATE_STATUS            
-            Debug.println(F("C: Group %i is now CLOSED or at abs. target pos"), _group);
+            Debug.println(F("[%i] Is now CLOSED or at abs. target pos"), _group);
 #endif            
         } else {
             _status = CS_OPEN;
@@ -706,8 +703,28 @@ float RotoChannel::limitPos(float pos) {
  * Check for window setup
  * @return true, if channel/group is window, false if it's shutter
  */
-bool RotoChannel::isWindow(){
-    return _config.setting==OPTION_SETTINGS_WINDOW;
+bool RotoChannel::isWindow() {
+    return _config.setting == OPTION_SETTINGS_WINDOW;
+}
+
+/**
+ * Returns frontend LED index
+ * @param led enum for open and close LED
+ * @return frontend LED index
+ */
+int RotoChannel::getLed(FrontendLed led) {
+    int ledIndex = _group * 2;
+    switch (led) {
+        case LED_OPEN:
+            ledIndex += 0;
+            break;
+        case LED_CLOSE:
+            ledIndex += 1;
+            break;
+        default:
+            break;
+    }
+    return ledIndex;
 }
 
 /**

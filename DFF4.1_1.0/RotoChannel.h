@@ -26,12 +26,12 @@
 /**
  * delay for blinking
  */
-#define BLINK_DELAY 300L
+#define BLINK_DELAY 500L
 
 /**
  * delay for blinking while init
  */
-#define BLINK_INIT_DELAY 150L
+#define BLINK_INIT_DELAY 250L
 
 /**
  * One second in milliseconds -> 1000ms
@@ -140,6 +140,17 @@ enum RotoShutterLock {
      * shutter is doing unlock-action
      */
     LCK_UNLOCKING
+};
+
+enum FrontendLed {
+    /**
+     * LED for open-status
+     */
+    LED_OPEN,
+    /**
+     * LED for close-status
+     */
+    LED_CLOSE
 };
 
 typedef struct {
@@ -354,7 +365,10 @@ private:
     bool _lastBlinkState;
 
 
-    RotoAction _lastAction;
+//    /**
+//     * WOFÜR HATTE ICH DAS NOCHMAL ANGEDACHT?!
+//     */
+//    RotoAction _lastAction;
 
     /*
      * the status of the channel
@@ -450,6 +464,13 @@ private:
      * @return true, if channel/group is window, false if it's shutter
      */
     bool isWindow();
+    
+    /**
+     * Returns frontend LED index
+     * @param led enum for open and close LED
+     * @return frontend LED index
+     */
+    int getLed(FrontendLed led);
 
 };
 
