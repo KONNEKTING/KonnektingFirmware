@@ -5,7 +5,7 @@
         <DeviceName>DFF 4.1</DeviceName>
         <Parameters>
             <!-- Allgemein -->
-            <ParameterGroup Name="Allgemein" Id="{Px}">
+            <ParameterGroup Name="Allgemein" Id="{Gx}">
                 <Parameter Id="{Px}" IdName="startupDelay">
                     <Description>Anlaufzeit [sek: 0-60]</Description>
                     <Value Type="uint8" Default="02" Options="" Min="00" Max="3C"/>
@@ -97,8 +97,12 @@
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="{Px}" IdName="channel_absPositionValue">
-                    <Description>Wert für absolute Position</Description>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionComObj">
+                    <Description>KO für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionValue">
+                    <Description>Wert für "Position anfahren"</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
                 <Parameter Id="{Px}" IdName="channel_referenceRunComObj">
@@ -198,7 +202,7 @@
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="{Cx}" IdName="abFixPosition">
+            <CommObject Id="{Cx}" IdName="abDriveToPosition">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Position anfahren</Function>
                 <DataPointType>1.001</DataPointType>

@@ -231,6 +231,16 @@ typedef struct {
     uint8_t absPositionComObj;
     
     /**
+     * Ansteuerung: KO für "Position anfahren" 0=nicht aktiv|1=aktiv
+     */
+    uint8_t driveToPositionComObj;
+    
+    /**
+     * Settings: Wert für "Position anfahren" 00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%
+     */
+    uint8_t driveToPositionValue;
+    
+    /**
      * Ansteuerung: KO für Referenzfahrt 0=nicht aktiv|1=aktiv
      */
     uint8_t referenceRunComObj;

@@ -6,99 +6,103 @@
         <Parameters>
             <!-- Allgemein -->
             <ParameterGroup Name="Allgemein" Id="0">
-                <Parameter Id="1" IdName="startupDelay">
+                <Parameter Id="0" IdName="startupDelay">
                     <Description>Anlaufzeit [sek: 0-60]</Description>
                     <Value Type="uint8" Default="02" Options="" Min="00" Max="3C"/>
                 </Parameter>
-                <Parameter Id="2" IdName="triggerTime">
+                <Parameter Id="1" IdName="triggerTime">
                     <Description>Ansteuerzeit [ms: 100-255]</Description>
                     <Value Type="uint8" Default="AF" Options="" Min="64" Max="FF"/>
                 </Parameter>
-                <Parameter Id="3" IdName="manualControl">
+                <Parameter Id="2" IdName="manualControl">
                     <Description>Handbedienung</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>
-                <Parameter Id="4" IdName="ventilationTime">
+                <Parameter Id="3" IdName="ventilationTime">
                     <Description>Lüften Zeit [min: 1-60]</Description>
                     <Value Type="uint8" Default="05" Options="" Min="01" Max="3C"/>
                 </Parameter>
             </ParameterGroup>
             
             <!-- Kanaleinstellung --> 
-            <ParameterGroup Name="Kanaleinstellung" Id="0">
-                <Parameter Id="5" IdName="setting_channel_ab">
+            <ParameterGroup Name="Kanaleinstellung" Id="1">
+                <Parameter Id="4" IdName="setting_channel_ab">
                     <Description>Kanal 1 (A+B)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen"/>
                 </Parameter>
-                <Parameter Id="6" IdName="setting_channel_cd">
+                <Parameter Id="5" IdName="setting_channel_cd">
                     <Description>Kanal 2 (C+D)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)"/>
                 </Parameter>
-                <Parameter Id="7" IdName="setting_channel_ef">
+                <Parameter Id="6" IdName="setting_channel_ef">
                     <Description>Kanal 3 (E+F)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)|04=Einstellungen wie Kanal 2 (C+D)"/>
                 </Parameter>
-                <Parameter Id="8" IdName="setting_channel_gh">
+                <Parameter Id="7" IdName="setting_channel_gh">
                     <Description>Kanal 4 (G+H)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)|04=Einstellungen wie Kanal 2 (C+D)"/>
                 </Parameter>
             </ParameterGroup>
             
-            <ParameterGroup Name="Kanal 1 (A+B)" Id="1">
-                <Parameter Id="9" IdName="channel_runTimeOpen">
+            <ParameterGroup Name="Kanal 1 (A+B)" Id="2">
+                <Parameter Id="8" IdName="channel_runTimeOpen">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="10" IdName="channel_runTimeClose">
+                <Parameter Id="9" IdName="channel_runTimeClose">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="11" IdName="channel_runTimeRollover">
+                <Parameter Id="10" IdName="channel_runTimeRollover">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="12" IdName="channel_lockAction">
+                <Parameter Id="11" IdName="channel_lockAction">
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="13" IdName="channel_unlockAction">
+                <Parameter Id="12" IdName="channel_unlockAction">
                     <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="14" IdName="channel_rainAlarm">
+                <Parameter Id="13" IdName="channel_rainAlarm">
                     <Description>Regenalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="15" IdName="channel_rainAlarmObservationTime">
+                <Parameter Id="14" IdName="channel_rainAlarmObservationTime">
                     <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="16" IdName="channel_rainAlarmAction">
+                <Parameter Id="15" IdName="channel_rainAlarmAction">
                     <Description>Regenalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="17" IdName="channel_windAlarm">
+                <Parameter Id="16" IdName="channel_windAlarm">
                     <Description>Windalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="18" IdName="channel_windAlarmObservationTime">
+                <Parameter Id="17" IdName="channel_windAlarmObservationTime">
                     <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="19" IdName="channel_windAlarmAction">
+                <Parameter Id="18" IdName="channel_windAlarmAction">
                     <Description>Windalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>            
-                <Parameter Id="20" IdName="channel_ventByComObj">
+                <Parameter Id="19" IdName="channel_ventByComObj">
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="21" IdName="channel_absPositionComObj">
+                <Parameter Id="20" IdName="channel_absPositionComObj">
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="22" IdName="channel_absPositionValue">
-                    <Description>Wert für absolute Position</Description>
+                <Parameter Id="21" IdName="channel_driveToPositionComObj">
+                    <Description>KO für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="22" IdName="channel_driveToPositionValue">
+                    <Description>Wert für "Position anfahren"</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
                 <Parameter Id="23" IdName="channel_referenceRunComObj">
@@ -198,7 +202,7 @@
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="12" IdName="abFixPosition">
+            <CommObject Id="12" IdName="abDriveToPosition">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Position anfahren</Function>
                 <DataPointType>1.001</DataPointType>

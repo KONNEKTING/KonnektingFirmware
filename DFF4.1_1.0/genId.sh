@@ -32,7 +32,7 @@ i=0
 echo "i=$i"
 while grep -q "\{Gx\}" $2
 do
-   echo "replace PG $i"
+   echo "replace G $i"
    awk -vi=$i 'NR==1,/\{Gx\}/{sub(/\{Gx\}/, i)} 1' $2 > tmp
    mv tmp $2
    # increment

@@ -882,18 +882,18 @@ bool RotoChannel::knxEvents(byte index) {
             return true;
         }
 
-        case (COMOBJ_abFixPosition - COMOBJ_OFFSET):
+        case (COMOBJ_abDriveToPosition - COMOBJ_OFFSET):
         {
+            if (_config.driveToPositionComObj==0x00) {
+                Debug.println(F("[%i] drive to position comobj deactivated. Ignoring!"), _group);
+            }
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
-                Debug.println(F("[%i] fix position: %i"), _group, value);
-
-                /*
-                 * TODO
-                 * - get predefined position from settings
-                 * - call doPosition()
-                 */
-                doPosition(0.5f); // for now, we use 50%
+                float positionValue = _config.driveToPositionValue / 100.0f;
+                Debug.println(F("[%i] drive to position: %f"), _group, positionValue);
+                doPosition(positionValue); 
+            } else {
+                Debug.println(F("[%i] drive to position: value=0 is not yet implemented. Ignoring!"), _group);
             }
             return true;
         }

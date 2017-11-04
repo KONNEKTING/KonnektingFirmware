@@ -230,6 +230,12 @@ void setup() {
                 Debug.println(F("ventByComObj: %i"), config.ventByComObj);
                 config.absPositionComObj = Konnekting.getUINT8Param(PARAM_channel_absPositionComObj + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("absPositionComObj: %i"), config.absPositionComObj);
+                
+                config.driveToPositionComObj = Konnekting.getUINT8Param(PARAM_channel_driveToPositionComObj + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("driveToPositionComObj: %i"), config.driveToPositionComObj);
+                config.driveToPositionValue = Konnekting.getUINT8Param(PARAM_channel_driveToPositionValue + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("driveToPositionValue: %i"), config.driveToPositionValue);
+                
                 config.referenceRunComObj = Konnekting.getUINT8Param(PARAM_channel_referenceRunComObj + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("referenceRunComObj: %i"), config.referenceRunComObj);
                 config.runStatusComObj = Konnekting.getUINT8Param(PARAM_channel_runStatusComObj + (i * CHANNEL_PARAM_OFFSET));
