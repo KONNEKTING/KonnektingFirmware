@@ -471,6 +471,12 @@ private:
      * @return frontend LED index
      */
     int getLed(FrontendLed led);
+    
+    /**
+     * Returns true if just reached stop
+     * @return 
+     */
+    bool isJustStopped();
 
 };
 

@@ -202,6 +202,24 @@ void RotoChannel::work() {
         workStatus();
     }
 
+    if (isJustStopped()) {
+        // if required, set end of locking/unlocking as channel movement has stopped 
+        bool updated = false;
+        switch (_shutterLock) {
+            case LCK_LOCKING:
+                _shutterLock = LCK_LOCKED;
+                updated = true;
+                break;
+            case LCK_UNLOCKING:
+                _shutterLock = LCK_UNLOCKED;
+                updated = true;
+                break;
+        }
+        if (updated) {
+            Debug.println(F("[%i] Updated lock status [locked=%i]"), _group, isLocked());
+        }
+    }
+
     // update LEDs in any case, needs to be done at last
     workLEDs();
 
@@ -217,45 +235,29 @@ void RotoChannel::workStatus() {
         return;
     }
 
-    bool sendStatus = false;
-    float currPos = 0;
-
-    switch (_moveStatus) {
-
-            // while moving, the current position is available in "_newPosition" only
-        case MS_CLOSING:
-        case MS_OPENING:
-            currPos = _newPosition;
-            sendStatus = true;
-            break;
-
-        case MS_STOP:
-            // once we stopped, the position is available in _position
-            if (_lastMoveStatus != MS_STOP) {
-                currPos = _position;
-                sendStatus = true;
-            }
-            break;
+    // if we are in an solid stop, don't send status updates
+    if (_lastMoveStatus == MS_STOP && _moveStatus == MS_STOP) {
+        return;
     }
 
-
-    //    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
-    //        currPos = 1.0f - currPos; // invert the position as shutter has different 100%-meaning than window
-    //        //Debug.println(F("pos inverted due to shutter to: %f"), currPos);
-    //    }
+    // current position is located in idfferent variables, depending on move-status
+    float currPos = isMoving() ? _newPosition : _position;
 
     uint8_t positionValueToSend = currPos * 255; // map 0..100% to 0..255 unsigned byte
+
+//    Debug.println("[%i] STATUS curr pos: %f -> 0x%02x; lastSentPos=0x%02x; millis=%6ld newMillis=%6ld; lastMoveStatus=%i movestatus=%i",
+//            _group, currPos, positionValueToSend, _lastSentPosition, millis(), (_lastStatusUpdate + STATUS_UPDATE_INTERVAL), _lastMoveStatus, _moveStatus);
+
     if (_initDone && // only send when init is done AND
-            _lastSentPosition != positionValueToSend && // we need to have different value as last time
-            (sendStatus && millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update and we really have an update OR
-            (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just stopped
-            ) {
-        //        if (_config.setting == OPTION_SETTINGS_SHUTTER) {
-        //            Debug.println(F("pos inverted due to shutter to: %f"), currPos);
-        //        }
+            _lastSentPosition != positionValueToSend && // we need to have different value as last time AND
+            (
+            (millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update OR
+            (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just reached STOP status
+            )) {
+
         Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
-        Debug.println("[%i] status curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
-        // store last sent status. Ensures with if.clause that we don't send the same value twice (especially on stop)
+        Debug.println("[%i] STATUS SEND curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
+        // store last sent status. Ensures with if-clause that we don't send the same value twice (especially on stop)
         _lastSentPosition = positionValueToSend;
         _lastStatusUpdate = millis();
     }
@@ -452,11 +454,12 @@ void RotoChannel::workLEDs() {
                 Debug.println(F("CLOSED"));
 
                 break;
+            case CS_OPEN:
             case CS_UNDEFINED:
             default:
                 _frontend.setLED(getLed(LED_OPEN), false); // weder
                 _frontend.setLED(getLed(LED_CLOSE), false); // noch
-                Debug.println(F("UNDEFINED"));
+                Debug.println(F("OPEN|UNDEFINED"));
         }
 
         _lastBlinkState = false;
@@ -543,7 +546,12 @@ void RotoChannel::workPosition() {
             openedCondition = _newPosition == 0.0 || (_targetPosition != NOT_DEFINED && _newPosition <= _targetPosition);
         }
         if (openedCondition) {
-            _status = CS_OPENED;
+
+            if (_newPosition == 1.0 || _newPosition == 0.0) { // reached endpoint?
+                _status = CS_OPENED; // opened
+            } else {
+                _status = CS_OPEN; // somewhere between opened and closed
+            }
             _moveStatus = MS_STOP;
             _targetPosition = NOT_DEFINED;
 #ifdef DEBUG_UPDATE_STATUS            
@@ -612,7 +620,14 @@ void RotoChannel::workPosition() {
             closedCondition = _newPosition == 1.0 || (_targetPosition != NOT_DEFINED && _newPosition >= _targetPosition);
         }
         if (closedCondition) {
-            _status = CS_CLOSED;
+
+            // reached endpoint?
+
+            if (_newPosition == 1.0 || _newPosition == 0.0) {
+                _status = CS_CLOSED; // closed
+            } else {
+                _status = CS_OPEN; // somewhere between opened and closed
+            }
             _moveStatus = MS_STOP;
             _targetPosition = NOT_DEFINED;
 #ifdef DEBUG_UPDATE_STATUS            
@@ -631,15 +646,6 @@ void RotoChannel::workPosition() {
         // apply position
         _position = _newPosition;
         _startMoveMillis = NOT_DEFINED;
-
-        // if required, set end of locking/unlocking as channel movement has stopped 
-        switch (_shutterLock) {
-            case LCK_LOCKING:
-                _shutterLock = LCK_LOCKED;
-                break;
-            case LCK_UNLOCKING:
-                _shutterLock = LCK_UNLOCKED;
-        }
 
         Debug.println(F("[%i] Finally on position %3.9f [locked=%i]"), _group, _position, isLocked());
 
@@ -715,6 +721,14 @@ int RotoChannel::getLed(FrontendLed led) {
             break;
     }
     return ledIndex;
+}
+
+/**
+ * Returns true if just reached stop
+ * @return 
+ */
+bool RotoChannel::isJustStopped() {
+    return _lastMoveStatus != MS_STOP && _moveStatus == MS_STOP;
 }
 
 /**
