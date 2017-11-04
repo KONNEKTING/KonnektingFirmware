@@ -277,34 +277,22 @@ void RotoChannel::doPosition(float targetPosition) {
 
     Debug.println(F("[%i] doPosition(%f) currPos=%f setting=%i"), _group, targetPosition, _position, _config.setting);
 
-    //    if (_config.setting == OPTION_SETTINGS_SHUTTER) {
-    //        targetPosition = 1.0f - targetPosition; // invert the position as shutter has different 100%-meaning than window
-    //        Debug.println(F("pos inverted due to shutter to: %f"), targetPosition);
-    //    }
-
-
     _targetPosition = targetPosition;
     // window: 0% = closed, 100% = opened
     // shutter: 0% = opened, 100% = closed
-    // --> different meaning is handled by workStatus() and doPosition(), that's it.)
     if (_targetPosition > _position) {
-        //        switch (_config.setting) {
-        //            case OPTION_SETTINGS_WINDOW:
-        doOpen();
-        //                break;
-        //            case OPTION_SETTINGS_SHUTTER:
-        //                doClose();
-        //                break;
-        //        }
+
+        if (isWindow()) {
+            doOpen();
+        } else { // shutter
+            doClose();
+        }
     } else {
-        //        switch (_config.setting) {
-        //            case OPTION_SETTINGS_WINDOW:
-        doClose();
-        //                break;
-        //            case OPTION_SETTINGS_SHUTTER:
-        //                doOpen();
-        //                break;
-        //    }
+        if (isWindow()) {
+            doClose();
+        } else { // shutter
+            doOpen();
+        }
     }
 
 }
@@ -339,7 +327,7 @@ void RotoChannel::doOpen() {
     }
 
     _moveStatus = MS_OPENING;
-//    _lastAction = A_OPEN;
+    //    _lastAction = A_OPEN;
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
@@ -372,7 +360,7 @@ void RotoChannel::doClose() {
     }
 
     _moveStatus = MS_CLOSING;
-//    _lastAction = A_CLOSE;
+    //    _lastAction = A_CLOSE;
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
@@ -557,6 +545,7 @@ void RotoChannel::workPosition() {
         if (openedCondition) {
             _status = CS_OPENED;
             _moveStatus = MS_STOP;
+            _targetPosition = NOT_DEFINED;
 #ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("[%i] Is now OPENED or at abs. target pos"), _group);
 #endif            
@@ -625,6 +614,7 @@ void RotoChannel::workPosition() {
         if (closedCondition) {
             _status = CS_CLOSED;
             _moveStatus = MS_STOP;
+            _targetPosition = NOT_DEFINED;
 #ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("[%i] Is now CLOSED or at abs. target pos"), _group);
 #endif            

@@ -134,6 +134,7 @@ void setup() {
     /*
        Set memory functions
      */
+    setupMemory();
     Konnekting.setMemoryReadFunc(&readMemory);
     Konnekting.setMemoryWriteFunc(&writeMemory);
     Konnekting.setMemoryUpdateFunc(&updateMemory);
