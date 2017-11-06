@@ -18,14 +18,14 @@
 #define COMOBJ_abVentilation 13
 #define COMOBJ_abWindAlarm 14
 #define COMOBJ_abRainAlarm 15
-#define COMOBJ_abStatusCurrentDirection 16
-#define COMOBJ_abStatusMovement 17
-#define COMOBJ_abStatusMovementOpen 18
-#define COMOBJ_abStatusMovementClose 19
-#define COMOBJ_abStatusCurrentPos 20
-#define COMOBJ_abStatusLock 21
-#define COMOBJ_abStatusOpenPos 22
-#define COMOBJ_abStatusClosePos 23
+#define COMOBJ_abStatusCurrentPos 16
+#define COMOBJ_abStatusOpenPos 17
+#define COMOBJ_abStatusClosePos 18
+#define COMOBJ_abStatusMovement 19
+#define COMOBJ_abStatusMovementOpen 20
+#define COMOBJ_abStatusMovementClose 21
+#define COMOBJ_abStatusMovementDirection 22
+#define COMOBJ_abStatusLock 23
 #define PARAM_startupDelay 0
 #define PARAM_triggerTime 1
 #define PARAM_manualControl 2
@@ -72,14 +72,14 @@ KnxComObject KnxDevice::_comObjectsList[] = {
     /* Index 13 - abVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
     /* Index 14 - abWindAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
     /* Index 15 - abRainAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
-    /* Index 16 - abStatusCurrentDirection */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 17 - abStatusMovement */ KnxComObject(KNX_DPT_1_007, 0x34),
-    /* Index 18 - abStatusMovementOpen */ KnxComObject(KNX_DPT_1_009, 0x34),
-    /* Index 19 - abStatusMovementClose */ KnxComObject(KNX_DPT_1_008, 0x34),
-    /* Index 20 - abStatusCurrentPos */ KnxComObject(KNX_DPT_5_001, 0x34),
-    /* Index 21 - abStatusLock */ KnxComObject(KNX_DPT_1_011, 0x34),
-    /* Index 22 - abStatusOpenPos */ KnxComObject(KNX_DPT_1_011, 0x34),
-    /* Index 23 - abStatusClosePos */ KnxComObject(KNX_DPT_1_011, 0x34)
+    /* Index 16 - abStatusCurrentPos */ KnxComObject(KNX_DPT_5_001, 0x34),
+    /* Index 17 - abStatusOpenPos */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 18 - abStatusClosePos */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 19 - abStatusMovement */ KnxComObject(KNX_DPT_1_008, 0x34),
+    /* Index 20 - abStatusMovementOpen */ KnxComObject(KNX_DPT_1_009, 0x34),
+    /* Index 21 - abStatusMovementClose */ KnxComObject(KNX_DPT_1_008, 0x34),
+    /* Index 22 - abStatusMovementDirection */ KnxComObject(KNX_DPT_1_008, 0x2a),
+    /* Index 23 - abStatusLock */ KnxComObject(KNX_DPT_1_011, 0x34)
 };
 const byte KnxDevice::_numberOfComObjects = sizeof (_comObjectsList) / sizeof (KnxComObject); // do not change this code
        

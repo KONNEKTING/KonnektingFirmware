@@ -487,6 +487,16 @@ private:
      * @return 
      */
     bool isJustStopped();
+    
+    /**
+     * calculates the correct comobj index for the given "COMOBJ_...." variable
+     */
+    byte getComObjIndex(byte comObj);
+    
+    /**
+     * used by doOpen(), doClose() and doStop() to send one-time-status of movement 
+     */
+    void sendMovementStatus();
 
 };
 

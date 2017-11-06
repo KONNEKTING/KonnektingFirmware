@@ -226,54 +226,58 @@
                 <DataPointType>1.005</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="16" IdName="abStatusCurrentDirection">
-                <Name>Kanal 1 (A+B)</Name>
-                <Function>Status akt. Richtung</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="17" IdName="abStatusMovement">
-                <Name>Kanal 1 (A+B)</Name>
-                <Function>Verfahrstatus</Function>
-                <DataPointType>1.007</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="18" IdName="abStatusMovementOpen">
-                <Name>Kanal 1 (A+B)</Name>
-                <Function>Verfahrstatus Auf</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="19" IdName="abStatusMovementClose">
-                <Name>Kanal 1 (A+B)</Name>
-                <Function>Verfahrstatus Zu</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="20" IdName="abStatusCurrentPos">
+            
+            <CommObject Id="16" IdName="abStatusCurrentPos">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status akt. Position</Function>
                 <DataPointType>5.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="21" IdName="abStatusLock">
+            <CommObject Id="17" IdName="abStatusOpenPos">
+                <Name>Kanal 1 (A+B)</Name>
+                <Function>Status Auf Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="18" IdName="abStatusClosePos">
+                <Name>Kanal 1 (A+B)</Name>
+                <Function>Status Zu Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            
+            <CommObject Id="19" IdName="abStatusMovement">
+                <Name>Kanal 1 (A+B)</Name>
+                <Function>Verfahrstatus</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="20" IdName="abStatusMovementOpen">
+                <Name>Kanal 1 (A+B)</Name>
+                <Function>Verfahrstatus Auf</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="21" IdName="abStatusMovementClose">
+                <Name>Kanal 1 (A+B)</Name>
+                <Function>Verfahrstatus Zu</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="22" IdName="abStatusMovementDirection">
+                <Name>Kanal 1 (A+B)</Name>
+                <Function>Verfahrstatus Richtung</Function>
+                <DataPointType>1.008</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            
+            <CommObject Id="23" IdName="abStatusLock">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status Sperre/Alarm</Function>
                 <DataPointType>1.011</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="22" IdName="abStatusOpenPos">
-                <Name>Kanal 1 (A+B)</Name>
-                <Function>Status obere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="23" IdName="abStatusClosePos">
-                <Name>Kanal 1 (A+B)</Name>
-                <Function>Status untere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
+
 <!--            
             <CommObject Id="24">
                 <Name>Kanal 2 (C+D)</Name>

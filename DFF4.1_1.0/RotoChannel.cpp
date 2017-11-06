@@ -235,6 +235,60 @@ void RotoChannel::workStatus() {
         return;
     }
 
+
+    if (isJustStopped()) {
+        Debug.print("[%i] STATUS just stopped:", _group);
+        /*
+         * 0-en werden gesendet wenn abgehalten wird, passiert in workStatus()
+         */
+        switch (_config.runStatusComObj) {
+            case 0x01:
+                // 1KO: Verfahrstatus
+                Knx.write(getComObjIndex(COMOBJ_abStatusMovement), 0);
+                Debug.print(" COMOBJ_abStatusMovement=0", _group);
+                break;
+            case 0x02:
+                // 2KO: Auffahrt + Zufahrt
+                Knx.write(getComObjIndex(COMOBJ_abStatusMovementOpen), 0);
+                Knx.write(getComObjIndex(COMOBJ_abStatusMovementClose), 0);
+                Debug.print(" COMOBJ_abStatusMovement[Open|Close]=0", _group);
+                break;
+            case 0x00:
+            default:
+                // do nothing
+                break;
+        }
+
+        /*
+         * Status: Status für akt. Richtung & Position auf/zu 
+         * --> 3 KOs: 
+         * Status akt. Richtung -> abStatusMovementDirection
+         * Position auf -> abStatusOpenPos
+         * Position zu -> abStatusClosePos
+         */
+        if (_config.runStatusPositionComObj != 0x00) { // if not OFF
+            if (_position == 0.0f) { // = window closed | shutter opened
+                if (isWindow()) {
+                    Knx.write(getComObjIndex(COMOBJ_abStatusClosePos), DPT1_001_on);
+                    Debug.print(" COMOBJ_abStatusMovementClosePos=1", _group);
+                } else { //isShutter
+                    Knx.write(getComObjIndex(COMOBJ_abStatusOpenPos), DPT1_001_on);
+                    Debug.print(" COMOBJ_abStatusMovementOpenPos=1", _group);
+                }
+            } else if (_position == 1.0f) { // = window opened| shutter closed
+                if (isWindow()) {
+                    Knx.write(getComObjIndex(COMOBJ_abStatusOpenPos), DPT1_001_on);
+                    Debug.print(" COMOBJ_abStatusMovementOpenPos=1", _group);
+                } else { //isShutter
+                    Knx.write(getComObjIndex(COMOBJ_abStatusClosePos), DPT1_001_on);
+                    Debug.print(" COMOBJ_abStatusMovementClosePos=1", _group);
+                }
+            }
+        }
+        Debug.println("", _group);
+    }
+
+
     // if we are in an solid stop, don't send status updates
     if (_lastMoveStatus == MS_STOP && _moveStatus == MS_STOP) {
         return;
@@ -245,21 +299,25 @@ void RotoChannel::workStatus() {
 
     uint8_t positionValueToSend = currPos * 255; // map 0..100% to 0..255 unsigned byte
 
-//    Debug.println("[%i] STATUS curr pos: %f -> 0x%02x; lastSentPos=0x%02x; millis=%6ld newMillis=%6ld; lastMoveStatus=%i movestatus=%i",
-//            _group, currPos, positionValueToSend, _lastSentPosition, millis(), (_lastStatusUpdate + STATUS_UPDATE_INTERVAL), _lastMoveStatus, _moveStatus);
+    //    Debug.println("[%i] STATUS curr pos: %f -> 0x%02x; lastSentPos=0x%02x; millis=%6ld newMillis=%6ld; lastMoveStatus=%i movestatus=%i",
+    //            _group, currPos, positionValueToSend, _lastSentPosition, millis(), (_lastStatusUpdate + STATUS_UPDATE_INTERVAL), _lastMoveStatus, _moveStatus);
 
     if (_initDone && // only send when init is done AND
+            _config.absPosStatusComObj == 0x01 && // currentpos status comobj is active AND
             _lastSentPosition != positionValueToSend && // we need to have different value as last time AND
             (
             (millis() > (_lastStatusUpdate + STATUS_UPDATE_INTERVAL)) || // if it's time for an update OR
             (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) // if we just reached STOP status
             )) {
 
-        Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
-        Debug.println("[%i] STATUS SEND curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
-        // store last sent status. Ensures with if-clause that we don't send the same value twice (especially on stop)
-        _lastSentPosition = positionValueToSend;
-        _lastStatusUpdate = millis();
+        if (_config.absPosStatusComObj == 0x01) {
+            Knx.write((byte) (_baseIndex + (COMOBJ_abStatusCurrentPos - COMOBJ_OFFSET)), positionValueToSend);
+            Debug.println("[%i] STATUS SEND curr pos: %f -> 0x%02x", _group, currPos, positionValueToSend);
+            // store last sent status. Ensures with if-clause that we don't send the same value twice (especially on stop)
+            _lastSentPosition = positionValueToSend;
+            _lastStatusUpdate = millis();
+        }
+
     }
 }
 
@@ -329,7 +387,7 @@ void RotoChannel::doOpen() {
     }
 
     _moveStatus = MS_OPENING;
-    //    _lastAction = A_OPEN;
+    sendMovementStatus();
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
@@ -362,13 +420,11 @@ void RotoChannel::doClose() {
     }
 
     _moveStatus = MS_CLOSING;
-    //    _lastAction = A_CLOSE;
+    sendMovementStatus();
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
     }
-
-
 
 }
 
@@ -724,6 +780,63 @@ int RotoChannel::getLed(FrontendLed led) {
 }
 
 /**
+ * calculates the correct comobj index for the given "COMOBJ_...." variable
+ */
+byte RotoChannel::getComObjIndex(byte COMOBJ_var) {
+    return (byte) (_baseIndex + (COMOBJ_var - COMOBJ_OFFSET));
+}
+
+/**
+ * used by doOpen(), doClose() and doStop() to send one-time-status of movement 
+ */
+void RotoChannel::sendMovementStatus() {
+    if (_config.runStatusPositionComObj != 0x00) {
+        switch (_moveStatus) {
+            case MS_OPENING:
+                Knx.write(getComObjIndex(COMOBJ_abStatusMovementDirection), isWindow() ? DPT1_008_down : DPT1_008_up);
+                break;
+            case MS_CLOSING:
+                Knx.write(getComObjIndex(COMOBJ_abStatusMovementDirection), isWindow() ? DPT1_008_up : DPT1_008_down);
+                break;
+            default:
+                break;
+        }
+    }
+
+    if (isMoving()) {
+
+        /*
+         * 0-en werden gesendet wenn abgehalten wird, passiert in workStatus()
+         */
+        switch (_config.runStatusComObj) {
+            case 0x01:
+                // 1KO: Verfahrstatus
+                Knx.write(getComObjIndex(COMOBJ_abStatusMovement), 1);
+                break;
+            case 0x02:
+                // 2KO: Auffahrt + Zufahrt
+                switch (_moveStatus) {
+                    case MS_OPENING:
+                        Knx.write(getComObjIndex(COMOBJ_abStatusMovementOpen), 1);
+                        break;
+                    case MS_CLOSING:
+                        Knx.write(getComObjIndex(COMOBJ_abStatusMovementClose), 1);
+                        break;
+                    case MS_STOP:
+                    default:
+                        // do nothing
+                        break;
+                }
+                break;
+            case 0x00:
+            default:
+                // do nothing
+                break;
+        }
+    }
+}
+
+/**
  * Returns true if just reached stop
  * @return 
  */
@@ -884,14 +997,14 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_abDriveToPosition - COMOBJ_OFFSET):
         {
-            if (_config.driveToPositionComObj==0x00) {
+            if (_config.driveToPositionComObj == 0x00) {
                 Debug.println(F("[%i] drive to position comobj deactivated. Ignoring!"), _group);
             }
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 float positionValue = _config.driveToPositionValue / 100.0f;
                 Debug.println(F("[%i] drive to position: %f"), _group, positionValue);
-                doPosition(positionValue); 
+                doPosition(positionValue);
             } else {
                 Debug.println(F("[%i] drive to position: value=0 is not yet implemented. Ignoring!"), _group);
             }
