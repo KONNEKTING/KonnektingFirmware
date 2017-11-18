@@ -1006,6 +1006,44 @@ bool RotoChannel::knxEvents(byte index) {
             }
             return false;
         }
+        
+        // for remaining central objects, convert index to channelIndex --> just one implementation for central+channel!
+        case (COMOBJ_centralWindowOpenClose):
+            if (isWindow()) {
+                index = _baseIndex + COMOBJ_abOpenClose - COMOBJ_OFFSET;
+            }
+            break;
+
+        case (COMOBJ_centralWindowStop):
+            if (isWindow()) {
+                index = _baseIndex + COMOBJ_abStop - COMOBJ_OFFSET;
+            }
+            break;
+        case (COMOBJ_centralWindowAbsPosition):
+            if (isWindow()) {
+                index = _baseIndex + COMOBJ_abAbsPosition - COMOBJ_OFFSET;
+            }
+            break;
+        case (COMOBJ_centralShutterOpenClose):
+            if (!isWindow()) {
+                index = _baseIndex + COMOBJ_abOpenClose - COMOBJ_OFFSET;
+            }
+            break;
+        case (COMOBJ_centralShutterStop):
+            if (!isWindow()) {
+                index = _baseIndex + COMOBJ_abStop - COMOBJ_OFFSET;
+            }
+            break;
+        case (COMOBJ_centralShutterAbsPosition):
+            if (!isWindow()) {
+                index = _baseIndex + COMOBJ_abAbsPosition - COMOBJ_OFFSET;
+            }
+            break;
+            
+        case (COMOBJ_centralVentilation):
+            index = _baseIndex + COMOBJ_abVentilation - COMOBJ_OFFSET;
+            break;
+            
 
     }
 
@@ -1019,7 +1057,7 @@ bool RotoChannel::knxEvents(byte index) {
     // calculate help-index for this channel
     byte chIndex = index - _baseIndex;
     Debug.println(F("[%i] baseIndex=%i chIndex=%i"), _group, _baseIndex, chIndex);
-
+    
     // channel specific comobjects
     switch (chIndex) {
 
