@@ -123,7 +123,7 @@ enum RotoAction {
     A_NONE
 };
 
-enum RotoShutterLock {
+enum RotoLock {
     /**
      * shutter is locked (lock action = done)
      */
@@ -139,7 +139,31 @@ enum RotoShutterLock {
     /**
      * shutter is doing unlock-action
      */
-    LCK_UNLOCKING
+    LCK_UNLOCKING,
+    /**
+     * Reference run is active
+     */
+    LCK_REFERENCE_RUN
+};
+
+enum RotoReferenceRun {
+    REF_NONE,
+    /**
+     * 
+     */
+    REF_START,
+    /**
+     * 
+     */
+    REF_CLOSING,
+    /**
+     * 
+     */
+    REF_RESTORING,
+    /**
+     * 
+     */
+    REF_DONE
 };
 
 enum FrontendLed {
@@ -276,23 +300,7 @@ public:
     ChannelConfig getConfig();
 
     void doButton(bool openButton);
-    /**
-     * Open shutter or window fully (if not stopped)
-     */
-    void doOpen();
-    /**
-     * Close shutter or window fully (if not stopped)
-     */
-    void doClose();
-    /**
-     * Stop movement
-     */
-    void doStop();
-    /**
-     * Move window/shutter to an absolute position
-     * @param targetPosition the new absolute position the window/shutter should move to [0-1.0]
-     */
-    void doPosition(float targetPosition);
+    
     
     /**
      * used by sketch to feed in com-obj events. If event is not used for this channel, method does nothing
@@ -314,7 +322,12 @@ private:
     /**
      * Lock enum
      */
-    RotoShutterLock _shutterLock;
+    RotoLock _lock;
+    
+    /**
+     * Reference run enum
+     */
+    RotoReferenceRun _referenceRun;
     
     /**
      * The comobj base index for this channel/group, means: at this absolute comobj index do the comobj start for this channel
@@ -373,12 +386,6 @@ private:
      * last blink state
      */
     bool _lastBlinkState;
-
-
-//    /**
-//     * WOFÜR HATTE ICH DAS NOCHMAL ANGEDACHT?!
-//     */
-//    RotoAction _lastAction;
 
     /*
      * the status of the channel
@@ -452,6 +459,24 @@ private:
     void workPosition();
     
     /**
+     * Open shutter or window fully (if not stopped)
+     */
+    void doOpen();
+    /**
+     * Close shutter or window fully (if not stopped)
+     */
+    void doClose();
+    /**
+     * Stop movement
+     */
+    void doStop();
+    /**
+     * Move window/shutter to an absolute position
+     * @param targetPosition the new absolute position the window/shutter should move to [0-1.0]
+     */
+    void doPosition(float targetPosition);
+    
+    /**
      * Returns true, if shutter is locked or doiong lock-action,
      * false if unlocked, or doing unlock-action
      * @return bool
@@ -494,10 +519,10 @@ private:
     byte getComObjIndex(byte comObj);
     
     /**
-     * used by doOpen(), doClose() and doStop() to send one-time-status of movement 
+     * used by doOpen() and doClose() to send one-time-status of movement when movement begins
      */
     void sendMovementStatus();
-
+    
 };
 
 #endif /* ROTOCHANNEL_H_ */

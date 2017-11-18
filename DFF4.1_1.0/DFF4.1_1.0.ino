@@ -27,8 +27,8 @@
 
 #define INT_PIN_FRONTEND 38
 
-#define PROG_LED 19
-#define PROG_BTN 15
+#define PROG_LED 19 // A1
+#define PROG_BTN 15 // A5
 
 // MCP23017 Output register<->pin map
 #define OA0 0
@@ -144,7 +144,7 @@ void setup() {
     Konnekting.init(KNX_SERIAL, PROG_BTN, PROG_LED, MANUFACTURER_ID, DEVICE_ID, REVISION);
 
     /*
-        Read general settings
+     * Read general settings
      */
     uint8_t val = Konnekting.getUINT8Param(PARAM_startupDelay);
     int paramStartupDelay = (val == 0xff ? 0 : val * 1000); //seconds

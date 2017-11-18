@@ -42,9 +42,11 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
     _isStopping = false;
 
     _targetPosition = NOT_DEFINED;
+    
+    _referenceRun = REF_NONE;
 
     _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    _shutterLock = LCK_UNLOCKED;
+    _lock = LCK_UNLOCKED;
 }
 
 RotoChannel::~RotoChannel() {
@@ -193,7 +195,40 @@ void RotoChannel::work() {
         _manualMoveRequest = false;
 
     } else {
-        //Debug.println(F("work on channel %i"), _channel);
+        
+        switch (_referenceRun) {
+            case REF_START:
+                Debug.println(F("[%i] Reference run START"), _group);
+                _previousPosition = _position;
+                doClose();
+                // next step:
+                _referenceRun = REF_CLOSING;
+                break;
+            case REF_CLOSING:
+                if (_position == 1.0f) {
+                    Debug.println(F("[%i] Reference CLOSED pos reached, restoring ..."), _group);
+                    doPosition(_previousPosition);
+                    // next step:
+                    _referenceRun = REF_RESTORING;
+                }
+                break;
+            case REF_RESTORING:
+                if (isJustStopped()) {
+                    Debug.println(F("[%i] Reference PREV pos reached, DONE ..."), _group);
+                    // next step:
+                    _referenceRun = REF_DONE;
+                }
+                break;
+            case REF_DONE:
+                Debug.println(F("[%i] Reference DONE"), _group);
+                _lock = LCK_UNLOCKED;
+                _referenceRun = REF_NONE;
+                break;
+            default:
+                // irrelevant
+                break;
+        }
+        
     }
 
 
@@ -205,13 +240,13 @@ void RotoChannel::work() {
     if (isJustStopped()) {
         // if required, set end of locking/unlocking as channel movement has stopped 
         bool updated = false;
-        switch (_shutterLock) {
+        switch (_lock) {
             case LCK_LOCKING:
-                _shutterLock = LCK_LOCKED;
+                _lock = LCK_LOCKED;
                 updated = true;
                 break;
             case LCK_UNLOCKING:
-                _shutterLock = LCK_UNLOCKED;
+                _lock = LCK_UNLOCKED;
                 updated = true;
                 break;
         }
@@ -231,7 +266,7 @@ void RotoChannel::work() {
  */
 void RotoChannel::workStatus() {
     // if locked, just don't send any updates, we're locked!
-    if (_shutterLock == LCK_LOCKED) {
+    if (_lock == LCK_LOCKED) {
         return;
     }
 
@@ -325,6 +360,9 @@ void RotoChannel::doButton(bool openButton) {
 
     Debug.println(F("doButton on group=%i openButton=%i"), _group, openButton);
 
+    if (isLocked()) {
+        Debug.println(F("[%i] doButton skipped due to lock: %i"), _group, _lock);
+    }
     _manualMoveRequest = true; // signal move request
     _manualMoveRequestOpenButton = openButton;
 }
@@ -337,22 +375,26 @@ void RotoChannel::doPosition(float targetPosition) {
 
     Debug.println(F("[%i] doPosition(%f) currPos=%f setting=%i"), _group, targetPosition, _position, _config.setting);
 
-    _targetPosition = targetPosition;
-    // window: 0% = closed, 100% = opened
-    // shutter: 0% = opened, 100% = closed
-    if (_targetPosition > _position) {
+    if (!isLocked()) {
+        _targetPosition = targetPosition;
+        // window: 0% = closed, 100% = opened
+        // shutter: 0% = opened, 100% = closed
+        if (_targetPosition > _position) {
 
-        if (isWindow()) {
-            doOpen();
-        } else { // shutter
-            doClose();
+            if (isWindow()) {
+                doOpen();
+            } else { // shutter
+                doClose();
+            }
+        } else {
+            if (isWindow()) {
+                doClose();
+            } else { // shutter
+                doOpen();
+            }
         }
     } else {
-        if (isWindow()) {
-            doClose();
-        } else { // shutter
-            doOpen();
-        }
+        Debug.println(F("[%i] doPosition skipped due to lock."), _group);
     }
 
 }
@@ -364,14 +406,14 @@ void RotoChannel::doOpen() {
      * bus this happens not that often, so we won't miss a telegram
      */
 
-    Debug.println(F("[%i] doOpen() locked=%i"), _group, _shutterLock);
+    Debug.println(F("[%i] doOpen() locked=%i"), _group, _lock);
     if (isMoving() && !_isStopping) {
         Debug.println(F("[%i] Stop moving first ..."), _group);
         doStop();
         Debug.println(F("[%i] Stop moving first ...*done*"), _group);
     }
-    // it's okay to trigger relais in unlocked, locking and unlocking
-    if (_shutterLock != LCK_LOCKED) {
+    // it's okay to trigger relais in unlocked, locking and unlocking state
+    if (!isLocked()) {
         _mcp.digitalWrite(_setPinOpen, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_setPinOpen, LOW);
@@ -397,14 +439,14 @@ void RotoChannel::doOpen() {
 
 void RotoChannel::doClose() {
 
-    Debug.println(F("[%i] doClose() locked=%i"), _group, _shutterLock);
+    Debug.println(F("[%i] doClose() locked=%i"), _group, _lock);
     if (isMoving() && !_isStopping) {
         Debug.println(F("[%i] Stop moving first ..."), _group);
         doStop();
         Debug.println(F("[%i] Stop moving first ...*done*"), _group);
     }
-    // it's okay to trigger relais in unlocked, locking and unlocking
-    if (_shutterLock != LCK_LOCKED) {
+    // it's okay to trigger relais in unlocked, locking and unlocking state
+    if (_lock != LCK_LOCKED) {
         _mcp.digitalWrite(_setPinClose, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_setPinClose, LOW);
@@ -429,6 +471,11 @@ void RotoChannel::doClose() {
 }
 
 void RotoChannel::doStop() {
+
+    if (isLocked()) {
+        Debug.println(F("[%i] doStop skipped due to lock."), _group);
+        return;
+    }
 
     _isStopping = true;
     Debug.print(F("[%i] doStop() moveStatus=%i ->"), _group, _moveStatus);
@@ -711,12 +758,12 @@ void RotoChannel::workPosition() {
 }
 
 /**
- * Returns true, if shutter is locked or doiong lock-action,
+ * Returns true, if shutter is locked or doing lock-action,
  * false if unlocked, or doing unlock-action
  * @return bool
  */
 bool RotoChannel::isLocked() {
-    switch (_shutterLock) {
+    switch (_lock) {
         case LCK_LOCKED:
         case LCK_LOCKING:
             return true;
@@ -864,18 +911,19 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_centralShutterLock):
         {
+            
             // lock can be applied to shutter only! No lock for window!
             if (_config.setting == OPTION_SETTINGS_SHUTTER) {
 
                 /*
                  * - store lock state
-                 * - block external action on lock! (in doOpen/doClose)
+                 * - block external action on lock! (in doOpen/doClose/doPosition/doStop)
                  */
                 byte actionValue = Knx.read(index);
                 if (actionValue == DPT1_003_disable) { // true if "locked", false if "unlocked"
-                    _shutterLock = LCK_LOCKED;
+                    _lock = LCK_LOCKED;
                 } else {
-                    _shutterLock = LCK_UNLOCKED;
+                    _lock = LCK_UNLOCKED;
                 };
 
                 Debug.println(F("[%i] shutter locked: %i"), _group, isLocked());
@@ -889,18 +937,18 @@ bool RotoChannel::knxEvents(byte index) {
                             break;
                         case OPTION_LOCK_ACTION_OPEN:
                             Debug.println(F("[%i] locked: open"), _group);
-                            _shutterLock = LCK_LOCKING;
+                            _lock = LCK_LOCKING;
                             doOpen();
                             break;
                         case OPTION_LOCK_ACTION_CLOSE:
                             Debug.println(F("[%i] locked: close"), _group);
-                            _shutterLock = LCK_LOCKING;
+                            _lock = LCK_LOCKING;
                             doClose();
                             break;
                     }
                 } else {
                     //unlocked
-                    _shutterLock = LCK_UNLOCKING;
+                    _lock = LCK_UNLOCKING;
                     switch (_config.unlockAction) {
                         case OPTION_UNLOCK_ACTION_NONE:
                             // set the position we reached during lock
@@ -945,6 +993,10 @@ bool RotoChannel::knxEvents(byte index) {
             // handle open close
         case (COMOBJ_abOpenClose - COMOBJ_OFFSET):
         {
+            if (isLocked()) {
+                Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
+                return true;
+            }
             byte value = Knx.read(index);
             if (value == DPT1_009_open) {
                 Debug.println(F("[%i] open"), _group);
@@ -958,6 +1010,10 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_abStop - COMOBJ_OFFSET):
         {
+            if (isLocked()) {
+                Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
+                return true;
+            }
             byte value = Knx.read(index);
             Debug.println(F("[%i] doStop: %i"), _group, value);
             if (value == DPT1_010_stop) {
@@ -968,6 +1024,10 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_abAbsPosition - COMOBJ_OFFSET):
         {
+            if (isLocked()) {
+                Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
+                return true;
+            }
             byte value = Knx.read(index);
             float absPos = (value * (BYTE_PERCENT)) / 100.0f;
             Debug.println(F("[%i] absPos: %f"), _group, absPos);
@@ -977,10 +1037,15 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_abReference - COMOBJ_OFFSET):
         {
+            if (isLocked()) {
+                Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
+                return true;
+            }
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] reference: %i"), _group, value);
-
+                _lock = LCK_REFERENCE_RUN;
+                _referenceRun = REF_START;
                 /*
                  * TODO
                  * - store current position
@@ -997,6 +1062,10 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_abDriveToPosition - COMOBJ_OFFSET):
         {
+            if (isLocked()) {
+                Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
+                return true;
+            }
             if (_config.driveToPositionComObj == 0x00) {
                 Debug.println(F("[%i] drive to position comobj deactivated. Ignoring!"), _group);
             }
@@ -1013,6 +1082,10 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_abVentilation - COMOBJ_OFFSET):
         {
+            if (isLocked()) {
+                Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
+                return true;
+            }
             byte value = Knx.read(index);
             if (value == DPT1_001_on) {
                 Debug.println(F("[%i] ventilation: %i"), _group, value);
