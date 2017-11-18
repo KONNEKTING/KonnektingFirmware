@@ -166,6 +166,26 @@ enum RotoReferenceRun {
     REF_DONE
 };
 
+enum RotoVentilate {
+    VENT_NONE,
+    /**
+     * 
+     */
+    VENT_START,
+    /**
+     * 
+     */
+    VENT_VENTILATE,
+    /**
+     * 
+     */
+    VENT_RESTORING,
+    /**
+     * 
+     */
+    VENT_DONE
+};
+
 enum FrontendLed {
     /**
      * LED for open-status
@@ -178,6 +198,15 @@ enum FrontendLed {
 };
 
 typedef struct {
+    
+    /**
+     * 
+     */
+    unsigned long ventilationTime;
+    
+    /**
+     */
+    uint8_t triggerTime;
     
     /**
      * Settings: Channel setting: 
@@ -328,6 +357,15 @@ private:
      * Reference run enum
      */
     RotoReferenceRun _referenceRun;
+    
+    /**
+     * Ventilate enum
+     */
+    RotoVentilate _ventilate;
+    /**
+     * millis() at which ventilate started
+     */
+    unsigned long _ventilateStart;
     
     /**
      * The comobj base index for this channel/group, means: at this absolute comobj index do the comobj start for this channel

@@ -154,8 +154,12 @@ void setup() {
     Debug.println("P: paramManualControl=%i", paramManualControl);
 
     val = Konnekting.getUINT8Param(PARAM_ventilationTime);
-    int paramVentilationTime = (val == 0xff ? 5 * 60 * 1000 : val * 60 * 1000); // minutes
+    unsigned long paramVentilationTime = (val == 0xff ? 5 * 60 * 1000 : val * 60 * 1000); // minutes, calculated to ms
     Debug.println("P: paramVentilationTime=%i", paramVentilationTime);
+    
+    val = Konnekting.getUINT8Param(PARAM_triggerTime);
+    uint8_t paramTriggerTime = (val == 0xff ? 0xAF /*175ms*/ : val); // milliseconds
+    Debug.println("P: paramTriggerTime=%i", paramTriggerTime);
 
     /*
        Startup MCP port extender on relay board and frontend
@@ -186,7 +190,13 @@ void setup() {
        init relay channels
      */
     for (int i = 0; i < CHANNELS_COUNT; i++) {
-
+        
+        ChannelConfig config;
+        
+        config.ventilationTime = paramVentilationTime;
+        config.triggerTime = paramTriggerTime;
+        
+        
         Debug.println(F("Reading channel config for #%i"), i);
         uint8_t channelSetting = Konnekting.getUINT8Param(PARAM_setting_channel_ab + i);
 
@@ -198,7 +208,7 @@ void setup() {
             case OPTION_SETTINGS_WINDOW:
             case OPTION_SETTINGS_SHUTTER:
                 // fill struct with config data
-                ChannelConfig config;
+                
                 config.setting = channelSetting;
                 config.runTimeClose = Konnekting.getUINT8Param(PARAM_channel_runTimeClose + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeClose: %i"), config.runTimeClose);

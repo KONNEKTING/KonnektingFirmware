@@ -42,7 +42,7 @@ RotoChannel::RotoChannel(int group, int setPinOpen, int resetPinOpen, int setPin
     _isStopping = false;
 
     _targetPosition = NOT_DEFINED;
-    
+
     _referenceRun = REF_NONE;
 
     _config = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -195,7 +195,7 @@ void RotoChannel::work() {
         _manualMoveRequest = false;
 
     } else {
-        
+
         switch (_referenceRun) {
             case REF_START:
                 Debug.println(F("[%i] Reference run START"), _group);
@@ -228,7 +228,40 @@ void RotoChannel::work() {
                 // irrelevant
                 break;
         }
-        
+
+        switch (_ventilate) {
+            case VENT_START:
+                Debug.println(F("[%i] Ventilate START"), _group);
+                _previousPosition = _position;
+                doOpen();
+                // next step:
+                _ventilate = VENT_VENTILATE;
+                _ventilateStart = millis();
+                break;
+            case VENT_VENTILATE:
+                if (millis() - _ventilateStart > _config.ventilationTime) {
+                    _ventilate = VENT_RESTORING;
+                } else {
+
+                    unsigned long remain = _config.ventilationTime - (millis() - _ventilateStart);
+                    if (remain % 5000 == 0) {
+                        Debug.println(F("[%i] Ventilate remaining time: %lu"), _group, remain);
+                    }
+                }
+                break;
+            case VENT_RESTORING:
+                Debug.println(F("[%i] Ventilate RESTORE"), _group);
+                doPosition(_previousPosition);
+                _ventilate = VENT_DONE;
+                break;
+            case VENT_DONE:
+                Debug.println(F("[%i] Ventilate DONE"), _group);
+                _ventilate = VENT_NONE;
+                break;
+            default:
+                break;
+        }
+
     }
 
 
@@ -418,7 +451,7 @@ void RotoChannel::doOpen() {
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_setPinOpen, LOW);
 
-        delay(ROTO_TRIGGER_DURATION);
+        delay((unsigned long) _config.triggerTime);
 
         _mcp.digitalWrite(_resetPinOpen, HIGH);
         delay(RELAY_SET_TIME);
@@ -451,7 +484,7 @@ void RotoChannel::doClose() {
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_setPinClose, LOW);
 
-        delay(ROTO_TRIGGER_DURATION);
+        delay((unsigned long) _config.triggerTime);
 
         _mcp.digitalWrite(_resetPinClose, HIGH);
         delay(RELAY_SET_TIME);
@@ -911,7 +944,7 @@ bool RotoChannel::knxEvents(byte index) {
 
         case (COMOBJ_centralShutterLock):
         {
-            
+
             // lock can be applied to shutter only! No lock for window!
             if (_config.setting == OPTION_SETTINGS_SHUTTER) {
 
@@ -1046,16 +1079,7 @@ bool RotoChannel::knxEvents(byte index) {
                 Debug.println(F("[%i] reference: %i"), _group, value);
                 _lock = LCK_REFERENCE_RUN;
                 _referenceRun = REF_START;
-                /*
-                 * TODO
-                 * - store current position
-                 * - block any external action
-                 * - close window/shutter
-                 * - restore position
-                 * - unblock any external action
-                 * --> block-flag required!
-                 */
-                // --> Use separate/new enum to follow reference drive steps
+
             }
             return true;
         }
@@ -1086,19 +1110,23 @@ bool RotoChannel::knxEvents(byte index) {
                 Debug.println(F("[%i] skipping comobj %i due to lock"), _group, chIndex);
                 return true;
             }
-            byte value = Knx.read(index);
-            if (value == DPT1_001_on) {
-                Debug.println(F("[%i] ventilation: %i"), _group, value);
-
-                /*
-                 * TODO
-                 * - only work in window-mode! ignore on shutter mode!
-                 * - store current time in channel-global variable
-                 * - store current position
-                 * - block external action
-                 * - open window fully
-                 * - check in work() for outdated time on global variable -> then close window/restore last position --> unblock external action
-                 */
+            if (isWindow()) {
+                byte value = Knx.read(index);
+                if (value == DPT1_001_on) {
+                    Debug.println(F("[%i] ventilation: %i"), _group, value);
+                    _ventilate = VENT_START;
+                    /*
+                     * TODO
+                     * - only work in window-mode! ignore on shutter mode!
+                     * - store current time in channel-global variable
+                     * - store current position
+                     * - block external action
+                     * - open window fully
+                     * - check in work() for outdated time on global variable -> then close window/restore last position --> unblock external action
+                     */
+                }
+            } else {
+                Debug.println(F("[%i] ignoring COMOBJ_abVentilation due to shutter!"), _group);
             }
             return true;
         }
