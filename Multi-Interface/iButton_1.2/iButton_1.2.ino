@@ -1,16 +1,14 @@
 /* ---------------------------------------------------------------------------------------------
-iButtons v1.1
+iButtons v1.2
 Hardware/Firmware/Sketch/kdevice.xml by E.Burkowski / e.burkowski@konnekting.de, GPL Licensed
 Compatible with: KONNEKTING Device Library 1.0.0 beta 4
 
 ------------------------------------------------------------------------------------------------*/
-//OneWire on pin D3
-#define ONE_WIRE OWD3 
-#define ONE_WIRE_PULLUP OWD3PullUp
+//OneWire on pin 3 (you need a 4.7 kOhm PullUp)
+#define ONE_WIRE 3 
 
-//OneWire on pin D4
-//#define ONE_WIRE OWD4 
-//#define ONE_WIRE_PULLUP OWD4PullUp
+
+
 
 #define iButtons 10 //iButtons count depends on kdevice.xml
 

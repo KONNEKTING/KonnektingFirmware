@@ -1,8 +1,7 @@
 void loop(void) {
     Knx.task();
-    unsigned long currTime = millis();
     if (Konnekting.isReadyForApplication()) {
-        if (currTime - prevTime >= cycleTime){
+        if (millis() - prevTime >= cycleTime){
 
             ow_search(); //search for iButtons
 
@@ -26,6 +25,7 @@ void loop(void) {
 #ifdef KDEBUG 
                     Debug.println("Send message: at least one of iButtons is absent");
 #endif
+                    firstAbsentSet = false; //new v1.2
                     if (one_absent){
                         Knx.write(COMOBJ_oneAbsent,true);
                     }
@@ -37,6 +37,7 @@ void loop(void) {
                     firstAbsentSet = true;
             }
             if ((millis()-firstAbsent>=absentDelay[absentDelayNummer]*1000) && firstAbsentSet){
+                Debug.println(F("Delay: %d s"),(millis()-firstAbsent)/1000);
                 firstAbsentSet = false;
                 if (tmp_absent){
                       
@@ -60,7 +61,7 @@ void loop(void) {
         for (byte i = 0; i<iButtons;i++){
             iButtonState[i] = false;
         }
-        prevTime = currTime;
+        prevTime = millis();
         }
     }
 }

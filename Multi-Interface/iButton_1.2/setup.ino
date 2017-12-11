@@ -1,8 +1,8 @@
 void setup(void) {
     // debug related stuff
 #ifdef KDEBUG
-   // Start debug serial with 9600 bauds
-    DEBUGSERIAL.begin(9600);
+   // Start debug serial with 115200 bauds
+    DEBUGSERIAL.begin(115200);
     while (!DEBUGSERIAL)
     // make debug serial port known to debug class
     // Means: KONNEKTING will sue the same serial port for console debugging
@@ -29,10 +29,6 @@ void setup(void) {
         Debug.println(F("ready!"));
 #endif
         }
-        //turn on OneWire pullup
-        pinMode(ONE_WIRE_PULLUP, OUTPUT);
-        digitalWrite(ONE_WIRE_PULLUP, HIGH);
-    
         cycleTime = (long)Konnekting.getUINT32Param(PARAM_cycle);                    //polling cycle
         present = (bool)Konnekting.getUINT8Param(PARAM_sendAllPresent);              //send "all present"
         one_absent = (bool)Konnekting.getUINT8Param(PARAM_sendOneAbsent);            //send "at least one absent"
