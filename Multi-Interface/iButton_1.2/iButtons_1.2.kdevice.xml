@@ -2,7 +2,7 @@
 <KonnektingDevice xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
     <Device ManufacturerId="7070" DeviceId="120" Revision="1">
         <ManufacturerName>KONNEKTING MI</ManufacturerName>
-        <DeviceName>iButton</DeviceName>
+        <DeviceName>iButton 1.2</DeviceName>
         <Parameters>
             <ParameterGroup Name="Allgemein" Id="0">
                 <Parameter Id="0" IdName="initialDelay">

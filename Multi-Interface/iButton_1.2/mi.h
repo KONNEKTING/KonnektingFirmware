@@ -93,11 +93,6 @@ void Serial3_init(){
 #define KNX_SERIAL Serial
 #define FLASH_CS 9 
 
-#define OWD3 3
-#define OWD3PullUp A3
-#define OWD4 4
-#define OWD4PullUp A4
-
 // MI uses 24AA256 I2C EEPROM
 int readMemory(int index) {
     byte data = 0xFF;

@@ -22,6 +22,6 @@ im Gruppenmonitor steht ein Telegramm mit folgendem Inhalt: 01 00 AA BB CC DD EE
 wobei **01 00 AA BB CC DD EE FF** die Adresse des iButtons ist. Die folgende Nullen haben keine Bedeutung.
 Alternativ kann man die ID direkt von dem iButton ablesen:
 
-![iButton ID](/Universal-Flush-Interface/iButton_1.1/iButtonID.png)
+![iButton ID](/Multi-Interface/iButton_1.2/iButtonID.png)
 
 In die Suite muss man die ID ohne Leerzeichen eingeben (beginned mit "01"): **0100AABBCCDDEEFF**
