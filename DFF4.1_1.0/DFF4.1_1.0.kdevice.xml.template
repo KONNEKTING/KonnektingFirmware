@@ -5,119 +5,119 @@
         <DeviceName>DFF 4.1</DeviceName>
         <Parameters>
             <!-- Allgemein -->
-            <ParameterGroup Name="Allgemein" Id="0">
-                <Parameter Id="0" IdName="startupDelay">
+            <ParameterGroup Name="Allgemein" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="startupDelay">
                     <Description>Anlaufzeit [sek: 0-60]</Description>
                     <Value Type="uint8" Default="02" Options="" Min="00" Max="3C"/>
                 </Parameter>
-                <Parameter Id="1" IdName="triggerTime">
+                <Parameter Id="{Px}" IdName="triggerTime">
                     <Description>Ansteuerzeit [ms: 100-255]</Description>
                     <Value Type="uint8" Default="AF" Options="" Min="64" Max="FF"/>
                 </Parameter>
-                <Parameter Id="2" IdName="manualControl">
+                <Parameter Id="{Px}" IdName="manualControl">
                     <Description>Handbedienung</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv"/>
                 </Parameter>
-                <Parameter Id="3" IdName="ventilationTime">
+                <Parameter Id="{Px}" IdName="ventilationTime">
                     <Description>Lüften Zeit [min: 1-60]</Description>
                     <Value Type="uint8" Default="05" Options="" Min="01" Max="3C"/>
                 </Parameter>
             </ParameterGroup>
             
             <!-- Kanaleinstellung --> 
-            <ParameterGroup Name="Kanaleinstellung" Id="1">
-                <Parameter Id="4" IdName="setting_channel_ab">
+            <ParameterGroup Name="Kanaleinstellung" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="setting_channel_ab">
                     <Description>Kanal 1 (A+B)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen"/>
                 </Parameter>
-                <Parameter Id="5" IdName="setting_channel_cd">
+                <Parameter Id="{Px}" IdName="setting_channel_cd">
                     <Description>Kanal 2 (C+D)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)"/>
                 </Parameter>
-                <Parameter Id="6" IdName="setting_channel_ef">
+                <Parameter Id="{Px}" IdName="setting_channel_ef">
                     <Description>Kanal 3 (E+F)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)|04=Einstellungen wie Kanal 2 (C+D)"/>
                 </Parameter>
-                <Parameter Id="7" IdName="setting_channel_gh">
+                <Parameter Id="{Px}" IdName="setting_channel_gh">
                     <Description>Kanal 4 (G+H)</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht benutzt|01=Dachfenster|02=Rolladen|03=Einstellungen wie Kanal 1 (A+B)|04=Einstellungen wie Kanal 2 (C+D)"/>
                 </Parameter>
             </ParameterGroup>
             
-            <ParameterGroup Name="Kanal 1 (A+B)" Id="2">
-                <Parameter Id="8" IdName="channel_runTimeOpen">
+            <ParameterGroup Name="Kanal 1 (A+B)" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="channel_runTimeOpen">
                     <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="9" IdName="channel_runTimeClose">
+                <Parameter Id="{Px}" IdName="channel_runTimeClose">
                     <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
                     <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
                 </Parameter>
-                <Parameter Id="10" IdName="channel_runTimeRollover">
+                <Parameter Id="{Px}" IdName="channel_runTimeRollover">
                     <Description>Fahrzeitverlängerung</Description>
                     <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="11" IdName="channel_lockAction">
+                <Parameter Id="{Px}" IdName="channel_lockAction">
                     <Description>Verhalten bei Sperren</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="12" IdName="channel_unlockAction">
+                <Parameter Id="{Px}" IdName="channel_unlockAction">
                     <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="13" IdName="channel_rainAlarm">
+                <Parameter Id="{Px}" IdName="channel_rainAlarm">
                     <Description>Regenalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="14" IdName="channel_rainAlarmObservationTime">
+                <Parameter Id="{Px}" IdName="channel_rainAlarmObservationTime">
                     <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="15" IdName="channel_rainAlarmAction">
+                <Parameter Id="{Px}" IdName="channel_rainAlarmAction">
                     <Description>Regenalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="16" IdName="channel_windAlarm">
+                <Parameter Id="{Px}" IdName="channel_windAlarm">
                     <Description>Windalarm</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="17" IdName="channel_windAlarmObservationTime">
+                <Parameter Id="{Px}" IdName="channel_windAlarmObservationTime">
                     <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
                     <Value Type="uint8" Default="1E" Min="00" Max="78"/>
                 </Parameter>
-                <Parameter Id="18" IdName="channel_windAlarmAction">
+                <Parameter Id="{Px}" IdName="channel_windAlarmAction">
                     <Description>Windalarm: Aktion</Description>
                     <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
                 </Parameter>            
-                <Parameter Id="19" IdName="channel_ventByComObj">
+                <Parameter Id="{Px}" IdName="channel_ventByComObj">
                     <Description>Lüften per zentralem KO</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="20" IdName="channel_absPositionComObj">
+                <Parameter Id="{Px}" IdName="channel_absPositionComObj">
                     <Description>KO für absolute Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="21" IdName="channel_driveToPositionComObj">
+                <Parameter Id="{Px}" IdName="channel_driveToPositionComObj">
                     <Description>KO für "Position anfahren"</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="22" IdName="channel_driveToPositionValue">
+                <Parameter Id="{Px}" IdName="channel_driveToPositionValue">
                     <Description>Wert für "Position anfahren"</Description>
                     <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="23" IdName="channel_referenceRunComObj">
+                <Parameter Id="{Px}" IdName="channel_referenceRunComObj">
                     <Description>KO für Referenzfahrt</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="24" IdName="channel_runStatusComObj">
+                <Parameter Id="{Px}" IdName="channel_runStatusComObj">
                     <Description>KO für Verfahrstatus</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="25" IdName="channel_absPosStatusComObj">
+                <Parameter Id="{Px}" IdName="channel_absPosStatusComObj">
                     <Description>Status für aktuelle Position</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-                <Parameter Id="26" IdName="channel_runStatusPositionComObj">
+                <Parameter Id="{Px}" IdName="channel_runStatusPositionComObj">
                     <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
@@ -129,56 +129,56 @@
         
         <CommObjects>
             
-            <CommObject Id="0" IdName="firmwareTransfer">
+            <CommObject Id="{Cx}" IdName="firmwareTransfer">
                 <Name>FOTB</Name>
                 <Function>Firmwareupdate</Function>
                 <DataPointType>60000.60000</DataPointType>
                 <Flags>42</Flags>
             </CommObject>            
             
-            <CommObject Id="1" IdName="centralWindowOpenClose">
+            <CommObject Id="{Cx}" IdName="centralWindowOpenClose">
                 <Name>Zentrale Funktion</Name>
                 <Function>Fenster Auf/Zu</Function>
                 <DataPointType>1.007</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="2" IdName="centralWindowStop">
+            <CommObject Id="{Cx}" IdName="centralWindowStop">
                 <Name>Zentrale Funktion</Name>
                 <Function>Fenster Stop</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="3" IdName="centralWindowAbsPosition">
+            <CommObject Id="{Cx}" IdName="centralWindowAbsPosition">
                 <Name>Zentrale Funktion</Name>
                 <Function>Fenster Absolute Position</Function>
                 <DataPointType>5.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="4" IdName="centralShutterOpenClose">
+            <CommObject Id="{Cx}" IdName="centralShutterOpenClose">
                 <Name>Zentrale Funktion</Name>
                 <Function>Rolladen Auf/Zu</Function>
                 <DataPointType>1.007</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="5" IdName="centralShutterStop">
+            <CommObject Id="{Cx}" IdName="centralShutterStop">
                 <Name>Zentrale Funktion</Name>
                 <Function>Rolladen Stop</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="6" IdName="centralShutterAbsPosition">
+            <CommObject Id="{Cx}" IdName="centralShutterAbsPosition">
                 <Name>Zentrale Funktion</Name>
                 <Function>Rolladen Absolute Position</Function>
                 <DataPointType>5.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="7" IdName="centralShutterLock">
+            <CommObject Id="{Cx}" IdName="centralShutterLock">
                 <Name>Zentrale Funktion</Name>
                 <Function>Beschattung sperren/aktivieren</Function>
                 <DataPointType>1.003</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="8" IdName="centralVentilation">
+            <CommObject Id="{Cx}" IdName="centralVentilation">
                 <Name>Zentrale Funktion</Name>
                 <Function>Lüften</Function>
                 <DataPointType>1.001</DataPointType>
@@ -186,100 +186,100 @@
             </CommObject>
             
             
-            <CommObject Id="9" IdName="abOpenClose">
+            <CommObject Id="{Cx}" IdName="abOpenClose">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Auf/Zu</Function>
                 <DataPointType>1.009</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="10" IdName="abStop">
+            <CommObject Id="{Cx}" IdName="abStop">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Stop</Function>
                 <DataPointType>1.010</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="11" IdName="abAbsPosition">
+            <CommObject Id="{Cx}" IdName="abAbsPosition">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Absolute Position</Function>
                 <DataPointType>5.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="12" IdName="abReference">
+            <CommObject Id="{Cx}" IdName="abReference">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Referenzfahrt starten</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="13" IdName="abDriveToPosition">
+            <CommObject Id="{Cx}" IdName="abDriveToPosition">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Position anfahren</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="14" IdName="abVentilation">
+            <CommObject Id="{Cx}" IdName="abVentilation">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Lüften</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="15" IdName="abWindAlarm">
+            <CommObject Id="{Cx}" IdName="abWindAlarm">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Windalarm</Function>
                 <DataPointType>1.005</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            <CommObject Id="16" IdName="abRainAlarm">
+            <CommObject Id="{Cx}" IdName="abRainAlarm">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Regenalarm</Function>
                 <DataPointType>1.005</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             
-            <CommObject Id="17" IdName="abStatusCurrentPos">
+            <CommObject Id="{Cx}" IdName="abStatusCurrentPos">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status akt. Position</Function>
                 <DataPointType>5.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="18" IdName="abStatusOpenPos">
+            <CommObject Id="{Cx}" IdName="abStatusOpenPos">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status Auf Position</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="19" IdName="abStatusClosePos">
+            <CommObject Id="{Cx}" IdName="abStatusClosePos">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status Zu Position</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
             
-            <CommObject Id="20" IdName="abStatusMovement">
+            <CommObject Id="{Cx}" IdName="abStatusMovement">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Verfahrstatus</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="21" IdName="abStatusMovementOpen">
+            <CommObject Id="{Cx}" IdName="abStatusMovementOpen">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Verfahrstatus Auf</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="22" IdName="abStatusMovementClose">
+            <CommObject Id="{Cx}" IdName="abStatusMovementClose">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Verfahrstatus Zu</Function>
                 <DataPointType>1.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            <CommObject Id="23" IdName="abStatusMovementDirection">
+            <CommObject Id="{Cx}" IdName="abStatusMovementDirection">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Verfahrstatus Richtung</Function>
                 <DataPointType>1.008</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
             
-            <CommObject Id="24" IdName="abStatusLock">
+            <CommObject Id="{Cx}" IdName="abStatusLock">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status Sperre/Alarm</Function>
                 <DataPointType>1.011</DataPointType>

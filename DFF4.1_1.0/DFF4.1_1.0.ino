@@ -3,12 +3,13 @@
  */
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_MCP23017.h>
+#include <KonnektingDevice.h> // http://librarymanager/All#KONNEKTING Version 1.0.0-beta4a
+#include <Adafruit_MCP23017.h> // http://librarymanager/All#Adafruit_MCP23017 Version 1.0.3
+#include <SerialFlash.h> // http://librarymanager/All#SerialFlash Version 0.5.0
+#include "kdevice_DFF_4.1.h"
 #include "Constants.h"
 #include "Frontend8Btn8Led.h"
 #include "RotoChannel.h"
-#include <KonnektingDevice.h>
-#include "kdevice_DFF_4.1.h"
 #include "Memory.h"
 
 
@@ -27,8 +28,8 @@
 
 #define INT_PIN_FRONTEND 38
 
-#define PROG_LED 19 // A1
-#define PROG_BTN 15 // A5
+#define PROG_LED A5 // Pin 19
+#define PROG_BTN A1 // Pin 15
 
 // MCP23017 Output register<->pin map
 #define OA0 0
@@ -156,7 +157,7 @@ void setup() {
     val = Konnekting.getUINT8Param(PARAM_ventilationTime);
     unsigned long paramVentilationTime = (val == 0xff ? 5 * 60 * 1000 : val * 60 * 1000); // minutes, calculated to ms
     Debug.println("P: paramVentilationTime=%i", paramVentilationTime);
-    
+
     val = Konnekting.getUINT8Param(PARAM_triggerTime);
     uint8_t paramTriggerTime = (val == 0xff ? 0xAF /*175ms*/ : val); // milliseconds
     Debug.println("P: paramTriggerTime=%i", paramTriggerTime);
@@ -190,13 +191,13 @@ void setup() {
        init relay channels
      */
     for (int i = 0; i < CHANNELS_COUNT; i++) {
-        
+
         ChannelConfig config;
-        
+
         config.ventilationTime = paramVentilationTime;
         config.triggerTime = paramTriggerTime;
-        
-        
+
+
         Debug.println(F("Reading channel config for #%i"), i);
         uint8_t channelSetting = Konnekting.getUINT8Param(PARAM_setting_channel_ab + i);
 
@@ -208,7 +209,7 @@ void setup() {
             case OPTION_SETTINGS_WINDOW:
             case OPTION_SETTINGS_SHUTTER:
                 // fill struct with config data
-                
+
                 config.setting = channelSetting;
                 config.runTimeClose = Konnekting.getUINT8Param(PARAM_channel_runTimeClose + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeClose: %i"), config.runTimeClose);
@@ -240,12 +241,12 @@ void setup() {
                 Debug.println(F("ventByComObj: %i"), config.ventByComObj);
                 config.absPositionComObj = Konnekting.getUINT8Param(PARAM_channel_absPositionComObj + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("absPositionComObj: %i"), config.absPositionComObj);
-                
+
                 config.driveToPositionComObj = Konnekting.getUINT8Param(PARAM_channel_driveToPositionComObj + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("driveToPositionComObj: %i"), config.driveToPositionComObj);
                 config.driveToPositionValue = Konnekting.getUINT8Param(PARAM_channel_driveToPositionValue + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("driveToPositionValue: %i"), config.driveToPositionValue);
-                
+
                 config.referenceRunComObj = Konnekting.getUINT8Param(PARAM_channel_referenceRunComObj + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("referenceRunComObj: %i"), config.referenceRunComObj);
                 config.runStatusComObj = Konnekting.getUINT8Param(PARAM_channel_runStatusComObj + (i * CHANNEL_PARAM_OFFSET));
@@ -352,7 +353,139 @@ void knxEvents(byte index) {
         bool consumed = channels[i].knxEvents(index);
         if (consumed) {
             return;
+        } else {
+            
+            switch (index) {
+                case COMOBJ_firmwareTransfer: // FOTB
+                {
+                    byte buffer[14];
+                    Knx.read(COMOBJ_firmwareTransfer, buffer);
+
+                    for (int i = 0; i < 14; i++) {
+                        Debug.println(F("buffer[%d]\thex=0x%02x bin="BYTETOBINARYPATTERN), i, buffer[i], BYTETOBINARY(buffer[i]));
+                    }
+
+                    byte cmd = buffer[0];
+
+                    //DEBUG_PRINTLN(F("cmd=0x%02x"), cmd);
+
+
+                    switch (cmd) {
+                        case 0: // erase file
+                            handleEraseFOTB(buffer);
+                            break;
+                        case 1: //write file
+                            handleWriteFOTB(buffer);
+                            break;
+                        case 2: // receive file data
+                            handleFOTB(buffer);
+                            break;
+
+                        default:
+                            Debug.println(F("Unsupported cmd: 0x%02x"), cmd);
+                            Debug.println(F(" !!! Skipping message."));
+                            break;
+                    }
+                    break;
+                }                
+                default:
+                    Debug.println(F("Unhandled comobj! index=%d"), index);
+                    break;
+
+            }
         }
     }
 
 };
+
+// --------------
+// FOTB
+// --------------
+
+unsigned int _blockNr = 0;
+unsigned int _currFileIdx;
+unsigned int _currRemainingSize = -1;
+SerialFlashFile _curFlashFile;
+
+void sendAck() {
+    Debug.println(F("sendAck block=%d"), _blockNr);
+    byte response[14];
+    for (byte i = 0; i < 14; i++) {
+        response[i] = 0x00;
+    }
+
+    response[1] = (_blockNr >> 24) & 0xff;
+    response[2] = (_blockNr >> 16) & 0xff;
+    response[3] = (_blockNr >> 8) & 0xff;
+    response[4] = (_blockNr >> 0) & 0xff;
+
+    Knx.write(COMOBJ_firmwareTransfer, response);
+}
+
+void handleEraseFOTB(byte msg[]) {
+    Debug.println(F("handleEraseFile"));
+
+
+
+    // Knx.write(PROGCOMOBJ_INDEX, response);
+    sendAck();
+}
+
+void handleWriteFOTB(byte msg[]) {
+    Debug.println(F("handleWriteFOTB"));
+    _currFileIdx = msg[1];
+
+    _blockNr = 0;
+    _currRemainingSize =
+            (msg[2] << 24) +
+            (msg[3] << 16) +
+            (msg[4] << 8) +
+            (msg[5] << 0);
+    Debug.println(F("file size %d"), _currRemainingSize);
+
+    if (SerialFlash.exists("0.wav")) {
+        Debug.println(F("delete file from Flash chip"));
+        SerialFlash.remove("0.wav");
+    }
+    if (SerialFlash.create("0.wav", _currRemainingSize)) {
+        _curFlashFile = SerialFlash.open("0.wav");
+        Debug.println(F("created file with size %d"), _currRemainingSize);
+        if (_curFlashFile) {
+            sendAck();
+        } else {
+            Debug.println(F("error creating file on flash"));
+        }
+
+    }
+}
+
+void handleFOTB(byte msg[]) {
+
+    bool debug = false;
+
+    if (debug) Debug.println(F("handleFOTB"));
+
+    if (debug) Debug.println(F("remaining before: %d"), _currRemainingSize);
+    unsigned int toWrite = min(13, _currRemainingSize);
+    if (debug) Debug.println(F("towrite: %d"), toWrite);
+    byte data[13];
+
+    // copy idx 1 to 13 from msg to data --> skip first byte
+    memcpy(&data[0], &msg[1], toWrite);
+
+
+    _curFlashFile.write(data, toWrite);
+
+    _currRemainingSize -= toWrite;
+    if (debug) Debug.println(F("remaining after: %d"), _currRemainingSize);
+
+    if (_currRemainingSize == 0) {
+        Debug.println(F("done. closing file"));
+        _curFlashFile.close();
+    }
+
+    sendAck();
+    _blockNr++;
+}
+
+

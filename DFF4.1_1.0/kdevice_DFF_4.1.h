@@ -2,30 +2,31 @@
 #define DEVICE_ID 1
 #define REVISION 0
 
-#define COMOBJ_centralWindowOpenClose 0
-#define COMOBJ_centralWindowStop 1
-#define COMOBJ_centralWindowAbsPosition 2
-#define COMOBJ_centralShutterOpenClose 3
-#define COMOBJ_centralShutterStop 4
-#define COMOBJ_centralShutterAbsPosition 5
-#define COMOBJ_centralShutterLock 6
-#define COMOBJ_centralVentilation 7
-#define COMOBJ_abOpenClose 8
-#define COMOBJ_abStop 9
-#define COMOBJ_abAbsPosition 10
-#define COMOBJ_abReference 11
-#define COMOBJ_abDriveToPosition 12
-#define COMOBJ_abVentilation 13
-#define COMOBJ_abWindAlarm 14
-#define COMOBJ_abRainAlarm 15
-#define COMOBJ_abStatusCurrentPos 16
-#define COMOBJ_abStatusOpenPos 17
-#define COMOBJ_abStatusClosePos 18
-#define COMOBJ_abStatusMovement 19
-#define COMOBJ_abStatusMovementOpen 20
-#define COMOBJ_abStatusMovementClose 21
-#define COMOBJ_abStatusMovementDirection 22
-#define COMOBJ_abStatusLock 23
+#define COMOBJ_firmwareTransfer 0
+#define COMOBJ_centralWindowOpenClose 1
+#define COMOBJ_centralWindowStop 2
+#define COMOBJ_centralWindowAbsPosition 3
+#define COMOBJ_centralShutterOpenClose 4
+#define COMOBJ_centralShutterStop 5
+#define COMOBJ_centralShutterAbsPosition 6
+#define COMOBJ_centralShutterLock 7
+#define COMOBJ_centralVentilation 8
+#define COMOBJ_abOpenClose 9
+#define COMOBJ_abStop 10
+#define COMOBJ_abAbsPosition 11
+#define COMOBJ_abReference 12
+#define COMOBJ_abDriveToPosition 13
+#define COMOBJ_abVentilation 14
+#define COMOBJ_abWindAlarm 15
+#define COMOBJ_abRainAlarm 16
+#define COMOBJ_abStatusCurrentPos 17
+#define COMOBJ_abStatusOpenPos 18
+#define COMOBJ_abStatusClosePos 19
+#define COMOBJ_abStatusMovement 20
+#define COMOBJ_abStatusMovementOpen 21
+#define COMOBJ_abStatusMovementClose 22
+#define COMOBJ_abStatusMovementDirection 23
+#define COMOBJ_abStatusLock 24
 #define PARAM_startupDelay 0
 #define PARAM_triggerTime 1
 #define PARAM_manualControl 2
@@ -56,30 +57,31 @@
 
 #ifdef KONNEKTING_h        
 KnxComObject KnxDevice::_comObjectsList[] = {
-    /* Index 0 - centralWindowOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
-    /* Index 1 - centralWindowStop */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 2 - centralWindowAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
-    /* Index 3 - centralShutterOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
-    /* Index 4 - centralShutterStop */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 5 - centralShutterAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
-    /* Index 6 - centralShutterLock */ KnxComObject(KNX_DPT_1_003, 0x2a),
-    /* Index 7 - centralVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 8 - abOpenClose */ KnxComObject(KNX_DPT_1_009, 0x2a),
-    /* Index 9 - abStop */ KnxComObject(KNX_DPT_1_010, 0x2a),
-    /* Index 10 - abAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
-    /* Index 11 - abReference */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 12 - abDriveToPosition */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 13 - abVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
-    /* Index 14 - abWindAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
-    /* Index 15 - abRainAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
-    /* Index 16 - abStatusCurrentPos */ KnxComObject(KNX_DPT_5_001, 0x34),
-    /* Index 17 - abStatusOpenPos */ KnxComObject(KNX_DPT_1_001, 0x34),
-    /* Index 18 - abStatusClosePos */ KnxComObject(KNX_DPT_1_001, 0x34),
-    /* Index 19 - abStatusMovement */ KnxComObject(KNX_DPT_1_008, 0x34),
-    /* Index 20 - abStatusMovementOpen */ KnxComObject(KNX_DPT_1_009, 0x34),
-    /* Index 21 - abStatusMovementClose */ KnxComObject(KNX_DPT_1_008, 0x34),
-    /* Index 22 - abStatusMovementDirection */ KnxComObject(KNX_DPT_1_008, 0x2a),
-    /* Index 23 - abStatusLock */ KnxComObject(KNX_DPT_1_011, 0x34)
+    /* Index 0 - firmwareTransfer */ KnxComObject(KNX_DPT_60000_60000, 0x2a),
+    /* Index 1 - centralWindowOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
+    /* Index 2 - centralWindowStop */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 3 - centralWindowAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
+    /* Index 4 - centralShutterOpenClose */ KnxComObject(KNX_DPT_1_007, 0x2a),
+    /* Index 5 - centralShutterStop */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 6 - centralShutterAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
+    /* Index 7 - centralShutterLock */ KnxComObject(KNX_DPT_1_003, 0x2a),
+    /* Index 8 - centralVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 9 - abOpenClose */ KnxComObject(KNX_DPT_1_009, 0x2a),
+    /* Index 10 - abStop */ KnxComObject(KNX_DPT_1_010, 0x2a),
+    /* Index 11 - abAbsPosition */ KnxComObject(KNX_DPT_5_001, 0x2a),
+    /* Index 12 - abReference */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 13 - abDriveToPosition */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 14 - abVentilation */ KnxComObject(KNX_DPT_1_001, 0x2a),
+    /* Index 15 - abWindAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
+    /* Index 16 - abRainAlarm */ KnxComObject(KNX_DPT_1_005, 0x2a),
+    /* Index 17 - abStatusCurrentPos */ KnxComObject(KNX_DPT_5_001, 0x34),
+    /* Index 18 - abStatusOpenPos */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 19 - abStatusClosePos */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 20 - abStatusMovement */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 21 - abStatusMovementOpen */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 22 - abStatusMovementClose */ KnxComObject(KNX_DPT_1_001, 0x34),
+    /* Index 23 - abStatusMovementDirection */ KnxComObject(KNX_DPT_1_008, 0x2a),
+    /* Index 24 - abStatusLock */ KnxComObject(KNX_DPT_1_011, 0x34)
 };
 const byte KnxDevice::_numberOfComObjects = sizeof (_comObjectsList) / sizeof (KnxComObject); // do not change this code
        
@@ -112,5 +114,5 @@ byte KonnektingDevice::_paramSizeList[] = {
     /* Index 25 - channel_absPosStatusComObj */ PARAM_UINT8,
     /* Index 26 - channel_runStatusPositionComObj */ PARAM_UINT8
 };
-const byte KonnektingDevice::_numberOfParams = sizeof (_paramSizeList); // do not change this code
+const int KonnektingDevice::_numberOfParams = sizeof (_paramSizeList); // do not change this code
 #endif

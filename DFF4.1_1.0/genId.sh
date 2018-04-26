@@ -8,6 +8,7 @@ i=0
 echo "i=$i"
 cat $1 > $2
 
+# Param
 while grep -q "\{Px\}" $2
 do
    echo "replace P $i"
@@ -17,6 +18,7 @@ do
    i=$((i+1))
 done   
 
+# Comobj
 i=0
 echo "i=$i"
 while grep -q "\{Cx\}" $2
@@ -28,6 +30,7 @@ do
    i=$((i+1))
 done
 
+# G????
 i=0
 echo "i=$i"
 while grep -q "\{Gx\}" $2
