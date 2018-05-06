@@ -83,7 +83,7 @@ void RotoChannel::init(Adafruit_MCP23017& mcp, Frontend8Btn8Led& frontend) {
     _mcp.pinMode(_setPinClose, OUTPUT);
     _mcp.pinMode(_resetPinClose, OUTPUT);
 
-    Debug.print(F("[%i] Init "), _group);
+    Debug.print(F("[%i] Init"), _group);
     switch (_startupAction) {
         case A_OPEN:
             _initDone = false;
@@ -112,13 +112,16 @@ void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
 
-    Debug.println(F("[%i] _config.runtimeRollover=%i s,_config.runTimeOpen=%i ms, _config.runTimeClose=%i ms"), _group, _config.runTimeRollover, getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
+    Debug.println(F("[%i] setConfig:\n"
+                            "\t_config.runtimeRollover=%is \n"
+                            "\t_config.runTimeOpen=%ims \n"
+                            "\t_config.runTimeClose=%ims"), _group, _config.runTimeRollover, getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
 
     _openStep = (100.0 / (getTime(_config.runTimeOpen))) / 100.0;
     _closeStep = (100.0 / (getTime(_config.runTimeClose))) / 100.0;
 
-    Debug.println(F("[%i] open Step=%3.9f%%/ms"), _group, _openStep);
-    Debug.println(F("[%i] close Step=%3.9f%%/ms"), _group, _closeStep);
+    Debug.println(F("\t_openStep=%3.9f%%/ms"), _group, _openStep);
+    Debug.println(F("\t_closeStep=%3.9f%%/ms"), _group, _closeStep);
 
 }
 

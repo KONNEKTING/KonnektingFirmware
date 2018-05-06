@@ -274,7 +274,7 @@ void setup() {
                 channels[i].init(mcpRelay, frontend);
                 break;
 
-                // "same as" duplicates/clones from Channel A+B/C+D
+            // "same as" duplicates/clones from Channel A+B/C+D
             case OPTION_SETTINGS_SAMEAS1:
                 Debug.println(F("Channel #%i uses same setting as #0"), i);
                 if (i >= 2) {
@@ -285,6 +285,8 @@ void setup() {
                 } else {
                     Debug.println(F("ERROR: SameConfig1 cannot be done with channel id<2 !!!"));
                 }
+                break;
+                
             case OPTION_SETTINGS_SAMEAS2:
                 Debug.println(F("Channel #%i uses same setting as #1"), i);
                 if (i >= 2) {
@@ -300,6 +302,8 @@ void setup() {
             case OPTION_SETTINGS_UNUSED:
                 // when channel is disabled, no need to read any config from memory --> faster
                 Debug.println(F("Channel #%i is unused."), i);
+                break;
+                
             default:
                 Debug.println(F("No channel config for channel #%i"), i);
                 break;
