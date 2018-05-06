@@ -21,7 +21,7 @@
 #define KNX_SERIAL Serial1
 
 // number of params for each channel
-#define CHANNEL_PARAM_OFFSET 12
+#define CHANNEL_PARAM_OFFSET 19
 
 // pin which enables level-shifter on application board (fake 3.3V Vcc source)
 #define ENABLE_LEVELSHIFT A0
@@ -61,6 +61,7 @@
 #define SHUTTER_CLOSE_TIME 26 //sec
 
 // just for testing
+#define WAIT_FOR_MONITOR 1
 //#define PROG_LED_HEARTBEAT 1
 #ifdef PROG_LED_HEARTBEAT
 int last = millis();
@@ -128,12 +129,12 @@ void frontendISR() {
 void setup() {
 
     SerialUSB.begin(115200);
-    /*
-        while (!SerialUSB) {
-            // wait for serial connection
-        }
-     */
-
+#ifdef WAIT_FOR_MONITOR
+    while (!SerialUSB) {
+        // wait for serial connection
+    }
+#endif
+    
     /*
        make debug serial port known to debug class
        Means: KONNEKTING will use this serial port for console debugging
@@ -196,7 +197,8 @@ void setup() {
     pinMode(ENABLE_LEVELSHIFT, OUTPUT);
     digitalWrite(ENABLE_LEVELSHIFT, HIGH);
     Debug.println(F("levelshift+enable %i"), ENABLE_LEVELSHIFT);
-
+    
+    Debug.println(F("Reading channel params with CHANNEL_PARAM_OFFSET %i"), CHANNEL_PARAM_OFFSET);
     /*
        init relay channels
      */
@@ -221,10 +223,11 @@ void setup() {
             
                 // fill struct with config data
                 config.setting = channelSetting;
-                config.runTimeClose = Konnekting.getUINT8Param(PARAM_channel_runTimeClose + (i * CHANNEL_PARAM_OFFSET));
-                Debug.println(F("runTimeClose: %i"), config.runTimeClose);
+                
                 config.runTimeOpen = Konnekting.getUINT8Param(PARAM_channel_runTimeOpen + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeOpen: %i"), config.runTimeOpen);
+                config.runTimeClose = Konnekting.getUINT8Param(PARAM_channel_runTimeClose + (i * CHANNEL_PARAM_OFFSET));
+                Debug.println(F("runTimeClose: %i"), config.runTimeClose);
                 config.runTimeRollover = Konnekting.getUINT8Param(PARAM_channel_runTimeRollover + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeRollover: %i"), config.runTimeRollover);
 
@@ -273,6 +276,7 @@ void setup() {
 
                 // "same as" duplicates/clones from Channel A+B/C+D
             case OPTION_SETTINGS_SAMEAS1:
+                Debug.println(F("Channel #%i uses same setting as #0"), i);
                 if (i >= 2) {
                     ChannelConfig sameConfig;
                     sameConfig = channels[0].getConfig(); // same as channel A+B
@@ -282,6 +286,7 @@ void setup() {
                     Debug.println(F("ERROR: SameConfig1 cannot be done with channel id<2 !!!"));
                 }
             case OPTION_SETTINGS_SAMEAS2:
+                Debug.println(F("Channel #%i uses same setting as #1"), i);
                 if (i >= 2) {
                     ChannelConfig sameConfig;
                     sameConfig = channels[1].getConfig(); // same as channel A+B
@@ -294,6 +299,7 @@ void setup() {
 
             case OPTION_SETTINGS_UNUSED:
                 // when channel is disabled, no need to read any config from memory --> faster
+                Debug.println(F("Channel #%i is unused."), i);
             default:
                 Debug.println(F("No channel config for channel #%i"), i);
                 break;

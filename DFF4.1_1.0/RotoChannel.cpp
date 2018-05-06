@@ -112,13 +112,13 @@ void RotoChannel::setConfig(ChannelConfig config) {
     _config = config;
     _enabled = true;
 
-    Debug.println(F("_config.runtimeRollover=%i s,_config.runTimeOpen=%i ms, _config.runTimeClose=%i ms"), _config.runTimeRollover, getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
+    Debug.println(F("[%i] _config.runtimeRollover=%i s,_config.runTimeOpen=%i ms, _config.runTimeClose=%i ms"), _group, _config.runTimeRollover, getTime(_config.runTimeOpen), getTime(_config.runTimeClose));
 
     _openStep = (100.0 / (getTime(_config.runTimeOpen))) / 100.0;
     _closeStep = (100.0 / (getTime(_config.runTimeClose))) / 100.0;
 
-    Debug.println(F("open Step=%3.9f%%/ms"), _openStep);
-    Debug.println(F("close Step=%3.9f%%/ms"), _closeStep);
+    Debug.println(F("[%i] open Step=%3.9f%%/ms"), _group, _openStep);
+    Debug.println(F("[%i] close Step=%3.9f%%/ms"), _group, _closeStep);
 
 }
 
@@ -129,10 +129,8 @@ void RotoChannel::work() {
         return;
     }
 
-
     // Do init-stuff, if not already done
     if (!_initDone) {
-
 
         // check how long we have to wait for final end position
         unsigned long waitTime = 0;
@@ -172,17 +170,17 @@ void RotoChannel::work() {
 
             int led = _group * 2;
 
-            Debug.println(F("Init of group %i *done*. Pos=%3.9f"), _group, _position);
+            Debug.println(F("[%i] Init *done*. Pos=%3.9f"), _group, _position);
 
         }
 
     } else if (_manualMoveRequest) {
 
-        Debug.println(F("manualMoveRequest on group: %i"), _group);
+        Debug.print(F("[%i] manualMoveRequest: "), _group);
 
-        Debug.println(F("current move status: %i"), _moveStatus);
+        Debug.print(F("current move status: %i"), _moveStatus);
 
-        Debug.println(F("current status: %i"), _status);
+        Debug.println(F("; current status: %i"), _status);
 
         if (_moveStatus != MS_STOP) {
             doStop(); // wenn wir noch fahren, anhalten
@@ -305,7 +303,7 @@ void RotoChannel::workStatus() {
 
 
     if (isJustStopped()) {
-        Debug.print("[%i] STATUS just stopped:", _group);
+        Debug.print("[%i] STATUS just stopped: [", _group);
         /*
          * 0-en werden gesendet wenn abgehalten wird, passiert in workStatus()
          */
@@ -353,7 +351,7 @@ void RotoChannel::workStatus() {
                 }
             }
         }
-        Debug.println("", _group);
+        Debug.println("]", _group);
     }
 
 
@@ -391,7 +389,7 @@ void RotoChannel::workStatus() {
 
 void RotoChannel::doButton(bool openButton) {
 
-    Debug.println(F("doButton on group=%i openButton=%i"), _group, openButton);
+    Debug.println(F("[%i] doButton: openButton=%i"), _group, openButton);
 
     if (isLocked()) {
         Debug.println(F("[%i] doButton skipped due to lock: %i"), _group, _lock);
@@ -576,7 +574,7 @@ void RotoChannel::workLEDs() {
 
     // ensure LEDs are off after moving
     if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
-        Debug.print(F("workLEDs: STOP reached. Set LEDs to "));
+        Debug.print(F("[%i] workLEDs: STOP reached. Set LEDs to "), _group);
 
         switch (_status) {
             case CS_OPENED:
