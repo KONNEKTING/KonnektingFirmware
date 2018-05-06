@@ -121,9 +121,244 @@
                     <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
                     <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
                 </Parameter>
-            </ParameterGroup>            
+            </ParameterGroup>     
             
+            <ParameterGroup Name="Kanal 2 (C+D)" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="channel_runTimeOpen">
+                    <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
+                    <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runTimeClose">
+                    <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
+                    <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runTimeRollover">
+                    <Description>Fahrzeitverlängerung</Description>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_lockAction">
+                    <Description>Verhalten bei Sperren</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_unlockAction">
+                    <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarm">
+                    <Description>Regenalarm</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarmObservationTime">
+                    <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="78"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarmAction">
+                    <Description>Regenalarm: Aktion</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarm">
+                    <Description>Windalarm</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarmObservationTime">
+                    <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="78"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarmAction">
+                    <Description>Windalarm: Aktion</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>            
+                <Parameter Id="{Px}" IdName="channel_ventByComObj">
+                    <Description>Lüften per zentralem KO</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_absPositionComObj">
+                    <Description>KO für absolute Position</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionComObj">
+                    <Description>KO für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionValue">
+                    <Description>Wert für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_referenceRunComObj">
+                    <Description>KO für Referenzfahrt</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runStatusComObj">
+                    <Description>KO für Verfahrstatus</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_absPosStatusComObj">
+                    <Description>Status für aktuelle Position</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runStatusPositionComObj">
+                    <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>                             
             
+            <ParameterGroup Name="Kanal 3 (E+F)" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="channel_runTimeOpen">
+                    <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
+                    <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runTimeClose">
+                    <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
+                    <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runTimeRollover">
+                    <Description>Fahrzeitverlängerung</Description>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_lockAction">
+                    <Description>Verhalten bei Sperren</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_unlockAction">
+                    <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarm">
+                    <Description>Regenalarm</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarmObservationTime">
+                    <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="78"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarmAction">
+                    <Description>Regenalarm: Aktion</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarm">
+                    <Description>Windalarm</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarmObservationTime">
+                    <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="78"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarmAction">
+                    <Description>Windalarm: Aktion</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>            
+                <Parameter Id="{Px}" IdName="channel_ventByComObj">
+                    <Description>Lüften per zentralem KO</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_absPositionComObj">
+                    <Description>KO für absolute Position</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionComObj">
+                    <Description>KO für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionValue">
+                    <Description>Wert für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_referenceRunComObj">
+                    <Description>KO für Referenzfahrt</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runStatusComObj">
+                    <Description>KO für Verfahrstatus</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_absPosStatusComObj">
+                    <Description>Status für aktuelle Position</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runStatusPositionComObj">
+                    <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>      
+            
+            <ParameterGroup Name="Kanal 4 (G+H)" Id="{Gx}">
+                <Parameter Id="{Px}" IdName="channel_runTimeOpen">
+                    <Description>Verfahrzeit für AUF [sek: 1-90]</Description>
+                    <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runTimeClose">
+                    <Description>Verfahrzeit für ZU [sek: 1-90]</Description>
+                    <Value Type="uint8" Default="1E" Options="" Min="01" Max="5A"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runTimeRollover">
+                    <Description>Fahrzeitverlängerung</Description>
+                    <Value Type="uint8" Default="02" Options="00=keine|02=2%|05=5%|0A=10%|0F=15%|14=20%" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_lockAction">
+                    <Description>Verhalten bei Sperren</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Änderung|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_unlockAction">
+                    <Description>Verhalten bei Rückname der Sperre / Alarme</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren|03=vorherige Position anfahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarm">
+                    <Description>Regenalarm</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarmObservationTime">
+                    <Description>Regenalarm: Überwachungszeit [0..120min, 0=aus]</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="78"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_rainAlarmAction">
+                    <Description>Regenalarm: Aktion</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarm">
+                    <Description>Windalarm</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarmObservationTime">
+                    <Description>Windalarm: Überwachungszeit [0..120min, 0=aus]</Description>
+                    <Value Type="uint8" Default="1E" Min="00" Max="78"/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_windAlarmAction">
+                    <Description>Windalarm: Aktion</Description>
+                    <Value Type="uint8" Default="00" Options="00=keine Aktion|01=auf fahren|02=zu fahren" Min="" Max=""/>
+                </Parameter>            
+                <Parameter Id="{Px}" IdName="channel_ventByComObj">
+                    <Description>Lüften per zentralem KO</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_absPositionComObj">
+                    <Description>KO für absolute Position</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionComObj">
+                    <Description>KO für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_driveToPositionValue">
+                    <Description>Wert für "Position anfahren"</Description>
+                    <Value Type="uint8" Default="00" Options="00=0%|05=5%|0A=10%|0F=15%|14=20%|19=25%|1E=30%|23=35%|28=40%|2D=45%|32=50%|37=55%|3C=60%|41=65%|46=70%|4B=75%|50=80%|55=85%|5A=90%|5F=95%|64=100%" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_referenceRunComObj">
+                    <Description>KO für Referenzfahrt</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runStatusComObj">
+                    <Description>KO für Verfahrstatus</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=fährt (1 KO)|02=Auffahrt+Zufahrt (2 KOs)" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_absPosStatusComObj">
+                    <Description>Status für aktuelle Position</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+                <Parameter Id="{Px}" IdName="channel_runStatusPositionComObj">
+                    <Description>Status für akt. Richtung &amp;#038; Position auf/zu</Description>
+                    <Value Type="uint8" Default="00" Options="00=nicht aktiv|01=aktiv" Min="" Max=""/>
+                </Parameter>
+            </ParameterGroup>                                       
                 
         </Parameters>
         
@@ -234,7 +469,6 @@
                 <DataPointType>1.005</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            
             <CommObject Id="{Cx}" IdName="abStatusCurrentPos">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status akt. Position</Function>
@@ -253,7 +487,6 @@
                 <DataPointType>1.001</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
-            
             <CommObject Id="{Cx}" IdName="abStatusMovement">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Verfahrstatus</Function>
@@ -278,319 +511,341 @@
                 <DataPointType>1.008</DataPointType>
                 <Flags>42</Flags>
             </CommObject>
-            
             <CommObject Id="{Cx}" IdName="abStatusLock">
                 <Name>Kanal 1 (A+B)</Name>
                 <Function>Status Sperre/Alarm</Function>
                 <DataPointType>1.011</DataPointType>
                 <Flags>52</Flags>
             </CommObject>
+            
+            <CommObject Id="{Cx}" IdName="abOpenClose">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Auf/Zu</Function>
+                <DataPointType>1.009</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStop">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Stop</Function>
+                <DataPointType>1.010</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abAbsPosition">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Absolute Position</Function>
+                <DataPointType>5.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abReference">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Referenzfahrt starten</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abDriveToPosition">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Position anfahren</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abVentilation">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Lüften</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abWindAlarm">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Windalarm</Function>
+                <DataPointType>1.005</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abRainAlarm">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Regenalarm</Function>
+                <DataPointType>1.005</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusCurrentPos">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Status akt. Position</Function>
+                <DataPointType>5.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusOpenPos">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Status Auf Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusClosePos">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Status Zu Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovement">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Verfahrstatus</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementOpen">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Verfahrstatus Auf</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementClose">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Verfahrstatus Zu</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementDirection">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Verfahrstatus Richtung</Function>
+                <DataPointType>1.008</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusLock">
+                <Name>Kanal 2 (C+D)</Name>
+                <Function>Status Sperre/Alarm</Function>
+                <DataPointType>1.011</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            
+            <CommObject Id="{Cx}" IdName="abOpenClose">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Auf/Zu</Function>
+                <DataPointType>1.009</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStop">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Stop</Function>
+                <DataPointType>1.010</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abAbsPosition">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Absolute Position</Function>
+                <DataPointType>5.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abReference">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Referenzfahrt starten</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abDriveToPosition">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Position anfahren</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abVentilation">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Lüften</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abWindAlarm">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Windalarm</Function>
+                <DataPointType>1.005</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abRainAlarm">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Regenalarm</Function>
+                <DataPointType>1.005</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusCurrentPos">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Status akt. Position</Function>
+                <DataPointType>5.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusOpenPos">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Status Auf Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusClosePos">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Status Zu Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovement">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Verfahrstatus</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementOpen">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Verfahrstatus Auf</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementClose">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Verfahrstatus Zu</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementDirection">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Verfahrstatus Richtung</Function>
+                <DataPointType>1.008</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusLock">
+                <Name>Kanal 3 (E+F)</Name>
+                <Function>Status Sperre/Alarm</Function>
+                <DataPointType>1.011</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            
+            <CommObject Id="{Cx}" IdName="abOpenClose">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Auf/Zu</Function>
+                <DataPointType>1.009</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStop">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Stop</Function>
+                <DataPointType>1.010</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abAbsPosition">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Absolute Position</Function>
+                <DataPointType>5.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abReference">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Referenzfahrt starten</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abDriveToPosition">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Position anfahren</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abVentilation">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Lüften</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abWindAlarm">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Windalarm</Function>
+                <DataPointType>1.005</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abRainAlarm">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Regenalarm</Function>
+                <DataPointType>1.005</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusCurrentPos">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Status akt. Position</Function>
+                <DataPointType>5.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusOpenPos">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Status Auf Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusClosePos">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Status Zu Position</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovement">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Verfahrstatus</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementOpen">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Verfahrstatus Auf</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementClose">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Verfahrstatus Zu</Function>
+                <DataPointType>1.001</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusMovementDirection">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Verfahrstatus Richtung</Function>
+                <DataPointType>1.008</DataPointType>
+                <Flags>42</Flags>
+            </CommObject>
+            <CommObject Id="{Cx}" IdName="abStatusLock">
+                <Name>Kanal 4 (G+H)</Name>
+                <Function>Status Sperre/Alarm</Function>
+                <DataPointType>1.011</DataPointType>
+                <Flags>52</Flags>
+            </CommObject>
 
-<!--            
-            <CommObject Id="24">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Auf/Zu</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="25">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Stop</Function>
-                <DataPointType>1.010</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="26">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Absolute Position</Function>
-                <DataPointType>5.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="27">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Referenzfahrt starten</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="28">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Position anfahren</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="29">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Lüften</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="30">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Windalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="31">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Regenalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="32">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Status akt. Richtung</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="33">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Verfahrstatus</Function>
-                <DataPointType>1.007</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="34">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Verfahrstatus Auf</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="35">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Verfahrstatus Zu</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="36">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Status akt. Position</Function>
-                <DataPointType>5.001</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="37">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Status Sperre/Alarm</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="38">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Status obere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="39">
-                <Name>Kanal 2 (C+D)</Name>
-                <Function>Status untere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            
-            <CommObject Id="40">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Auf/Zu</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="41">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Stop</Function>
-                <DataPointType>1.010</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="42">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Absolute Position</Function>
-                <DataPointType>5.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="43">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Referenzfahrt starten</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="44">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Position anfahren</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="45">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Lüften</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="46">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Windalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="47">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Regenalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="48">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Status akt. Richtung</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="49">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Verfahrstatus</Function>
-                <DataPointType>1.007</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="50">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Verfahrstatus Auf</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="51">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Verfahrstatus Zu</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="52">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Status akt. Position</Function>
-                <DataPointType>5.001</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="53">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Status Sperre/Alarm</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="54">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Status obere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="55">
-                <Name>Kanal 3 (E+F)</Name>
-                <Function>Status untere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            
-            <CommObject Id="56">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Auf/Zu</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="57">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Stop</Function>
-                <DataPointType>1.010</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="58">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Absolute Position</Function>
-                <DataPointType>5.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="59">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Referenzfahrt starten</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="60">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Position anfahren</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="61">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Lüften</Function>
-                <DataPointType>1.001</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="62">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Windalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="63">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Regenalarm</Function>
-                <DataPointType>1.005</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="64">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Status akt. Richtung</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>42</Flags>
-            </CommObject>
-            <CommObject Id="65">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Verfahrstatus</Function>
-                <DataPointType>1.007</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="66">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Verfahrstatus Auf</Function>
-                <DataPointType>1.009</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="67">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Verfahrstatus Zu</Function>
-                <DataPointType>1.008</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="68">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Status akt. Position</Function>
-                <DataPointType>5.001</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="69">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Status Sperre/Alarm</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="70">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Status obere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
-            <CommObject Id="71">
-                <Name>Kanal 4 (G+H)</Name>
-                <Function>Status untere Position</Function>
-                <DataPointType>1.011</DataPointType>
-                <Flags>52</Flags>
-            </CommObject>
--->                      
+                      
         </CommObjects>
-        <!--
-        <Dependencies>
-            <ParameterDependency ParamId="15" TestParamId="4" Test="eq" TestValue="02"/>
-            <ParameterDependency ParamId="16" TestParamId="4" Test="eq" TestValue="02"/>
-            <ParameterDependency ParamId="17" TestParamId="4" Test="eq" TestValue="02"/>
 
+        <Dependencies>
+            <ParameterDependency ParamId="13" TestParamId="4" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="14" TestParamId="4" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="15" TestParamId="4" Test="eq" TestValue="01"/> 
+            <ParameterDependency ParamId="16" TestParamId="4" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="17" TestParamId="4" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="18" TestParamId="4" Test="eq" TestValue="01"/>
+
+            <ParameterDependency ParamId="32" TestParamId="5" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="33" TestParamId="5" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="34" TestParamId="5" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="35" TestParamId="5" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="36" TestParamId="5" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="37" TestParamId="5" Test="eq" TestValue="01"/>
+            
+            <ParameterDependency ParamId="51" TestParamId="6" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="52" TestParamId="6" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="53" TestParamId="6" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="54" TestParamId="6" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="55" TestParamId="6" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="56" TestParamId="6" Test="eq" TestValue="01"/>            
+            
+            <ParameterDependency ParamId="70" TestParamId="7" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="71" TestParamId="7" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="72" TestParamId="7" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="73" TestParamId="7" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="74" TestParamId="7" Test="eq" TestValue="01"/>
+            <ParameterDependency ParamId="75" TestParamId="7" Test="eq" TestValue="01"/>
+                        
             <ParameterGroupDependency ParamGroupId="2" TestParamId="4" Test="ne" TestValue="00"/>
             <ParameterGroupDependency ParamGroupId="3" TestParamId="5" Test="ne" TestValue="00"/>
             <ParameterGroupDependency ParamGroupId="4" TestParamId="6" Test="ne" TestValue="00"/>
-            <ParameterGroupDependency ParamGroupId="5" TestParamId="7" Test="ne" TestValue="00"/>
-            
-            <CommObjectDependency CommObjId="8" TestParamId="4" Test="ne" TestValue="00"/>
+            <ParameterGroupDependency ParamGroupId="5" TestParamId="7" Test="ne" TestValue="00"/>          
+
             <CommObjectDependency CommObjId="9" TestParamId="4" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="10" TestParamId="4" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="11" TestParamId="4" Test="ne" TestValue="00"/>
@@ -605,9 +860,9 @@
             <CommObjectDependency CommObjId="20" TestParamId="4" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="21" TestParamId="4" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="22" TestParamId="4" Test="ne" TestValue="00"/>
-            <CommObjectDependency CommObjId="23" TestParamId="4" Test="ne" TestValue="00"/>
+            <CommObjectDependency CommObjId="23" TestParamId="4" Test="ne" TestValue="00"/>            
+            <CommObjectDependency CommObjId="24" TestParamId="4" Test="ne" TestValue="00"/>
             
-            <CommObjectDependency CommObjId="24" TestParamId="5" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="25" TestParamId="5" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="26" TestParamId="5" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="27" TestParamId="5" Test="ne" TestValue="00"/>
@@ -622,9 +877,9 @@
             <CommObjectDependency CommObjId="36" TestParamId="5" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="37" TestParamId="5" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="38" TestParamId="5" Test="ne" TestValue="00"/>
-            <CommObjectDependency CommObjId="39" TestParamId="5" Test="ne" TestValue="00"/>
+            <CommObjectDependency CommObjId="39" TestParamId="5" Test="ne" TestValue="00"/>            
+            <CommObjectDependency CommObjId="40" TestParamId="5" Test="ne" TestValue="00"/>
             
-            <CommObjectDependency CommObjId="40" TestParamId="6" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="41" TestParamId="6" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="42" TestParamId="6" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="43" TestParamId="6" Test="ne" TestValue="00"/>
@@ -639,9 +894,9 @@
             <CommObjectDependency CommObjId="52" TestParamId="6" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="53" TestParamId="6" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="54" TestParamId="6" Test="ne" TestValue="00"/>
-            <CommObjectDependency CommObjId="55" TestParamId="6" Test="ne" TestValue="00"/>
+            <CommObjectDependency CommObjId="55" TestParamId="6" Test="ne" TestValue="00"/>            
+            <CommObjectDependency CommObjId="56" TestParamId="6" Test="ne" TestValue="00"/>
             
-            <CommObjectDependency CommObjId="56" TestParamId="7" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="57" TestParamId="7" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="58" TestParamId="7" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="59" TestParamId="7" Test="ne" TestValue="00"/>
@@ -657,7 +912,8 @@
             <CommObjectDependency CommObjId="69" TestParamId="7" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="70" TestParamId="7" Test="ne" TestValue="00"/>
             <CommObjectDependency CommObjId="71" TestParamId="7" Test="ne" TestValue="00"/>
+            <CommObjectDependency CommObjId="72" TestParamId="7" Test="ne" TestValue="00"/>
         </Dependencies>
-        -->
+
     </Device>
 </KonnektingDevice>

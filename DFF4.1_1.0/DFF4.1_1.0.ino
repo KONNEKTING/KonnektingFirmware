@@ -17,15 +17,20 @@
    Defines
  */
 
+// M0dularis+ uses "Serial1"
 #define KNX_SERIAL Serial1
 
+// number of params for each channel
 #define CHANNEL_PARAM_OFFSET 12
 
+// pin which enables level-shifter on application board (fake 3.3V Vcc source)
 #define ENABLE_LEVELSHIFT A0
 
+// I2C adresses of frontend and relay board
 #define I2C_ADDR_RELAY 1
 #define I2C_ADDR_FRONTEND 0
 
+// interrupt-pin from frontend board
 #define INT_PIN_FRONTEND 38
 
 #define PROG_LED A5 // Pin 19
@@ -49,10 +54,18 @@
 #define OB6 14
 #define OB7 15
 
+// not used anymore, but for documentation purpose left in here
 #define WINDOW_OPEN_TIME 47 //sec
 #define WINDOW_CLOSE_TIME 40 //sec
 #define SHUTTER_OPEN_TIME 28 //sec
 #define SHUTTER_CLOSE_TIME 26 //sec
+
+// just for testing
+//#define PROG_LED_HEARTBEAT 1
+#ifdef PROG_LED_HEARTBEAT
+int last = millis();
+bool state = false;
+#endif
 
 /* *****************************************************************************
    Variables
@@ -61,7 +74,7 @@ Adafruit_MCP23017 mcpRelay;
 Adafruit_MCP23017 mcpFrontend;
 Frontend8Btn8Led frontend;
 
-#define CHANNELS_COUNT 1
+#define CHANNELS_COUNT 4
 RotoChannel channels[CHANNELS_COUNT] = {
     //          relay group number (to calc relays, LED + button)
     //          |  set pin open
@@ -70,15 +83,10 @@ RotoChannel channels[CHANNELS_COUNT] = {
     //          |  |    |    |    reset pin close
     //          |  |    |    |    |
     RotoChannel(0, OB1, OB0, OB3, OB2), // A+B
-    //  RotoChannel(1, OB5, OB4, OB7, OB6), // C+D
-    //  RotoChannel(2, OA0, OA1, OA2, OA3), // E+F
-    //  RotoChannel(3, OA4, OA5, OA6, OA7)  // G+H
+    RotoChannel(1, OB5, OB4, OB7, OB6), // C+D
+    RotoChannel(2, OA0, OA1, OA2, OA3), // E+F
+    RotoChannel(3, OA4, OA5, OA6, OA7)  // G+H
 };
-
-
-
-int last = 0;
-bool state = false;
 
 /**
    Frontend Button Callback
@@ -120,9 +128,11 @@ void frontendISR() {
 void setup() {
 
     SerialUSB.begin(115200);
-    while (!SerialUSB) {
-        // wait for serial connection
-    }
+    /*
+        while (!SerialUSB) {
+            // wait for serial connection
+        }
+     */
 
     /*
        make debug serial port known to debug class
@@ -141,7 +151,7 @@ void setup() {
     Konnekting.setMemoryUpdateFunc(&updateMemory);
     Konnekting.setMemoryCommitFunc(&commitMemory);
 
-    // M0dularis+ uses "Serial1" !!!
+    // Init KONNEKTING ...
     Konnekting.init(KNX_SERIAL, PROG_BTN, PROG_LED, MANUFACTURER_ID, DEVICE_ID, REVISION);
 
     /*
@@ -149,21 +159,21 @@ void setup() {
      */
     uint8_t val = Konnekting.getUINT8Param(PARAM_startupDelay);
     int paramStartupDelay = (val == 0xff ? 0 : val * 1000); //seconds
-    Debug.println("P: startupDelay=%i", paramStartupDelay);
+    Debug.println(F("P: startupDelay=%i"), paramStartupDelay);
 
     bool paramManualControl = Konnekting.getUINT8Param(PARAM_manualControl) == 0x01 ? true : false;
-    Debug.println("P: paramManualControl=%i", paramManualControl);
+    Debug.println(F("P: paramManualControl=%i"), paramManualControl);
 
     val = Konnekting.getUINT8Param(PARAM_ventilationTime);
     unsigned long paramVentilationTime = (val == 0xff ? 5 * 60 * 1000 : val * 60 * 1000); // minutes, calculated to ms
-    Debug.println("P: paramVentilationTime=%i", paramVentilationTime);
+    Debug.println(F("P: paramVentilationTime=%i"), paramVentilationTime);
 
     val = Konnekting.getUINT8Param(PARAM_triggerTime);
     uint8_t paramTriggerTime = (val == 0xff ? 0xAF /*175ms*/ : val); // milliseconds
-    Debug.println("P: paramTriggerTime=%i", paramTriggerTime);
+    Debug.println(F("P: paramTriggerTime=%i"), paramTriggerTime);
 
     /*
-       Startup MCP port extender on relay board and frontend
+       Startup MCP port extender on relay and frontend board
      */
     Debug.print(F("Setup MCPs"));
     Debug.print(F(" ...relays"));
@@ -205,11 +215,11 @@ void setup() {
 
         switch (channelSetting) {
 
-                // window and shutter needs full config
+            // window and shutter needs full config
             case OPTION_SETTINGS_WINDOW:
             case OPTION_SETTINGS_SHUTTER:
+            
                 // fill struct with config data
-
                 config.setting = channelSetting;
                 config.runTimeClose = Konnekting.getUINT8Param(PARAM_channel_runTimeClose + (i * CHANNEL_PARAM_OFFSET));
                 Debug.println(F("runTimeClose: %i"), config.runTimeClose);
@@ -300,7 +310,6 @@ void setup() {
     // TODO get last state from eeprom
     // --> was window or shutter opened or closed before power down?
 
-    last = millis();
     Debug.println(F("Setup *done*"));
 }
 
@@ -308,15 +317,33 @@ void setup() {
    L O O P
  */
 void loop() {
+    
+    // process KNX stuff
     Knx.task();
+
     // it's not ready, unless it's programmed via Suite
     if (Konnekting.isReadyForApplication()) {
 
+        // process frontend logic
         frontend.work();
+
+        // process application chanel logic
         for (int i = 0; i < CHANNELS_COUNT; i++) {
             channels[i].work();
         }
 
+    }
+
+#ifdef PROG_LED_HEARTBEAT
+    progLedHeartbeat();
+#endif
+
+}
+
+#ifdef PROG_LED_HEARTBEAT
+void progLedHeartbeat() {
+
+    if (Konnekting.isReadyForApplication()) {
         // Blink Prog-LED SLOW for testing purpose
         if (millis() - last > 1000) {
             if (state) {
@@ -341,151 +368,22 @@ void loop() {
             last = millis();
         }
     }
-
 }
+#endif
+
 
 // Callback function to handle com objects updates
-
 void knxEvents(byte index) {
 
     Debug.println(F("knxEvents: i=%i"), index);
+    
+    // Forward all knx vents to all channels. 
+    // Each channel picks it's event as required
     for (int i = 0; i < CHANNELS_COUNT; i++) {
         bool consumed = channels[i].knxEvents(index);
         if (consumed) {
             return;
-        } else {
-            
-            switch (index) {
-                case COMOBJ_firmwareTransfer: // FOTB
-                {
-                    byte buffer[14];
-                    Knx.read(COMOBJ_firmwareTransfer, buffer);
-
-                    for (int i = 0; i < 14; i++) {
-                        Debug.println(F("buffer[%d]\thex=0x%02x bin="BYTETOBINARYPATTERN), i, buffer[i], BYTETOBINARY(buffer[i]));
-                    }
-
-                    byte cmd = buffer[0];
-
-                    //DEBUG_PRINTLN(F("cmd=0x%02x"), cmd);
-
-
-                    switch (cmd) {
-                        case 0: // erase file
-                            handleEraseFOTB(buffer);
-                            break;
-                        case 1: //write file
-                            handleWriteFOTB(buffer);
-                            break;
-                        case 2: // receive file data
-                            handleFOTB(buffer);
-                            break;
-
-                        default:
-                            Debug.println(F("Unsupported cmd: 0x%02x"), cmd);
-                            Debug.println(F(" !!! Skipping message."));
-                            break;
-                    }
-                    break;
-                }                
-                default:
-                    Debug.println(F("Unhandled comobj! index=%d"), index);
-                    break;
-
-            }
         }
     }
 
-};
-
-// --------------
-// FOTB
-// --------------
-
-unsigned int _blockNr = 0;
-unsigned int _currFileIdx;
-unsigned int _currRemainingSize = -1;
-SerialFlashFile _curFlashFile;
-
-void sendAck() {
-    Debug.println(F("sendAck block=%d"), _blockNr);
-    byte response[14];
-    for (byte i = 0; i < 14; i++) {
-        response[i] = 0x00;
-    }
-
-    response[1] = (_blockNr >> 24) & 0xff;
-    response[2] = (_blockNr >> 16) & 0xff;
-    response[3] = (_blockNr >> 8) & 0xff;
-    response[4] = (_blockNr >> 0) & 0xff;
-
-    Knx.write(COMOBJ_firmwareTransfer, response);
 }
-
-void handleEraseFOTB(byte msg[]) {
-    Debug.println(F("handleEraseFile"));
-
-
-
-    // Knx.write(PROGCOMOBJ_INDEX, response);
-    sendAck();
-}
-
-void handleWriteFOTB(byte msg[]) {
-    Debug.println(F("handleWriteFOTB"));
-    _currFileIdx = msg[1];
-
-    _blockNr = 0;
-    _currRemainingSize =
-            (msg[2] << 24) +
-            (msg[3] << 16) +
-            (msg[4] << 8) +
-            (msg[5] << 0);
-    Debug.println(F("file size %d"), _currRemainingSize);
-
-    if (SerialFlash.exists("0.wav")) {
-        Debug.println(F("delete file from Flash chip"));
-        SerialFlash.remove("0.wav");
-    }
-    if (SerialFlash.create("0.wav", _currRemainingSize)) {
-        _curFlashFile = SerialFlash.open("0.wav");
-        Debug.println(F("created file with size %d"), _currRemainingSize);
-        if (_curFlashFile) {
-            sendAck();
-        } else {
-            Debug.println(F("error creating file on flash"));
-        }
-
-    }
-}
-
-void handleFOTB(byte msg[]) {
-
-    bool debug = false;
-
-    if (debug) Debug.println(F("handleFOTB"));
-
-    if (debug) Debug.println(F("remaining before: %d"), _currRemainingSize);
-    unsigned int toWrite = min(13, _currRemainingSize);
-    if (debug) Debug.println(F("towrite: %d"), toWrite);
-    byte data[13];
-
-    // copy idx 1 to 13 from msg to data --> skip first byte
-    memcpy(&data[0], &msg[1], toWrite);
-
-
-    _curFlashFile.write(data, toWrite);
-
-    _currRemainingSize -= toWrite;
-    if (debug) Debug.println(F("remaining after: %d"), _currRemainingSize);
-
-    if (_currRemainingSize == 0) {
-        Debug.println(F("done. closing file"));
-        _curFlashFile.close();
-    }
-
-    sendAck();
-    _blockNr++;
-}
-
-
