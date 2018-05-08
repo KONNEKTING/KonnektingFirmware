@@ -407,9 +407,17 @@ void RotoChannel::doButton(bool openButton) {
  */
 void RotoChannel::doPosition(float targetPosition) {
 
-    Debug.println(F("[%i] doPosition(%f) currPos=%f setting=%i"), _group, targetPosition, _position, _config.setting);
+    Debug.println(F("[%i] doPosition(%f): currPos=%f setting=%i"), _group, targetPosition, _position, _config.setting);
 
+    
     if (!isLocked()) {
+        
+//        if (isMoving()) {
+//            Debug.println(F("[%i] doPosition(%f): already moving. stop first."), _group, targetPosition);    
+//            doStop();
+//            Debug.println(F("[%i] doPosition(%f): stopped, continue with doPosition()"), _group, targetPosition);    
+//        }
+        
         _targetPosition = targetPosition;
         // window: 0% = closed, 100% = opened
         // shutter: 0% = opened, 100% = closed
@@ -448,6 +456,7 @@ void RotoChannel::doOpen() {
     }
     // it's okay to trigger relais in unlocked, locking and unlocking state
     if (!isLocked()) {
+        Debug.println(F("[%i] trigger relay to open"), _group);
         _mcp.digitalWrite(_setPinOpen, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_setPinOpen, LOW);
@@ -457,30 +466,34 @@ void RotoChannel::doOpen() {
         _mcp.digitalWrite(_resetPinOpen, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_resetPinOpen, LOW);
+        
+        delay((unsigned long) _config.triggerTime); // ensure delay till next relais command
 
         // we're no longer "closed", so turn off that status LED
         _frontend.setLED(getLed(LED_CLOSE), false);
-    }
 
+    } else {
+        Debug.println(F("[%i] doOpen() locked=%s"), _group, isLocked() ? "true": "false");
+    }
     _moveStatus = MS_OPENING;
     sendMovementStatus();
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
     }
-
 }
 
 void RotoChannel::doClose() {
 
     Debug.println(F("[%i] doClose() locked=%i"), _group, _lock);
+    // it's okay to trigger relais in unlocked, locking and unlocking state
     if (isMoving() && !_isStopping) {
         Debug.println(F("[%i] Stop moving first ..."), _group);
         doStop();
         Debug.println(F("[%i] Stop moving first ...*done*"), _group);
     }
-    // it's okay to trigger relais in unlocked, locking and unlocking state
     if (_lock != LCK_LOCKED) {
+        Debug.println(F("[%i] trigger relay to close"), _group);
         _mcp.digitalWrite(_setPinClose, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_setPinClose, LOW);
@@ -490,18 +503,22 @@ void RotoChannel::doClose() {
         _mcp.digitalWrite(_resetPinClose, HIGH);
         delay(RELAY_SET_TIME);
         _mcp.digitalWrite(_resetPinClose, LOW);
+        
+        delay((unsigned long) _config.triggerTime); // ensure delay till next relais command
 
         // we're no longer "opened", so turn off that status LED
         _frontend.setLED(getLed(LED_OPEN), false);
-    }
 
+
+    } else {
+        Debug.println(F("[%i] doClose() locked=%s"), _group, isLocked() ? "true": "false");
+    }
     _moveStatus = MS_CLOSING;
     sendMovementStatus();
 
     if (_startMoveMillis == NOT_DEFINED) {
         _startMoveMillis = millis();
     }
-
 }
 
 void RotoChannel::doStop() {
@@ -517,12 +534,11 @@ void RotoChannel::doStop() {
     switch (_moveStatus) {
         case MS_CLOSING:
             Debug.println(F("CLOSING to STOP"));
-            doClose(); // call close again to stop motor
-            _moveStatus = MS_STOP;
+            doClose(); // call close again to stop motor            
             break;
         case MS_OPENING:
             Debug.println(F("OPENING to STOP"));
-            doOpen(); // call close again to stop motor
+            doOpen(); // call close again to stop motor            
             break;
         default:
             Debug.println(F("STOP"));
@@ -606,7 +622,7 @@ void RotoChannel::workLEDs() {
 
 void RotoChannel::workPosition() {
 
-#define DEBUG_UPDATE_STATUS    
+//#define DEBUG_UPDATE_STATUS    
 
     /*
      * Es gibt die folgenden Fälle:
@@ -625,7 +641,7 @@ void RotoChannel::workPosition() {
      * - weder noch
      */
 
-
+    bool needStop = false;
 
     /* ********************************************
      * Fall: Öffne ODER öffnen gestoppt
@@ -643,10 +659,10 @@ void RotoChannel::workPosition() {
         }
 
 #ifdef DEBUG_UPDATE_STATUS
-        Debug.println(F("[%i] O: duration: %i"), _group, duration);
-        Debug.println(F("[%i] O: position: %3.9f"), _group, _position);
-        Debug.println(F("[%i] O: delta: %3.9f"), _group, delta);
-        Debug.println(F("[%i] O: new position: %3.9f"), _group, _newPosition);
+        Debug.print(F("[%i] O: duration: %i"), _group, duration);
+        Debug.print(F("\tposition: %3.9f"), _position);
+        Debug.print(F("\tdelta: %3.9f"), delta);
+        Debug.println(F("\tnew position: %3.9f"), _newPosition);
 #endif        
 
         // keep pos in range
@@ -689,11 +705,12 @@ void RotoChannel::workPosition() {
             } else {
                 _status = CS_OPEN; // somewhere between opened and closed
             }
-            _moveStatus = MS_STOP;
+            //_moveStatus = MS_STOP;
+            needStop = true;
             _targetPosition = NOT_DEFINED;
-#ifdef DEBUG_UPDATE_STATUS            
+//#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("[%i] Is now OPENED or at abs. target pos"), _group);
-#endif            
+//#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -718,10 +735,10 @@ void RotoChannel::workPosition() {
             _newPosition = _position + delta;
         }
 #ifdef DEBUG_UPDATE_STATUS        
-        Debug.println(F("[%i] C: duration: %i"), _group, duration);
-        Debug.println(F("[%i] C: position: %3.9f"), _group, _position);
-        Debug.println(F("[%i] C: delta: %3.9f"), _group, delta);
-        Debug.println(F("[%i] C: new position: %3.9f"), _group, _newPosition);
+        Debug.print(F("[%i] C: duration: %i"), _group, duration);
+        Debug.print(F("\tposition: %3.9f"), _position);
+        Debug.print(F("\tdelta: %3.9f"), delta);
+        Debug.println(F("\tnew position: %3.9f"), _newPosition);
 #endif
 
         // keep pos in range
@@ -765,11 +782,12 @@ void RotoChannel::workPosition() {
             } else {
                 _status = CS_OPEN; // somewhere between opened and closed
             }
-            _moveStatus = MS_STOP;
+            //_moveStatus = MS_STOP;
+            needStop = true;
             _targetPosition = NOT_DEFINED;
-#ifdef DEBUG_UPDATE_STATUS            
+//#ifdef DEBUG_UPDATE_STATUS            
             Debug.println(F("[%i] Is now CLOSED or at abs. target pos"), _group);
-#endif            
+//#endif            
         } else {
             _status = CS_OPEN;
         }
@@ -778,13 +796,16 @@ void RotoChannel::workPosition() {
 
 
     // if we just stopped NOW ...
-    if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {
+    //if (_lastMoveStatus != MS_STOP && _moveStatus == MS_STOP) {    
+    if (_lastMoveStatus != MS_STOP && needStop) {
+        
+        doStop();
 
         // apply position
         _position = _newPosition;
         _startMoveMillis = NOT_DEFINED;
-
-        Debug.println(F("[%i] Finally on position %3.9f [locked=%i]"), _group, _position, isLocked());
+        
+        Debug.println(F("[%i] Finally on position %3.9f [locked=%s]"), _group, _position, isLocked()?"true":"false");
 
     }
 

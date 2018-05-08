@@ -125,23 +125,23 @@ enum RotoAction {
 
 enum RotoLock {
     /**
-     * shutter is locked (lock action = done)
+     * 0: shutter is locked (lock action = done)
      */
     LCK_LOCKED,
     /**
-     * shutter is doing lock-action
+     * 1: shutter is doing lock-action
      */
     LCK_LOCKING,
     /**
-     * shutter is unlocked (unlock action = done)
+     * 2: shutter is unlocked (unlock action = done)
      */
     LCK_UNLOCKED,
     /**
-     * shutter is doing unlock-action
+     * 3: shutter is doing unlock-action
      */
     LCK_UNLOCKING,
     /**
-     * Reference run is active
+     * 4: Reference run is active
      */
     LCK_REFERENCE_RUN
 };
