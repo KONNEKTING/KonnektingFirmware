@@ -77,7 +77,7 @@ void Serial2_init(){
 #define SERIAL3_RX     13
 #define SERIAL3_TX     11
 Uart Serial3 (&PERIPH_SERIAL3, SERIAL3_RX, SERIAL3_TX, SERCOM_RX_PAD_1, UART_TX_PAD_0);
-void SERCOM3_Handler()
+void SERCOM1_Handler()
 {
   Serial3.IrqHandler();
 }
