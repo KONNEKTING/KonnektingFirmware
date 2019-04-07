@@ -146,14 +146,17 @@ void commitMemory() {
 int readMemory(int index) {
 	return ZeroEEPROM.read(index);
 }
+
 void writeMemory(int index, int val) {
 	ZeroEEPROM.write(index, val);
 }
+
 void updateMemory(int index, int val) {
     if (readMemory(index) != val) {
         writeMemory(index, val);
     }
 }
+
 void commitMemory() {
 	ZeroEEPROM.commit();
 }
