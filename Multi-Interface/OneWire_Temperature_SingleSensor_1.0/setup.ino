@@ -14,7 +14,7 @@ void setup() {
     Konnekting.setMemoryWriteFunc(&writeMemory);
     Konnekting.setMemoryUpdateFunc(&updateMemory);
     Konnekting.setMemoryCommitFunc(&commitMemory);
-    //ZeroEEPROM.init(); // uncomment if internal EEPROM Emulation is used
+    // ZeroEEPROM.init(); // uncomment if internal EEPROM Emulation is used
     
     // Initialize KNX enabled Arduino Board
     Konnekting.init(KNX_SERIAL, PROG_BUTTON_PIN, PROG_LED_PIN, MANUFACTURER_ID, DEVICE_ID, REVISION);
