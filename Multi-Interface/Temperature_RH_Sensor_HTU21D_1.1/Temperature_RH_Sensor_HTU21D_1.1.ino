@@ -1,8 +1,14 @@
 /* ---------------------------------------------------------------------------------------------
-Temperature and relative humidty Sensor (HTU21D, SHT21...)
+Temperature and relative humidty Sensor 1.1 (HTU21D, SHT21...)
 Hardware/Firmware/Sketch/kdevice.xml by E.Burkowski / e.burkowski@konnekting.de, GPL Licensed
-Compatible with: KONNEKTING Device Library 1.0.0 beta 4
+Compatible with: KONNEKTING Device Library 1.0.0 beta 4b
 ------------------------------------------------------------------------------------------------*/
+
+/* this libraries are required (click on link and download with library manager):
+KONNEKTING Device Library:  http://librarymanager/All#Konnekting
+FlashStorage:               http://librarymanager/All#FlashStorage
+SparkFun HTU21D:            http://librarymanager/All#SparkFun_HTU21D
+*/
 
 #include <KonnektingDevice.h>
 #include "mi.h"
@@ -10,16 +16,18 @@ Compatible with: KONNEKTING Device Library 1.0.0 beta 4
 // include device related configuration code, created by "KONNEKTING CodeGenerator"
 #include "kdevice_Temp_RH.h"
 
+#include <FlashAsEEPROM.h>
+
 // ################################################
 // ### DEBUG CONFIGURATION
 // ################################################
-//#define KDEBUG // comment this line to disable DEBUG mode
+#define KDEBUG // comment this line to disable DEBUG mode
 #ifdef KDEBUG
 #include <DebugUtil.h>
 #define DEBUGSERIAL SerialUSB
 #endif
 
-#include "SparkFunHTU21D.h" //https://github.com/sparkfun/SparkFun_HTU21D_Breakout_Arduino_Library
+#include "SparkFunHTU21D.h"
 
 // Create an instance for HTU21D sensor
 HTU21D htu;

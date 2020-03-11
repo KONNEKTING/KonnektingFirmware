@@ -1,24 +1,32 @@
 /* ---------------------------------------------------------------------------------------------
-OneWire Temperature SingleSensor 1.0 (DS18B20, MAX31820) (Single sensor)
+OneWire Temperature SingleSensor 1.1 (DS18B20, MAX31820) (Single sensor)
 Hardware/Firmware/Sketch/kdevice.xml by E.Burkowski / e.burkowski@konnekting.de, GPL Licensed
-Compatible with: KONNEKTING Device Library 1.0.0 beta 4
+Compatible with: KONNEKTING Device Library 1.0.0 beta 4b
 
 ------------------------------------------------------------------------------------------------*/
+
+/* this libraries are required (click on link and download with library manager):
+KONNEKTING Device Library:  http://librarymanager/All#Konnekting
+FlashStorage:               http://librarymanager/All#FlashStorage
+OneWire:                    http://librarymanager/All#OneWire
+DallasTemperature:          http://librarymanager/All#DallasTemperature
+*/
 
 #include <KonnektingDevice.h>
 
 // include device related configuration code, created by "KONNEKTING CodeGenerator"
-#include "kdevice_OneWire_Temeprature_SingleSensor_1_0.h"
+#include "kdevice_OneWire_Temeprature_SingleSensor_1_1.h"
 #include "mi.h"
 
-#include <OneWire.h> //https://github.com/PaulStoffregen/OneWire
-#include <DallasTemperature.h> //https://github.com/milesburton/Arduino-Temperature-Control-Library
+#include <FlashAsEEPROM.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 
 
 // ################################################
 // ### DEBUG CONFIGURATION
 // ################################################
-#define KDEBUG // comment this line to disable DEBUG mode
+//#define KDEBUG // comment this line to disable DEBUG mode
 #ifdef KDEBUG
 #include <DebugUtil.h>
 #define DEBUGSERIAL SerialUSB
@@ -27,18 +35,13 @@ Compatible with: KONNEKTING Device Library 1.0.0 beta 4
 // ################################################
 // ### IO Configuration
 // ################################################
-//OneWire on pin D3
-#define ONE_WIRE OWD3 
-#define ONE_WIRE_PULLUP OWD3PullUp
-
-//OneWire on pin D4
-//#define ONE_WIRE OWD4 
-//#define ONE_WIRE_PULLUP OWD4PullUp
+//OneWire on pin SDA (pin with approx 4k7 should be used)
+#define ONE_WIRE_PIN SDA
 
 #define TEMPERATURE_PRECISION 10 //9: 0.5°, 10: 0.25°, 11: 0.125°, 12: 0.0625°
 
 
-OneWire oneWire(ONE_WIRE); 
+OneWire oneWire(ONE_WIRE_PIN); 
 DallasTemperature sensors(&oneWire);/* Dallas Temperature Library */
 
 unsigned long owDelay = 750;
@@ -60,6 +63,10 @@ uint8_t valueTempMin = 255;
 int16_t limitTempMin = 0;
 uint8_t valueTempMax = 255;
 int16_t limitTempMax = 0;
+
+#include "OneWire_functions.h"
+#include "setup.h"
+#include "loop.h"
 
 // Callback function to handle com objects updates
 

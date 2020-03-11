@@ -1,6 +1,4 @@
 void configureOW(){
-    pinMode(ONE_WIRE_PULLUP, OUTPUT);
-    digitalWrite(ONE_WIRE_PULLUP, HIGH); //enable OneWire PullUp
 #ifdef KDEBUG
     Debug.println(F("Searching for sensors..."));  
 #endif  
@@ -23,7 +21,7 @@ float getCurrentTemp(uint8_t index){
     currTemp = sensors.getTempCByIndex(index);
     long end = millis();
 #ifdef KDEBUG              
-    Debug.println(F("currentTemp: %3.2f %cC time: %d ms"), currTemp, 0x00B0, (end-start));
+    Debug.println(F("currentTemp: %3.2f °C time: %d ms"), currTemp, 0x00B0, (end-start));
 #endif
 return currTemp;
 }
@@ -40,4 +38,3 @@ void limitReached(float comVal, float comValMin, float comValMax, int minObj, in
         }
     }
 };
-
