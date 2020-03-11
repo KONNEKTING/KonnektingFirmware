@@ -6,7 +6,7 @@ Multi Interface has 6 SERCOMs, but each Sercom can be used only once!
 this 3 Sercoms are reserved for system and can't be changed!
 Sercom3: I�C EEPROM / external I�C header
 Sercom4: SPI-Flash
-Sercom5: Serial for KXN-Tranceiver
+Sercom5: Serial for KNX-Tranceiver
 
 Sercom0 is reserved for "Serial1" (D0,D1) if you use Serial1.begin(..), but this pins are only internaly available
 
@@ -19,6 +19,8 @@ Sercom1,2 are free for use.
 #define useSerial2 //uses sercom2
 #define useSerial3 //uses sercom1
 */
+
+#define useExternalEEPROM // comment if internal Flash EEPROM is used
 
 //don't change this lines!
 #include <Wire.h>
@@ -98,6 +100,7 @@ void Serial3_init(){
 #define OWD4 4
 #define OWD4PullUp A4
 
+#ifdef useExternalEEPROM
 // MI uses 24AA256 I2C EEPROM
 int readMemory(int index) {
     byte data = 0xFF;
@@ -134,3 +137,27 @@ void updateMemory(int index, int val) {
 void commitMemory() {
     // EEPROM needs no commit, so this function is intentionally left blank 
 }
+
+#else
+#include "ZeroEEPROM.h" // download from connecting GIT and don't forget Emulated EEPROM lib referenced there
+
+//  ZeroEEPROM.init(); ...call this function in setup() after Konnekting.setMemory...() functions
+
+int readMemory(int index) {
+	return ZeroEEPROM.read(index);
+}
+
+void writeMemory(int index, int val) {
+	ZeroEEPROM.write(index, val);
+}
+
+void updateMemory(int index, int val) {
+    if (readMemory(index) != val) {
+        writeMemory(index, val);
+    }
+}
+
+void commitMemory() {
+	ZeroEEPROM.commit();
+}
+#endif
